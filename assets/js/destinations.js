@@ -13,6 +13,60 @@ const destinations = [
   { city: "Piura", img: "assets/img/cities/piura.jpg" }
 ];
 
+// assets/js/topdestinations.js
+
+const topDestinations = [
+    {
+        id: 'ica',
+        image: 'assets/img/ica-buggy.jpg',
+        // CAMBIO: Ahora el título tiene dos partes
+        title1: 'Ica',
+        title2: 'Perú'
+    },
+    {
+        id: 'islas-ballestas',
+        image: 'assets/img/nazca_p.1.jpg',
+        title1: 'Islas Ballestas',
+        title2: 'Perú'
+    },
+    {
+        id: 'huacachina',
+        image: 'assets/img/huacachina.jpg',
+        title1: 'Huacachina',
+        title2: 'Perú'
+    },
+    {
+        id: 'lima',
+        image: 'assets/img/lima-costa.jpg',
+        title1: 'Lima',
+        title2: 'Perú'
+    }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const destinationsContainer = document.querySelector('.destinations-grid');
+
+    if (!destinationsContainer) return;
+
+    destinationsContainer.innerHTML = '';
+
+    topDestinations.forEach(destination => {
+        // CAMBIO: Ahora construimos el h3 con dos spans adentro
+        const cardHTML = `
+            <div class="card" id="${destination.id}">
+                <img src="${destination.image}" alt="${destination.title1}, ${destination.title2}">
+                <div class="card-info">
+                    <h3>
+                        <span>${destination.title1}</span>
+                        <span>${destination.title2}</span>
+                    </h3>
+                </div>
+            </div>
+        `;
+
+        destinationsContainer.innerHTML += cardHTML;
+    });
+});
 const grid = document.getElementById('destinationsGrid');
 
 destinations.forEach(dest => {
