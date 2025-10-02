@@ -313,10 +313,7 @@ img {
     object-fit: cover;
 }
 
-/* La tarjeta normal ocupará una celda por defecto */
-.card {
-    /* ...los estilos que ya tenías de background, box-shadow, etc. se mantienen... */
-}
+
 
 /* --- ¡Aquí ocurre la magia! --- */
 
@@ -867,6 +864,43 @@ img {
     font-size: 0.9rem;
     opacity: 0.7; /* Lo hacemos un poco más sutil */
 }
+/* ====== FOOTER ====== */
+.footer {
+  background: #1c3d82; /* azul corporativo */
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px 10px;
+}
+
+.footer nav {
+  margin-bottom: 10px;
+}
+
+.footer nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: 500;
+}
+
+.footer nav a:hover {
+  text-decoration: underline;
+}
+
+/* --- Línea separadora --- */
+.footer .divider {
+  width: 80%;
+  max-width: 800px;
+  margin: 10px auto;
+  border-top: 1px solid rgba(255,255,255,0.4);
+}
+
+/* Copyright */
+.footer p {
+  font-size: 14px;
+  margin: 10px 0 0;
+}
+
 /* ==========================================================================
   13. RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
