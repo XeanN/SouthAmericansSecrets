@@ -1,0 +1,161 @@
+.signup-hero {
+    position: relative;
+    height: 550px;
+    background-image: url('../img/Hero_Login.jpg'); /* O la imagen que prefieras */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--color-white);
+}
+
+.signup-hero .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.signup-hero h1, .contact-hero p {
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.signup-hero h1 {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    color: var(--color-white); /* CAMBIO: Añadimos el color blanco */
+}
+/* ===== ESTILOS PARA LA PÁGINA DE INICIO DE SESIÓN ===== */
+
+/* Estilos para el contenedor principal de la página */
+/* ===== ESTILOS PARA LA PÁGINA DE REGISTRO ===== */
+
+/* Estilos para el contenedor principal de la página de registro */
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    padding: 2rem 5rem;
+}
+
+/* Estilos para el contenedor del formulario */
+.signup-form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Estilos para la imagen */
+.signup-image-container {
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-image-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0 53.476px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el formulario en sí */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.register-form h3 {
+    text-align: center;
+    font-size: 3.2rem;
+    margin-bottom: 0.5rem;
+    font-family: "DM Serif Display";
+    font-weight: 700;
+    color: #000;
+}
+
+.signup-intro,
+.separator,
+.login-link {
+    font-family: "Open Sans";
+    font-size: 1.5em;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 0.5rem;
+}
+
+.separator {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.social-login {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.social-login button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 20.076px 20.075px 17.207px 12.906px;
+    border: 1px solid #ccc;
+    background-color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%; /* Ajusta el ancho para que ocupen el espacio disponible */
+}
+
+.social-login button img {
+    height: 20px;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: "Open Sans";
+}
+
+.register-btn {
+    width: 55%;
+    padding: 0.7rem;
+    background-color: #000;
+    color: white;
+    border: 1px solid #3D3D3D;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 4rem;
+    font-family: "Open Sans";
+}

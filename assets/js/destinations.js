@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 const grid = document.getElementById('destinationsGrid');
 
 destinations.forEach(dest => {
-  const card = document.createElement('div');
-  card.classList.add('destination-card');
-  card.innerHTML = `
+    const card = document.createElement('div');
+    card.classList.add('destination-card');
+    card.innerHTML = `
     <img src="${dest.img}" alt="${dest.city}">
     <div class="city">${dest.city}</div>
-  `;
-  grid.appendChild(card);
+    `;
+    grid.appendChild(card);
 });

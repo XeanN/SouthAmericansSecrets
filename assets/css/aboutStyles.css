@@ -1,117 +1,100 @@
-/* ====== HEADER ====== */
-header.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 3rem;
-  background: #1c3d82; /* azul corporativo */
-  color: white;
-}
+/* assets/css/aboutStyles.css - Versión para el Diseño de Banner */
 
-header .logo {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-header .nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-
-header .nav ul li {
-  position: relative;
-}
-
-header .nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 5px 0;
-}
-
-header .nav ul li a:hover,
-header .nav ul li a.active {
-  border-bottom: 2px solid #fff;
-}
-
-header .nav .dropdown-menu {
-  position: absolute;
-  top: 30px;
-  left: 0;
-  background: #1c3d82;
-  display: none;
-  flex-direction: column;
-  min-width: 160px;
-  border-radius: 4px;
-  z-index: 10;
-}
-
-header .nav li:hover .dropdown-menu {
-  display: flex;
-}
-
-header .nav .dropdown-menu li a {
-  padding: 8px 12px;
-}
-
-.auth-buttons button {
-  margin-left: 10px;
-  padding: 5px 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.login {
-  background: transparent;
-  color: white;
-}
-
-.register {
-  background: white;
-  color: #1c3d82;
-  border-radius: 4px;
-}
-
-/* ====== ABOUT HERO ====== */
+/* ====== HERO DE LA PÁGINA "ABOUT US" (Versión Corregida) ====== */
 .about-hero {
-  position: relative;
-  height: 350px;
+  position: relative; 
+  height: 550px;
   overflow: hidden;
+  
+  /* Usamos Flexbox para controlar la alineación */
+  display: flex;
+  justify-content: center; /* Centra el texto horizontalmente */
+  align-items: flex-start;  /* CAMBIO: Alinea el texto en la PARTE SUPERIOR */
 }
 
-.about-hero img {
+.about-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(70%);
+  filter: brightness(100%);
+  z-index: 1;
 }
 
 .about-hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
+  position: relative; 
+  z-index: 2; 
   text-align: center;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  
+  /* CAMBIO: Añadimos un padding para separarlo del borde de arriba */
+  padding-top: 0.1rem; 
 }
 
 .about-hero-text h1 {
-  font-size: 48px;
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
   margin: 0;
+  color: var(--color-black); /* <-- CAMBIA esto de 'white' a 'black' */
 }
 
-/* ===== OUR TEAM ===== */
+/* ====== CONTENIDO DE LA PÁGINA (CORREGIDO) ====== */
+.about-content {
+    padding: 60px 0;
+}
+
+/* Hacemos el contenedor de esta sección más ancho */
+.about-content .container {
+    max-width: 90%; /* Esto está bien, lo dejamos */
+}
+
+.about-title {
+    font-family: var(--font-primary);
+    color: var(--color-text-primary); 
+    text-align: left; /* Alineamos a la izquierda */
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    
+    /* CAMBIO: Eliminamos estas 3 líneas para que no se centre ni se limite */
+    /* max-width: 900px; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+.about-content p {
+    text-align: left;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+
+    /* CAMBIO: Eliminamos estas 3 líneas para que ocupe el ancho disponible */
+    /* max-width: 900px; */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+}
+
+
+/* ===== OUR TEAM (Versión más ancha) ===== */
 .our-team {
   padding: 60px 20px;
   background: #f9f9f9;
   text-align: center;
 }
 
+/* CAMBIO: Hacemos el contenedor de esta sección más ancho */
+.our-team .container {
+    max-width: 1400px; /* Puedes ajustar este valor */
+}
+
+/* En assets/css/aboutStyles.css */
+
 .our-team .section-title {
-  font-size: 32px;
-  margin-bottom: 10px;
+  font-size: 50px;          /* CAMBIO: Aumentamos el tamaño (antes 32px) */
+  margin-bottom: 4rem;    /* CAMBIO: Aumentamos la separación (antes 10px) */
+  font-family: var(--font-serif);
+  color: var(--color-black); /* CAMBIO: De text-primary a black */
 }
 
 .our-team .section-subtitle {
@@ -125,9 +108,13 @@ header .nav .dropdown-menu li a {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  max-width: 1100px;
+  /* CAMBIO: Hacemos que la cuadrícula ocupe el 100% del nuevo contenedor */
+  width: 100%;
+  max-width: 100%; 
   margin: 0 auto;
 }
+
+
 
 .team-card {
   background: #fff;
@@ -167,8 +154,7 @@ header .nav .dropdown-menu li a {
   display: block;
   margin-top: 2px;
 }
-
-/* ===== CERTIFICATES ===== */
+/* ===== CERTIFICATES (Versión más ancha) ===== */
 .certificates {
   padding: 60px 20px;
   background: #fff;
@@ -176,65 +162,37 @@ header .nav .dropdown-menu li a {
 }
 
 .certificates .section-title {
-  font-size: 32px;
-  margin-bottom: 30px;
+  font-family: var(--font-serif);
+  font-size: 50px;
+  margin-bottom: 60px;
+  color: var(--color-black); /* CAMBIO: De text-primary a black */
+}
+
+/* CAMBIO: Hacemos el contenedor de esta sección más ancho */
+.certificates .container {
+    max-width: 1400px; /* Aumentamos el ancho, puedes jugar con este valor */
 }
 
 .certificates-logos {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 40px;
-  margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Centra los logos en el contenedor */
+    align-items: center; /* Centra los logos verticalmente */
+    gap: 40px; /* Ajusta el espacio entre cada logo */
+    flex-wrap: wrap; /* Permite que los logos se envuelvan a la siguiente línea si no caben */
+    margin-bottom: 30px;
 }
 
 .certificates-logos img {
-  max-height: 100px;
-  max-width: 180px;
-  object-fit: contain;
+    max-height: 270px;
+    width: auto;
 }
 
+/* CAMBIO: Ajustamos el ancho del texto para que coincida */
 .certificates-text {
-  max-width: 800px;
+  max-width: 10000px; /* Hacemos el párrafo más ancho */
   margin: 0 auto;
-  font-size: 16px;
-  color: #555;
-  line-height: 1.7;
-}
-
-/* ====== FOOTER ====== */
-.footer {
-  background: #1c3d82; /* azul corporativo */
-  color: #fff;
-  text-align: center;
-  padding: 20px 10px 10px;
-}
-
-.footer nav {
-  margin-bottom: 10px;
-}
-
-.footer nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 15px;
-  font-weight: 500;
-}
-
-.footer nav a:hover {
-  text-decoration: underline;
-}
-
-/* --- Línea separadora --- */
-.footer .divider {
-  width: 80%;
-  max-width: 800px;
-  margin: 10px auto;
-  border-top: 1px solid rgba(255,255,255,0.4);
-}
-
-/* Copyright */
-.footer p {
-  font-size: 14px;
-  margin: 10px 0 0;
+  margin-top: 3rem;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  line-height: 2;
 }

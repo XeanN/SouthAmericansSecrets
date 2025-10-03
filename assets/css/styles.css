@@ -1,5 +1,5 @@
 /* ==========================================================================
-  1. CONFIGURACIÓN GLOBAL Y VARIABLES (DESIGN SYSTEM)
+    1. CONFIGURACIÓN GLOBAL Y VARIABLES (DESIGN SYSTEM)
    ========================================================================== */
 :root {
     /* Paleta de Colores Principal */
@@ -27,7 +27,7 @@
 }
 
 /* ==========================================================================
-  2. ESTILOS BASE Y GLOBALES
+2. ESTILOS BASE Y GLOBALES
    ========================================================================== */
 * {
     margin: 0;
@@ -80,7 +80,7 @@ img {
 }
 
 /* ==========================================================================
-  3. COMPONENTES REUTILIZABLES
+    3. COMPONENTES REUTILIZABLES
    ========================================================================== */
 
 /* Botón Principal */
@@ -105,7 +105,7 @@ img {
 }
 
 /* ==========================================================================
-  4. LAYOUT - HEADER (Versión Final con Agrupamiento a la Izquierda)
+    4. LAYOUT - HEADER (Versión Final con Agrupamiento a la Izquierda)
    ========================================================================== */
 .header {
     width: 100%;
@@ -171,7 +171,7 @@ img {
 
 /* El código de los dropdowns que añadiste se mantiene igual */
 /* ==========================================================================
-  4.1 LAYOUT - HEADER DROPDOWNS (Añadir al final de la sección 4)
+    4.1 LAYOUT - HEADER DROPDOWNS (Añadir al final de la sección 4)
    ========================================================================== */
 
 /* El 'li' que contiene el menú desplegable será nuestro punto de referencia */
@@ -214,7 +214,7 @@ img {
 }
 
 /* ==========================================================================
-  5. SECCIÓN - HERO
+    5. SECCIÓN - HERO
    ========================================================================== */
 .hero {
     position: relative;
@@ -257,7 +257,45 @@ img {
     color: var(--color-white);
 }
 /* ==========================================================================
-  6. SECCIÓN - DESTINATIONS
+5. SECCIÓN - HERO (Añadir al final)
+   ========================================================================== */
+
+/* ... (tus reglas existentes para .hero, .slider, .slide, etc. van aquí arriba) ... */
+
+/* --- NAVEGACIÓN DEL SLIDER (EL CÓDIGO QUE FALTA) --- */
+
+.slider-nav {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15; /* Se asegura de que esté por encima de la imagen */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dots {
+    display: flex;
+    gap: 12px;
+}
+
+.dots .dot {
+    display: block; /* Aseguramos que se comporte como un bloque */
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-white);
+    opacity: 0.5;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.dots .dot.active {
+    opacity: 1;
+}
+/* ==========================================================================
+    6. SECCIÓN - DESTINATIONS
    ========================================================================== */
 
 /* Contenedor principal de la sección */
@@ -265,12 +303,18 @@ img {
     padding: 80px 0; /* Espaciado vertical de 80px arriba y abajo para que la sección 'respire' */
     text-align: center; /* Centramos los títulos de la sección */
     background-color: var(--color-background-light); /* Un fondo claro para diferenciarla del resto */
+    margin-top: 4rem;
+}
+.destinations .section-title {
+    color: var(--color-black); /* <-- AÑADE ESTA REGLA NUEVA */
+    font-family: var(--font-serif); /* Le ponemos también la fuente elegante */
+    margin: 0 auto 30px;
 }
 
 /* El subtítulo, para controlar su ancho */
 .section-subtitle {
-    max-width: 700px;
-    margin: 0 auto 40px; /* Centrado y con margen inferior */
+    max-width: 10000px;
+    margin: 0 auto 60px; /* Centrado y con margen inferior */
 }
 
 /* La cuadrícula que contiene las tarjetas, ahora con una estructura específica */
@@ -281,6 +325,7 @@ img {
     grid-template-rows: repeat(2, 250px); /* Altura base de cada fila */
     gap: 1.5rem;
     margin-top: 3rem;
+    margin-bottom: 8rem;
 }
 
 /* --- Posicionamiento de cada tarjeta en el grid --- */
@@ -404,7 +449,7 @@ img {
     display: none;
 }
 /* ==========================================================================
-  7. SECCIÓN - FEATURED (Destacados)
+    7. SECCIÓN - FEATURED (Destacados)
    ========================================================================== */
 
 .featured {
@@ -419,7 +464,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 0rem;
+    margin-bottom: 4rem;
 }
 
 .carousel {
@@ -526,7 +571,7 @@ img {
 
 .destination-info {
     text-align: left; /* CAMBIO: Alineamos todo a la izquierda como base */
-    max-width: 800px;
+    /*--max-width: 800px;--*/
     margin: 0 auto;
 }
 
@@ -535,6 +580,7 @@ img {
     font-size: 3rem; /* Un poco más grande para más impacto */
     font-weight: 700; /* Negrita */
     margin-bottom: 0.5rem;
+    color: var(--color-black); /* <-- AÑADE ESTA LÍNEA */
 }
 
 .destination-info .meta {
@@ -552,113 +598,146 @@ img {
 .destination-info blockquote {
     font-family: var(--font-serif); /* También se ve bien con la fuente serif */
     font-style: italic;
-    font-size: 1.2rem;
-    text-align: center; /* CAMBIO: Centramos solo la cita */
+    font-size: 1rem;
+    
     color: var(--color-text-secondary);
     max-width: 600px; /* Hacemos la línea de la cita más corta */
-    margin: 2rem auto 0; /* Margen arriba y centrado automático horizontal */
     border: none; /* Quitamos el borde que teníamos antes */
     padding: 0;
+
+    /* CAMBIO CLAVE: Alineamos el bloque completo a la derecha */
+    margin-top: 2rem;
+    margin-left: 33rem; 
+    margin-right: 2rem;
 }
 /* ==========================================================================
-  8. SECCIÓN - REVIEWS (Reseñas)
+    8. SECCIÓN - REVIEWS (Reseñas)
    ========================================================================== */
 
 /* Contenedor principal con la imagen de fondo */
 .reviews {
     /* El problema está aquí. El navegador no encuentra la imagen. */
-    background-image: url('assets/img/nazca_p.1.jpg'); 
+    background-image: url('../img/fondo_de_reviews.png'); 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     position: relative;
     color: var(--color-white);
+    margin-bottom: 7rem;
 }
 
 /* La capa de superposición oscura y semitransparente */
-.reviews .overlay {
-    background-color: rgba(28, 61, 130, 0.8); /* Usamos nuestro azul primario con 80% de opacidad */
+.reviews .overlay { 
+    background-color: rgba(0, 0, 0, 0.7);   
     padding: 100px 0; /* Espaciado vertical generoso */
+}
+
+/* CAMBIO: Hacemos el contenedor de esta sección más ancho */
+.reviews .container {
+    max-width: 1400px; /* Aumentamos el ancho, puedes jugar con este valor */
 }
 
 /* El contenedor que alineará el texto y la tarjeta */
 .reviews-content-wrapper {
     display: flex;
-    /* align-items: center; */ /* <-- ELIMINA O COMENTA ESTA LÍNEA */
-    gap: 3rem;
+    align-items: flex-start;
+    gap: 3rem; /* CAMBIO: Reducimos la separación (antes 5rem) */
 }
 
 /* La columna de texto a la izquierda */
 .reviews-text {
-    flex-basis: 50%; /* Ocupa el 50% del ancho */
+    flex-basis: 50%; /* CAMBIO: Le damos más espacio al texto (antes 40%) */
 }
 
 .reviews-text h2 {
     font-family: var(--font-serif); /* Usamos la fuente elegante */
     font-size: 3rem;
     color: var(--color-white); /* Nos aseguramos de que sea blanco */
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
+.reviews-text p {
+    color: var(--color-white); /* <-- AÑADE ESTA REGLA NUEVA */
+    opacity: 1; /* Opcional: hacemos el texto un poco sutil para que el título resalte más */
+}
+
+/* En assets/css/styles.css */
 
 /* La tarjeta de testimonio a la derecha */
 .testimonial-card {
-    flex-basis: 50%; /* Ocupa el otro 50% del ancho */
+    flex-basis: 50%;
     background: var(--color-white);
     color: var(--color-text-primary);
     padding: 2.5rem;
     border-radius: var(--border-radius-medium);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    position: relative; /* Necesario para las comillas decorativas */
-    margin-top: 5rem; /* <-- AÑADE ESTA LÍNEA (ajusta el valor 5rem a tu gusto) */
+    position: relative;
+    margin-top: 7rem; /* CAMBIO: Empuja la tarjeta hacia abajo */
 }
 
-/* Usamos un pseudo-elemento para añadir las comillas sin tocar el HTML */
+/* Quitamos la comilla gigante que estaba de fondo */
 .testimonial-card::before {
-    content: '“'; /* El carácter de la comilla */
-    position: absolute;
-    top: 1rem;
-    left: 1.5rem;
-    font-family: var(--font-serif);
-    font-size: 5rem; /* Tamaño grande */
-    color: #eee; /* Un color gris muy claro */
-    z-index: 0;
+    content: '';
 }
 
 .testimonial-text {
     font-size: 1.1rem;
     font-style: italic;
     margin-bottom: 2rem;
-    position: relative; /* Para que se ponga por encima de las comillas */
-    z-index: 1;
+    position: relative;
+    padding: 0 1.5rem; /* Espacio para las nuevas comillas */
 }
+
+/* CAMBIO: Comilla al principio */
+.testimonial-text::before {
+    content: '“';
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--color-text-primary);
+}
+
+/* CAMBIO: Comilla al final */
+.testimonial-text::after {
+    content: '”';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--color-text-primary);
+}
+
 
 /* Información del cliente */
 .client-info {
     display: flex;
     align-items: center;
     gap: 1rem;
-    position: relative;
-    z-index: 1;
 }
 
 .client-img {
     width: 60px;
     height: 60px;
-    border-radius: 50%; /* Imagen redonda */
+    border-radius: 50%;
     object-fit: cover;
+    /* CAMBIO: Círculo gris de fondo si la imagen no carga */
+    background-color: #eee; 
 }
 
 .client-details h4 {
     margin: 0;
-    font-weight: 700;
+    font-weight: 600;
+    color: var(--color-primary); /* Color azul para el nombre */
 }
 
 .client-details span {
-    color: var(--color-text-secondary);
+    color: var(--color-text-secondary); /* Color gris para el rol */
     font-size: 0.9rem;
 }
 /* ==========================================================================
-  9. SECCIÓN - ALL DESTINATIONS
+    9. SECCIÓN - ALL DESTINATIONS
    ========================================================================== */
 
 .all-destinations {
@@ -668,7 +747,8 @@ img {
 
 .all-destinations .section-title {
     font-family: var(--font-serif); /* Usamos la fuente elegante para el título */
-    margin-bottom: 3rem; /* Más espacio debajo del título */
+    margin-bottom: 10rem; /* Más espacio debajo del título */
+    color: var(--color-black); /* <-- AÑADE ESTA LÍNEA */
 }
 
 /* La cuadrícula que contendrá todas las tarjetas de ciudad */
@@ -734,7 +814,7 @@ img {
     color: var(--color-white);
 }
 /* ==========================================================================
-  10. SECCIÓN - TOUR GUIDES
+    10. SECCIÓN - TOUR GUIDES
    ========================================================================== */
 
 .tour-guides {
@@ -746,6 +826,7 @@ img {
 .tour-guides .section-title {
     font-family: var(--font-serif);
     margin-bottom: 1rem;
+    color: var(--color-black);
 }
 
 /* La cuadrícula que contendrá a los guías */
@@ -778,36 +859,44 @@ img {
 }
 
 /* La barra de información azul */
-.guide-info {
+/* La barra de información azul */
+.guide-info,
+.team-info {
     background-color: var(--color-primary);
     color: var(--color-white);
     padding: 1rem;
+    text-align: center; /* <-- CAMBIO CLAVE: Centra todo el texto */
 }
 
-.guide-info h4 {
+.guide-info h4,
+.team-info h4 {
     color: var(--color-white);
-    margin: 0 0 0.25rem 0; /* Espacio pequeño debajo del nombre */
-    font-size: 1rem;
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem; /* Un poco más grande para el nombre */
+    font-weight: 600;
 }
 
-.guide-info span {
+.guide-info span,
+.team-info span {
     font-size: 0.8rem;
-    opacity: 0.8; /* Hacemos el rol un poco más sutil */
+    opacity: 0.8;
+    display: block; /* Asegura que el rol se ponga en una nueva línea si es largo */
 }
 
 /* ==========================================================================
-  11. SECCIÓN - LOCATION MAP
+    11. SECCIÓN - LOCATION MAP
    ========================================================================== */
 
 .location-map {
     padding: 80px 0;
-    text-align: center;
+    text-align: left; /* CAMBIO: Alineamos todo a la izquierda */
     background-color: var(--color-white);
 }
 
 .location-map .section-title {
     font-family: var(--font-serif);
     margin-bottom: 3rem;
+    color: var(--color-black); /* CAMBIO: Usamos el color negro puro */
 }
 
 /* Contenedor del mapa para aplicar la sombra */
@@ -827,7 +916,7 @@ img {
 }
 
 /* ==========================================================================
-  12. SECCIÓN - FOOTER (Pie de Página)
+    12. SECCIÓN - FOOTER (Pie de Página)
    ========================================================================== */
 
 .footer {
@@ -867,42 +956,43 @@ img {
 /* ====== FOOTER ====== */
 .footer {
   background: #1c3d82; /* azul corporativo */
-  color: #fff;
-  text-align: center;
-  padding: 20px 10px 10px;
+    color: #fff;
+    text-align: center;
+    padding: 20px 10px 10px;
 }
 
 .footer nav {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .footer nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 15px;
-  font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: 500;
 }
 
 .footer nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 /* --- Línea separadora --- */
 .footer .divider {
-  width: 80%;
-  max-width: 800px;
-  margin: 10px auto;
-  border-top: 1px solid rgba(255,255,255,0.4);
+    width: 80%;
+    max-width: 800px;
+    margin: 10px auto;
+    border-top: 1px solid rgba(255,255,255,0.4);
 }
 
 /* Copyright */
 .footer p {
-  font-size: 14px;
-  margin: 10px 0 0;
+    font-size: 14px;
+    margin: 10px 0 0;
+    color: #ffffff;
 }
 
 /* ==========================================================================
-  13. RESPONSIVE DESIGN (MEDIA QUERIES)
+    13. RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
 
 /* --- Estilos para TABLETS --- */
@@ -994,7 +1084,7 @@ img {
 
 
 /* --- Estilos para MÓVILES --- */
-@media (max-width: 768px) {
+@media (max-width: 668px) {
     
     /* --- TIPOGRAFÍA --- */
     h1 { font-size: 2.5rem; }
@@ -1020,7 +1110,7 @@ img {
 
     /* --- CARRUSEL FEATURED --- */
     .carousel-item {
-        width: 80%; /* Hacemos los slides un poco más anchos en móvil */
+        width: 70%; /* Hacemos los slides un poco más anchos en móvil */
     }
     .carousel-item.prev { transform: translateX(-40%) scale(0.7); }
     .carousel-item.next { transform: translateX(40%) scale(0.7); }

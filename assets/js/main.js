@@ -82,9 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 // Lógica para el menú de hamburguesa
-const navToggle = document.querySelector('.nav-toggle');
-const navMenu = document.querySelector('nav'); // Seleccionamos todo el <nav>
+document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('nav');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('nav-menu-visible');
+    // Verifica que ambos elementos existen antes de agregar el evento
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('nav-menu-visible');
+        });
+    }
 });
