@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/machu_picchu_p.2.jpg',
             title: 'Machu Picchu',
             meta: 'November 06, 2017 · Cameron Metreaud',
-            description: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value. Most recently it has been recognized as one of the seven wonders of the modern world.',
+            description: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value. Most recently it has been recognized as one of the seven wonders of the modern world. This impressing archaeological site has been steadily growing in popularity and currently receives over 2500 tourists daily. Veteran guide Lucio explains that “due to increasing demand, the areas accessible to visitors are reduced and increasingly restricted every year.” Today the visitors are still able to go inside and touch most the ancient structures of Machu Picchu allowing for a very intimate and personal experience. In coming years the tours will be restricted to fenced-off pathways and single file lines.',
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.”'
         },
         {

@@ -4,129 +4,152 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact | South Americans Secrets</title>
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
   <link rel="stylesheet" href="assets/css/contact.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- HEADER -->
   <header class="header">
-    <div class="logo">South Americans Secrets</div>
-    <nav class="nav">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li class="dropdown">
-          <a href="#">Tours & Activities</a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Full Day</a></li>
-            <li><a href="#">Half Day</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Shore Excursions</a></li>
-        <li><a href="#">Peru Packages</a></li>
-        <li><a href="blog/index.html">Blog</a></li>
-        <li><a href="about.html">About us</a></li>
-        <li><a class="active" href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="auth-buttons">
-      <button class="login">Login</button>
-      <button class="register">Register</button>
-    </div>
-  </header>
+        <a href="index.html" class="logo">
+            <img src="assets/img/logoN.png" alt="South Americans Secrets Logo">
+        </a>
 
-  <!-- HERO -->
-  <section class="contact-hero">
-    <img src="assets/img/contact/desert.jpg" alt="Contact South Americans Secrets" />
-    <div class="contact-hero-text">
-      <h1>Contact Us</h1>
-      <p>Get in touch!</p>
-    </div>
-  </section>
+        <button class="nav-toggle" aria-label="Abrir menú">
+            <span class="hamburger"></span>
+        </button>
 
-  <!-- CONTACT INFO -->
-  <section class="contact-info">
-    <div class="container">
-      <div class="contact-grid">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                
+                <li class="dropdown">
+                    <a href="#">Tours & Activities <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Full Day</a></li>
+                        <li><a href="#">Half Day</a></li>
+                    </ul>
+                </li>
+                
+                <li class="dropdown">
+                    <a href="#">Shore Excursions <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Excursion 1</a></li>
+                        <li><a href="#">Excursion 2</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#">Peru Packages <i class="fa fa-caret-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Paquete 1</a></li>
+                        <li><a href="#">Paquete 2</a></li>
+                    </ul>
+                </li>
+                
+                <li><a href="#">Blog</a></li>
+                <li><a href="about.html">About us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="auth-buttons">
+            <a href="login.html" class="btn login">Login</a>
+            <a href="register.html" class="btn register">Register</a>
+        </div>
+    </header>
+
+  <main>
+    <section class="contact-hero">
+      <div class="overlay">
+        <h1>Contact Us</h1>
+        <p>Get in touch!</p>
+      </div>
+    </section>
+
+    <section class="contact-info">
+      <div class="container">
         <div class="contact-card">
-          <div class="icon">📞</div>
+          <img class="icon" src="assets/img/call.svg" alt="Phone Icon">
           <h3>Phone</h3>
           <p>+51 987 654 321</p>
-          <p>+51 912 345 678</p>
         </div>
+
         <div class="contact-card">
-          <div class="icon">✉️</div>
+          <img class="icon" src="assets/img/mail.svg" alt="Email Icon">
           <h3>Email</h3>
           <p>info@southamericanssecrets.com</p>
-          <p>reservas@southamericanssecrets.com</p>
         </div>
+
         <div class="contact-card">
-          <div class="icon">📍</div>
+          <img class="icon" src="assets/img/location_on.svg" alt="Location Icon">
           <h3>Location</h3>
           <p>Av. El Chaco 123, Paracas, Perú</p>
-          <p>Office Hours: 9:00am - 6:00pm</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACT FORM -->
-  <section class="contact-form">
-    <div class="container contact-container">
-        <!-- Texto lateral -->
-        <div class="contact-text">
-            <p class="subtitle">Get in touch!</p>
-            <h2>Feel Free to Contact with Us</h2>
-            <p>
-                We’d love to hear from you. Whether you have questions about tours, bookings, or special requests, our team is here to help.
-            </p>
+    <section class="contact-form-section">
+        <div class="container contact-form-wrapper">
+            <div class="contact-text">
+                <p class="subtitle">Get in touch!</p>
+                <h2>Feel Free to Contact With Us</h2>
+                <p>
+                    We’d love to hear from you. Whether you have questions about tours, bookings, or special requests, our team is here to help fill your journey with unforgettable moments.
+                </p>
+            </div>
+            <form class="contact-form">
+                <div class="form-row">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-row">
+                    <input type="text" placeholder="Phone Number">
+                    <input type="text" placeholder="Subject" required>
+                </div>
+                <textarea placeholder="Write your message..." rows="5" required></textarea>
+                <button type="submit" class="btn">Log In</button>
+            </form>
         </div>
+    </section>
 
-    <!-- Formulario -->
-    <form class="contact-box">
-      <div class="row">
-        <input type="text" placeholder="Full Name" required>
-        <input type="email" placeholder="Email Address" required>
-      </div>
-      <div class="row">
-        <input type="text" placeholder="Phone Number">
-        <input type="text" placeholder="Subject" required>
-      </div>
-      <textarea placeholder="Write your message..." rows="5" required></textarea>
-      <button type="submit" class="btn-submit">Send Message</button>
-    </form>
-  </div>
-</section>
+    <section class="location-map">
+            <div class="container">
+                <h2 class="section-title">Location Map</h2>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1070.1484352298003!2d-76.24760605934807!3d-13.831373570066885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91106320f61d9cb3%3A0x78ba793d4ca8fbc!2sSOUTH%20AMERICANS%20SECRETS%20E.I.R.L!5e0!3m2!1sen!2spe!4v1759352103507!5m2!1sen!2spe" 
+                        width="100%" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+  </main>
 
-  <!-- MAP -->
-  <section class="location-map">
-  <div class="container">
-    <h2 class="section-title">Location Map</h2>
-    <p class="section-subtitle">
-      Find us easily in Paracas, Perú — visit us to start your adventure.
-    </p>
-
-    <div class="map-container">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1070.1484352298003!2d-76.24760605934807!3d-13.831373570066885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91106320f61d9cb3%3A0x78ba793d4ca8fbc!2sSOUTH%20AMERICANS%20SECRETS%20E.I.R.L!5e0!3m2!1sen!2spe!4v1759352103507!5m2!1sen!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </div>
-</section>
-
-
-  <!-- FOOTER -->
   <footer class="footer">
-  <div class="footer-content">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="blog/index.html">Blog</a>
-      <a href="about.html">About us</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+        <div class="footer-content">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="blog/index.html">Blog</a>
+            <a href="about.html">About us</a>
+            <a href="contact.html">Contact</a>
+        </nav>
 
-    <!-- Línea divisoria -->
-    <div class="divider"></div>
+        <!-- Línea divisoria -->
+        <div class="divider"></div>
 
-    <p>© Copyright 2025 SouthAmericansSecrets.com</p>
-  </div>
+        <p>© Copyright 2025 SouthAmericansSecrets.com</p>
+        </div>
+    </footer>
 
-  <script src="assets/js/contactForm.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

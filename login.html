@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>South Americans Secrets</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/toursStyles.css">
+    <link rel="stylesheet" href="assets/css/loginSyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-     <header class="header">
+    <header class="header">
         <a href="index.html" class="logo">
             <img src="assets/img/logoN.png" alt="South Americans Secrets Logo">
         </a>
@@ -23,7 +23,7 @@
 
         <nav>
             <ul class="nav-links">
-                <li><a href="#index.html">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 
                 <li class="dropdown">
                     <a href="#">Tours & Activities <i class="fa fa-caret-down"></i></a>
@@ -50,7 +50,7 @@
                 </li>
                 
                 <li><a href="#">Blog</a></li>
-                <li><a href="about.html">About us</a></li>
+                <li><a href="./about.html">About us</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -62,38 +62,38 @@
     </header>
 
     <main>
-        <section class="tours-hero">
-            <div class="slider-container">
-                <div class="slider">
-                    <a href="tour-detail-1.html" class="slide">
-                        <img src="assets/img/machu_picchu_p.2.jpg" alt="Machu Picchu">
-                    </a>
-                    <a href="tour-detail-2.html" class="slide">
-                        <img src="assets/img/machu_picchu_p.jpg" alt="Nazca Lines">
-                    </a>
-                    </div>
-            </div>
-            
-            <div class="hero-text-overlay">
-                <h1>Tours</h1>
-            </div>
-
-            <div class="slider-nav">
-                <button class="prev">&lt;</button>
-                <div class="dots">
-                    </div>
-                <button class="next">&gt;</button>
-            </div>
+        <section class="signin-hero">
+        <div class="overlay">
+            <h1>Sign In</h1>
+        </div>
         </section>
 
-        <section class="all-destinations">
-            <div class="container">
-                <h2 class="section-title">Explore All Destination</h2>
-                <div class="all-destinations-grid grid">
+        <div class="signin-page">
+            <div class="signin-form-container">
+                <form class="login-form">
+                    <h3>Hi There!</h3>
+                    <div class="social-login">
+                        <button class="google-btn">
+                            <img src="assets/img/Social.svg" alt="Google Icon">
+                            Google
+                        </button>
+                        <button class="apple-btn">
+                            <img src="assets/img/Social A.svg" alt="Apple Icon">
+                            Apple ID
+                        </button>
                     </div>
+                    <p class="welcome-text">Welcome to South American Secret's</p>
+                    <input type="email" placeholder="Your email" class="input-field">
+                    <input type="password" placeholder="Password" class="input-field">
+                    <a href="#" class="forgot-password">Forgot your password?</a>
+                    <button type="submit" class="login-btn">Log In</button>
+                    <p class="signup-link">Don't have an account?</p>
+                </form>
             </div>
-        </section>
-
+            <div class="signin-image-container">
+                <img src="assets/img/Imagen_Form.png" alt="Beautiful coast line">
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
