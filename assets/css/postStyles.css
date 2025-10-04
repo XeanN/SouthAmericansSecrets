@@ -1,0 +1,177 @@
+/* ==========================================================================
+    ESTILOS PARA LA PÁGINA DE POST (VERSIÓN CON CARRUSEL 3D)
+   ========================================================================== */
+
+/* Contenedor principal del artículo */
+.blog-post {
+    padding: 3rem 0;
+}
+
+/* Título principal del Post */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 1.5rem;
+}
+
+.section-title h2 {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: var(--color-black);
+}
+
+/* El carrusel ya tiene sus estilos, solo gestionamos el espacio */
+.featured {
+    /* El padding-bottom ayuda a que los puntos de navegación no se peguen al texto */
+    padding-bottom: 4rem; 
+    margin-bottom: 1rem;
+}
+
+/* ==========================================================================
+    ESTILOS PARA EL CUERPO DEL ARTÍCULO (post-body)
+   ========================================================================== */
+
+/* Contenedor principal del texto */
+.post-body {
+    /* Hacemos el contenedor ancho y lo centramos en la página */
+    max-width: 90%; 
+    margin-left: auto;
+    margin-right: auto;
+ /* Espacio lateral para que no pegue a los bordes */
+}
+
+/* Metadatos (Autor y fecha) */
+.post-meta {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+/* Párrafos del artículo dentro de .post-body */
+.post-body > p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: var(--color-text-secondary);
+    text-align: left;
+    font-family: "Open Sans";
+}
+
+/* Cita destacada */
+.post-quote {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    text-align: left; /* La cita va centrada, como en la imagen de referencia */
+    font-style: italic;
+    font-size: 18px;
+    color: var(--color-text-primary);
+    margin: 3rem 0; 
+    max-width: 60%;      /* Hacemos que la cita ocupe poco más de la mitad del espacio */
+    margin-left: auto;   /* Empujamos el bloque completo hacia la derecha */
+    margin-right: 0;     /* Quitamos el margen derecho */
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+
+}
+/* ==========================================================================
+    AJUSTES PARA Tablet
+   ========================================================================== */
+@media (min-width: 768px) and (max-width: 1524px) {
+    /* Seleccionamos un contenedor principal que esté debajo de la cabecera */
+    .section-title::before {
+        content: "Blog";
+        
+        /* Estilos para el texto */
+        font-size: 2.5rem;
+        font-size: 55px;
+        font-weight: 700;
+        font-family: "DM Serif Display";
+        color: #000000;
+        
+        /* Centra el texto y le da espacio */
+        display: block;
+        text-align: center;
+        margin: 2rem 0;
+    }
+
+
+
+    .section-title h2 {
+    text-align: left; 
+    }
+
+    .post-body > p {
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .post-quote {
+        /* Reseteamos los estilos de escritorio para que se alinee a la izquierda */
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        text-align: center;
+        font-size: 1.2rem;
+        max-width: 100%;  
+    }
+
+    .carousel-container {
+        height: 350px; /* Reduce la altura en tabletas */
+    }
+
+    .carousel-item {
+        width: 70%; /* Aumenta un poco el tamaño de las imágenes */
+    }
+    .carousel-item.prev,
+    .carousel-item.next {
+        transform: translateX(-40%) scale(0.85); /* Ajusta el movimiento lateral */
+    }
+    
+    .carousel-item.next {
+        transform: translateX(40%) scale(0.85); /* Lo mismo para la imagen siguiente */
+    }
+
+}
+
+/* ==========================================================================
+    AJUSTES PARA MÓVILES
+   ========================================================================== */
+@media (max-width: 668px) {
+
+        .section-title h2 {
+    text-align: center; 
+    font-size: 48px;
+    }
+
+    .post-body > p {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+
+    .carousel-container {
+        height: 250px; /* Reduce la altura en tabletas */
+    }
+
+    .carousel-item {
+        width: 60%; /* Aumenta un poco el tamaño de las imágenes */
+    }
+    .carousel-item.prev,
+    .carousel-item.next {
+        transform: translateX(-40%) scale(0.85); /* Ajusta el movimiento lateral */
+    }
+    
+    .carousel-item.next {
+        transform: translateX(40%) scale(0.85); /* Lo mismo para la imagen siguiente */
+    }
+    /* Cita destacada - Estilo para Celular */
+    .post-quote {
+        /* Reseteamos los estilos de escritorio para que se alinee a la izquierda */
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        text-align: center;
+        font-size: 1.2rem;
+    }
+}

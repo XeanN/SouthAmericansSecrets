@@ -122,6 +122,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #1E3888;
 }
 
 .team-card:hover {
@@ -195,4 +196,107 @@
   font-size: 1rem;
   color: var(--color-text-secondary);
   line-height: 2;
+}
+/* ==========================================================================
+    ESTILOS RESPONSIVE PARA ABOUT US (TABLET Y MÓVIL)
+   ========================================================================== */
+
+/* --- Estilos para TABLETS --- */
+@media (max-width: 992px) {
+
+    /* HERO */
+    .about-hero {
+        height: 400px; /* Reducimos la altura del banner */
+    }
+    .about-hero-text h1 {
+        font-size: 3rem;
+    }
+
+    /* CONTENIDO INTRODUCTORIO */
+    /* Centramos el texto y limitamos su ancho como en la imagen */
+    .about-content .container {
+        max-width: 750px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .about-title,
+    .about-content p {
+        text-align: left; /* Alineación a la izquierda */
+    }
+
+    /* OUR TEAM */
+    .team-grid {
+        /* Forzamos a que haya 4 columnas en tablet */
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* CERTIFICATES */
+    .certificates-logos {
+        gap: 30px; /* Ajustamos el espacio entre logos */
+    }
+    .certificates-logos img {
+        max-height: 120px; /* Hacemos los logos un poco más pequeños */
+    }
+    .certificates-text {
+        max-width: 750px; /* Centramos y limitamos el ancho del texto */
+    }
+}
+
+
+/* --- Estilos para MÓVILES --- */
+@media (max-width: 668px) {
+
+    /* HERO */
+    .about-hero {
+        height: 300px; /* Banner aún más corto para celulares */
+    }
+    .about-hero-text h1 {
+        font-size: 2.5rem; /* Título más pequeño */
+    }
+    
+    /* CONTENIDO INTRODUCTORIO */
+    /* Lo alineamos a la izquierda y le damos padding */
+    .about-content .container {
+        max-width: 100%;
+        padding: 0 1.5rem;
+        text-align: left;
+    }
+    .about-title,
+    .about-content p {
+        text-align: left; /* Alineación a la izquierda */
+    }
+    .about-title {
+        font-size: 1.6rem;
+    }
+
+    /* OUR TEAM */
+    .our-team {
+        padding: 40px 1.5rem;
+    }
+    .team-grid {
+        /* Mostramos 2 tarjetas por fila en móvil */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    /* CERTIFICATES */
+    .certificates {
+        padding: 40px 1.5rem;
+    }
+    /* Hacemos un grid de 2x2 para los logos */
+    .certificates-logos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        justify-items: center;
+        align-items: center;
+    }
+    .certificates-logos img {
+        max-height: 80px; /* Logos más pequeños para que quepan bien */
+        width: auto;
+    }
+    .certificates-text {
+        text-align: left; /* Alineamos el texto a la izquierda */
+        line-height: 1.7;
+    }
 }

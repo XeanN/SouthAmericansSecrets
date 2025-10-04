@@ -249,3 +249,145 @@ color: #000;
     font-size: 1.1rem; /* Aumenta el tamaño de la fuente */
     margin-top: 1rem;
 }
+
+/* ==========================================================================
+    ESTILOS RESPONSIVE PARA TABLETS (PÁGINA DE LOGIN)
+   ========================================================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* 1. Mantenemos el banner superior (hero) corto, como en el móvil */
+    .signin-hero {
+        height: 220px;
+    }
+
+    /* 2. Configuramos el layout principal de 2 columnas */
+    .signin-page {
+        display: flex;
+        gap: 3rem; /* Espacio entre el formulario y la imagen */
+        align-items: center;
+        padding: 3rem 2.5rem; /* Ajustamos el padding para tablet */
+    }
+
+    /* 3. El contenedor del formulario ocupa la mitad izquierda */
+    .signin-form-container {
+        flex: 1;
+        padding: 0;
+    }
+    
+    .login-form {
+        padding: 0;
+        box-shadow: none;
+    }
+
+    /* 4. Mostramos y estilizamos el contenedor de la imagen a la derecha */
+    .signin-image-container {
+        display: flex; /* Nos aseguramos de que sea visible */
+        flex: 1;
+        align-self: stretch; /* Hacemos que la imagen ocupe toda la altura */
+        max-height: 600px; /* Limitamos la altura máxima */
+    }
+
+    .signin-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* La imagen cubre el espacio sin deformarse */
+        
+        /* ¡Aquí está la magia para la esquina redondeada especial! */
+        border-radius: 0 53.476px;
+    }
+}
+
+/* ==========================================================================
+    ESTILOS RESPONSIVE PARA MÓVILES (PÁGINA DE LOGIN)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* 1. Ocultamos la imagen lateral grande que solo se ve en escritorio */
+    .signin-image-container {
+        display: none;
+    }
+
+    /* 2. Ajustamos la sección principal para que el formulario ocupe toda la pantalla */
+    .signin-page {
+        padding: 2rem 1.5rem; /* Reducimos el espacio a los lados */
+        display: block; /* Quitamos el layout flexible para que el formulario se centre bien */
+    }
+
+    /* 3. Hacemos el banner superior (hero) mucho más corto */
+    .signin-hero {
+        height: 200px;
+    }
+    .signin-hero h1 {
+        font-size: 2.8rem; /* Reducimos un poco el texto "Sign In" */
+    }
+
+    /* 4. Ajustamos el formulario para que se vea idéntico a tu imagen */
+    .login-form {
+        width: 100%;
+        padding: 0;
+        box-shadow: none; /* Quitamos cualquier sombra en móvil */
+        gap: 1.2rem; /* Ajustamos el espacio vertical entre elementos */
+    }
+
+    /* Título "Hi There!" */
+    .login-form h3 {
+        font-size: 2.8rem;
+        font-family: var(--font-serif);
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 0;
+    }
+
+    /* Párrafos de bienvenida */
+    .login-form .welcome-text {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+        margin: 0;
+    }
+
+    /* Botones de Google y Apple */
+    .social-login {
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .social-login button {
+        flex: 1; /* Hacemos que ambos botones ocupen 50% del espacio */
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 0.75rem;
+        font-size: 1rem;
+        width: auto; /* Dejamos que flexbox controle el ancho */
+    }
+    
+    /* Campos para Email y Contraseña */
+    .login-form .input-field {
+        background-color: #f9f9f9;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    .login-form .forgot-password {
+        font-size: 0.9rem;
+        color: var(--color-text-secondary);
+    }
+    
+    /* Botón principal "Log In" */
+    .login-form .login-btn {
+        background-color: var(--color-black);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 1rem;
+        text-transform: uppercase;
+    }
+    
+    .login-form .signup-link {
+        font-size: 1rem;
+        color: var(--color-text-secondary);
+    }
+}

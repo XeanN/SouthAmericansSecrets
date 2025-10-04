@@ -37,11 +37,13 @@
     text-align: center;
     z-index: 10;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: "DM Serif Display";
 }
 
 .tours-hero .hero-text-overlay h1 {
     font-size: 3.5rem;
     margin: 0;
+    color: rgb(255, 255, 255)
 }
 
 /* Estilos para los botones de navegación (flechas) */
@@ -95,6 +97,7 @@
     /* CAMBIO: Le decimos que cree exactamente 4 columnas de igual tamaño */
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
+    background: #ffffff;
 }
 
 /* El estilo para cada tarjeta de ciudad individual */
@@ -150,4 +153,47 @@
 }
 .destination-item-card:hover span {
     color: var(--color-white);
+}
+
+/* ==========================================================================
+    ESTILOS RESPONSIVE PARA TOURS (MÓVIL)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    /* HERO */
+    .tours-hero {
+        height: 250px; /* Hacemos el banner superior más corto */
+    }
+
+    .tours-hero .hero-text-overlay h1 {
+        font-size: 2.8rem; /* Achicamos el título principal */
+    }
+
+    /* SECCIÓN DE DESTINOS */
+    .all-destinations {
+        padding: 2rem 1rem; /* Ajustamos el padding general de la sección */
+        margin-bottom: 2rem;
+    }
+
+    .all-destinations .section-title {
+        margin-top: 2rem;
+        margin-bottom: 3rem; /* Reducimos los márgenes que eran muy grandes */
+        font-size: 2rem;
+    }
+
+    /* La cuadrícula de destinos */
+    .all-destinations-grid {
+        /* La clave: la cambiamos a 2 columnas para que quepa bien en el celular */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem; /* Reducimos el espacio entre tarjetas */
+    }
+
+    /* Ajustamos un poco el texto dentro de la tarjeta */
+    .city-name {
+        padding: 0.8rem;
+    }
+    .city-name span {
+        font-size: 0.9rem;
+    }
 }

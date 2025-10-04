@@ -8,18 +8,29 @@
 }
 
 .section-title h2 {
-    font-size: 2.5rem;
     font-weight: bold;
     color: #000000;
+    font-size: 58px;
+    font-weight: 900;
+}
+
+/* ==========================================================================
+    Media Query para adaptar el título en teléfonos
+   ========================================================================== */
+@media (max-width: 767px) {
+    .section-title h2 {
+        font-size: 2.5rem; /* Tamaño de fuente reducido para pantallas pequeñas */
+        margin-left: 0.2.5rem; /* Ajusta el margen si lo necesitas */
+    }
 }
 
 /* ==========================================================================
     SECCIÓN - CARRUSEL ADAPTADO
    ========================================================================== */
-
 .carousel-container {
     position: relative;
-    height: 400px;
+    /* Ajusta la altura para móviles y pantallas más pequeñas */
+    height: 280px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,14 +42,14 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 100%;
+    width: 100%; /* El contenedor del carrusel ocupará el 100% del ancho */
     height: 100%;
     overflow: hidden;
 }
 
 .carousel-item {
-    width: 60%;
-    max-width: 800px;
+    width: 80%; /* Aumenta el ancho de la imagen principal para que no se vea tan pequeña */
+    max-width: 600px;
     height: 100%;
     border-radius: 16px;
     overflow: hidden;
@@ -46,6 +57,7 @@
     position: absolute;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease;
     
+    /* Reglas para los elementos inactivos */
     transform: scale(0.8) translateX(100%);
     opacity: 0;
     z-index: 2;
@@ -57,28 +69,31 @@
     object-fit: cover;
 }
 
+/* Estado activo */
 .carousel-item.active {
     transform: translateX(0) scale(1);
     opacity: 1;
     z-index: 10;
-    filter: brightness(1.2); /* AÑADE ESTA LÍNEA */
+    filter: brightness(1.2);
 }
 
+/* Estado de la imagen anterior */
 .carousel-item.prev {
     transform: translateX(-50%) scale(0.85);
-    opacity: 0.3; /* Reducida la opacidad para que se vea más tenue */
+    opacity: 0.3;
     z-index: 5;
 }
 
+/* Estado de la imagen siguiente */
 .carousel-item.next {
     transform: translateX(50%) scale(0.85);
-    opacity: 0.3; /* Reducida la opacidad para que se vea más tenue */
+    opacity: 0.3;
     z-index: 5;
 }
 
 .carousel-nav {
     position: absolute;
-    bottom: -50px; /* Movido más abajo para que se separe de la imagen */
+    bottom: -50px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -96,7 +111,7 @@
     cursor: pointer;
     color: #555;
     font-size: 1.5rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -124,18 +139,34 @@
     background: #555;
 }
 
+/* Media query para pantallas más grandes (tablets y escritorio) */
+@media (min-width: 1298px) {
+    .carousel-container {
+        height: 400px; /* Vuelve a la altura original en pantallas grandes */
+    }
+
+    .carousel-item {
+        width: 60%; /* Vuelve al ancho original en pantallas grandes */
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* SECCIÓN TOUR - ADAPTACIÓN */
+/* -------------------------------------------------------------------------- */
 .tour-section {
     padding: 2rem;
-    flex-shrink: 0;
     margin: 0 auto;
     font-family: Arial, sans-serif;
     background: #FFF;
+    /* Elimina o reduce el max-width para que ocupe más espacio */
+    max-width: 95%; /* Esto permitirá que ocupe el 90% del ancho del viewport */
+    /* O si quieres que ocupe el 100% de los márgenes del padre, puedes poner: */
+    /* max-width: 100%; */
+    /* width: 100%; */
 }
 
-.tour-header h2 {
+.tour-header h3 {
     color: #1D1D1F;
-
-    /* A1 Bold Heading 1 */
     font-family: "Open Sans";
     font-size: 24px;
     font-style: normal;
@@ -143,40 +174,53 @@
     line-height: 3rem;
     opacity: 0.7;
     padding-bottom: 1.5rem;
-
 }
 
+/* Estilos para la descripción del tour */
 .tour-header p {
-    width: 1312px;
-
+    width: auto;
+    max-width: 100%;
     color: #1D1D1F;
-
-    /* A1 Alt Heading 1 */
     font-family: "Open Sans";
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    border-bottom: 5rem;
+    /* Reduce el margen inferior para acercarlo a los iconos */
+    margin-bottom: 1rem;
     opacity: 0.7;
     padding-bottom: 2rem;
 }
 
+@media (max-width: 767px) {
+    .tour-header h3 {
+        text-align: center; /* Centra el título principal */
+    }
+    
+    .tour-header p {
+        text-align: center; /* Centra el párrafo de la descripción */
+    }
+}
+
+
+/* Estilos para la sección de meta-información */
 .tour-meta-info {
-    /* Eliminamos 'display: flex' */
-    margin-bottom: 2rem;
+    /* Reduce el margen superior para acercarlo a la descripción */
+    margin-top: 0;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .meta-item {
-width: 365.646px;
-color: #1D1D1F;
-
-/* A1 Alt Heading 1 */
-font-family: "Open Sans";
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-    margin-bottom: 0.5rem; /* Agrega espacio entre cada línea */
+    width: auto;
+    max-width: 100%;
+    color: #1D1D1F;
+    font-family: "Open Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .meta-item i {
@@ -187,57 +231,51 @@ line-height: normal;
 
 .tour-detail .detail-title {
     color: #1D1D1F;
-
-/* H2 Heading 2 */
-font-family: "DM Serif Display";
-font-size: 32px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-padding-bottom: 2rem;
+    font-family: "DM Serif Display";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    padding-bottom: 2rem;
 }
 
 .tour-detail p {
-width: 1312px;
-height: 125px;
-flex-shrink: 0;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    flex-shrink: 0;
     color: #1D1D1F;
-
-/* A1 Alt Heading 1 */
-font-family: "Open Sans";
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
+    font-family: "Open Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
+
 /* Estilos para la nueva sección de Inclusiones y Exclusiones */
 .tour-features {
-    display: flex; /* Convierte el contenedor en un contenedor flexible */
-    justify-content: space-between; /* Distribuye el espacio entre los elementos */
-    gap: 2rem; /* Añade un espacio entre las columnas */
     margin-top: 2rem;
     padding-top: 2rem;
 }
 
 .feature-column {
-    flex: 1; /* Permite que las columnas crezcan y ocupen el espacio disponible */
-    max-width: 50%; /* Limita el ancho para que no crezcan demasiado */
+    width: 100%;
+    margin-bottom: 2rem;
+    
 }
 
 .feature-column h3 {
     color: #1D1D1F;
-
-/* H2 Heading 2 */
-font-family: "DM Serif Display";
-font-size: 32px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-padding-bottom: 1rem;
+    font-family: "DM Serif Display";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    padding-bottom: 1rem;
 }
 
 .feature-column ul {
-    list-style: none; /* Elimina los puntos de la lista */
+    list-style: none;
     padding: 0;
     color: #000000;
     font-family: "Open Sans";
@@ -254,20 +292,59 @@ padding-bottom: 1rem;
     font-size: 1.1rem;
 }
 
-/* Estilos para los íconos de check y times */
 .include ul li i.fa-check {
-    color: #000000; /* Verde */
+    color: #000000;
 }
 
 .exclude ul li i.fa-times {
-    color: #000000; /* Rojo */
+    color: #000000;
+}
+
+/* Media Query para pantallas grandes */
+@media (min-width: 768px) {
+
+    .tour-features {
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .feature-column {
+        flex: 1;
+        max-width: 48%;
+        margin-bottom: 0;
+    }
+
+    .tour-meta-info {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .meta-item {
+        flex: 1 1 auto;
+        max-width: 30%;
+    }
+
+    .tour-meta-info {
+        display: flex; /* Asegura que Flexbox esté activo */
+        flex-direction: column; /* Cambia la dirección a columna (apilado) */
+        align-items: flex-start; /* Alinea los ítems a la izquierda */
+        gap: 20px; /* Opcional: añade espacio entre los ítems apilados */
+
+    }
+
+    .meta-item {
+        width: 100%; /* Asegura que cada ítem ocupe todo el ancho disponible */
+        font-size: 1.5rem; /* Puedes ajustar el tamaño de la fuente para que se vea mejor */
+    }
+
 }
 
 /* Estilos para la sección de precio y botón */
 .tour-booking-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column; /* Apila el precio y el botón por defecto (en móvil) */
     padding-top: 1.5rem;
     margin-top: 1.5rem;
 }
@@ -275,12 +352,14 @@ padding-bottom: 1rem;
 .price-info {
     display: flex;
     align-items: baseline;
+    justify-content: flex-start; /* Alinea el precio a la izquierda */
+    margin-bottom: 1rem; /* Espacio debajo del precio */
 }
 
 .price-label {
     font-family: serif;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: 900;
     color: #000000;
     margin-right: 0.5rem;
 }
@@ -303,48 +382,22 @@ padding-bottom: 1rem;
     cursor: pointer;
     border-radius: 6px;
     transition: background-color 0.3s ease;
+    align-self: flex-end; /* Alinea el botón a la derecha */
 }
 
 .book-now-btn:hover {
     background-color: #555;
 }
 
-/* ==========================================================================
-Estilos para MÓVILES y PANTALLAS PEQUEÑAS
-   ========================================================================== */
-@media (max-width: 668px) {
-    /* ... (otros estilos de tipografía, etc.) ... */
-
-    /* --- CARRUSEL FEATURED --- */
-    .carousel-container {
-        height: 300px; /* Reducimos la altura para que ocupe menos en móviles */
-        margin-bottom: 2rem;
-    }
-
-    .carousel-item {
-        width: 85%; /* Las imágenes ocupan más ancho para ser más visibles */
-        max-width: 90%;
-    }
-
-    .carousel-item.prev { 
-        transform: translateX(-60%) scale(0.8); /* Ajustamos la posición y escala */
-        opacity: 0.15; /* Hacemos las imágenes laterales mucho más tenues */
-    }
-    
-    .carousel-item.next { 
-        transform: translateX(60%) scale(0.8); /* Ajustamos la posición y escala */
-        opacity: 0.15;
-    }
-    
-    .carousel-nav {
-        bottom: -30px; /* Acercamos los botones un poco */
-    }
-
-    /* También es una buena práctica asegurar que el precio y el botón se apilen */
+/* Media Query para pantallas grandes */
+@media (min-width: 768px) {
     .tour-booking-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        flex-direction: row; /* En pantallas grandes, se colocan en una fila */
+        justify-content: space-between; /* El precio se va a la izquierda y el botón a la derecha */
+        align-items: center; /* Alineación vertical */
+    }
+
+    .book-now-btn {
+        align-self: auto; /* Desactiva la alineación a la derecha cuando están en la misma fila */
     }
 }
-
