@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentIndex = 0;
 
-    // --------------------------------------------------------------------------
+   // --------------------------------------------------------------------------
     // 3. FUNCIÓN PRINCIPAL (El "Director de Orquesta")
     // --------------------------------------------------------------------------
     function updateFeaturedSection(index) {

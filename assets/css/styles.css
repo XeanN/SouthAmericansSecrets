@@ -134,9 +134,12 @@ img {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
     /* Añadimos un margen a la izquierda para separarlo del logo */
     margin-left: 3rem; 
+    font-family: "DM Serif Display";
+    font-style: normal;
+    font-weight: 900;
 }
 
 .nav-links a {
@@ -157,16 +160,23 @@ img {
     gap: 1rem;
     /* CAMBIO: ¡Aquí ocurre la magia! */
     margin-left: auto; 
+    font-family: "DM Serif Display";
+    font-weight: 900;
 }
 
 .auth-buttons .login {
     background: transparent;
-    border: 1px solid var(--color-white);
+    text-transform: none; 
+    font-size: 20px;
 }
 
 .auth-buttons .register {
     background: var(--color-white);
-    color: var(--color-primary);
+    color: #000;
+    text-transform: none; 
+    font-size: 19px;
+    font-weight: 900;
+        border-radius: 10px;
 }
 
 /* El código de los dropdowns que añadiste se mantiene igual */
@@ -845,6 +855,7 @@ img {
     box-shadow: var(--box-shadow-light);
     transition: transform 0.3s ease;
     text-align: left;
+    background: #1E3888;
 }
 
 .guide-card:hover {
@@ -996,11 +1007,28 @@ img {
    ========================================================================== */
 
 /* --- Estilos para TABLETS --- */
-@media (max-width: 992px) {
+@media (min-width: 669px) and (max-width: 992px) {
     
     /* --- HEADER --- */
-    .nav-links, .auth-buttons {
+    .nav-links {
         display: none; /* Ocultamos la navegación de escritorio */
+    }
+
+    .auth-buttons {
+        /*
+            CAMBIO CLAVE: Quitamos 'display: none;' para que los botones sean visibles.
+            Ahora, los botones se mostrarán y se agruparán a la derecha
+            junto con el botón de hamburguesa.
+        */
+        display: flex;
+        gap: 1rem;
+        gap: 0.5rem; /* Reduce el espacio entre los botones */
+    }
+
+    .btn.login,
+    .btn.register {
+        padding: 0.8rem 1rem; /* Reduce el padding para que sean más pequeños */
+        font-size: 0.7rem; /* Reduce el tamaño de la fuente */
     }
 
     .nav-toggle {
@@ -1080,27 +1108,273 @@ img {
     .testimonial-card {
         margin-top: 0;
     }
+
+    /* --- SECCIÓN TOP DESTINATIONS (DISEÑO ESPECÍFICO PARA TABLET) --- */
+    .destinations .grid {
+        /* Usamos un truco con un grid de 4 columnas para posicionar todo */
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 250px); /* Dos filas de altura fija */
+        gap: 1.5rem;
+    }
+
+    /* Reseteamos cualquier posicionamiento previo para evitar conflictos */
+    #ica, #islas-ballestas, #huacachina, #lima {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    /* --- Posicionamiento de cada tarjeta en el grid --- */
+
+    /* #ica (Buggy) -> Ocupa las 2 primeras columnas de la primera fila */
+    #ica {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+
+    /* #islas-ballestas (Arco) -> Ocupa la primera columna de la segunda fila */
+    #islas-ballestas {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+    }
+
+    /* #huacachina (Dunas) -> Ocupa la segunda columna de la segunda fila */
+    #huacachina {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
+
+    /* #lima (Acantilado) -> Ocupa las 2 últimas columnas y se expande en AMBAS filas */
+    #lima {
+        grid-column: 3 / 5;
+        grid-row: 1 / 3;
+    }
+
+/* --- SECCIÓN FEATURED (DESTACADOS) --- */
+    /* Arreglamos la cita para que no se salga de la pantalla en móviles */
+    .destination-info blockquote {
+        margin-left: 20%; /* Reseteamos el margen izquierdo */
+        max-width: 100%; /* Ocupa el ancho completo */
+        text-align: left;
+    }
+
+     /* --- SECCIÓN ALL DESTINATIONS (4 COLUMNAS EN TABLET) --- */
+    .all-destinations-grid {
+        grid-template-columns: repeat(4, 1fr);
+        background: #1E3888;
+    }
+
+    /* --- SECCIÓN TOUR GUIDES (4 COLUMNAS EN TABLET) --- */
+    .guides-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
 }
 
 
-/* --- Estilos para MÓVILES --- */
+
+
+/* --- Estilos para MÓVILES (Basado en tus imágenes de referencia) --- */
 @media (max-width: 668px) {
     
+    /* --- HEADER --- */
+    .nav-links {
+        display: none; /* Ocultamos la navegación de escritorio */
+    }
+
+    .auth-buttons {
+        /*
+            CAMBIO CLAVE: Quitamos 'display: none;' para que los botones sean visibles.
+            Ahora, los botones se mostrarán y se agruparán a la derecha
+            junto con el botón de hamburguesa.
+        */
+        display: flex;
+        gap: 1rem;
+        gap: 0.5rem; /* Reduce el espacio entre los botones */
+    }
+
+    .btn.login,
+    .btn.register {
+        padding: 0.8rem 1rem; /* Reduce el padding para que sean más pequeños */
+        font-size: 0.7rem; /* Reduce el tamaño de la fuente */
+    }
+
+    .nav-toggle {
+        display: block; /* Mostramos el botón de hamburguesa */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1500;
+    }
+
+    .hamburger {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: var(--color-white);
+        position: relative;
+    }
+    .hamburger::before,
+    .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: var(--color-white);
+        left: 0;
+    }
+    .hamburger::before { top: -8px; }
+    .hamburger::after { bottom: -8px; }
+
+    /* El menú que se mostrará */
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Empieza oculto fuera de la pantalla */
+        width: 60%;
+        height: 100vh;
+        background: var(--color-primary-dark);
+        padding-top: 5rem;
+        transition: right 0.3s ease-in-out;
+        z-index: 1400;
+    }
+
+    nav.nav-menu-visible {
+        right: 0; /* Aparece desde la derecha */
+    }
+
+    nav .nav-links {
+        display: flex;
+        flex-direction: column; /* Apilamos los enlaces verticalmente */
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .dropdown-menu {
+        position: static; /* Quitamos el posicionamiento absoluto en móvil */
+        display: none; /* Lo ocultamos, se podría manejar con JS para abrirlo */
+        background: none;
+        box-shadow: none;
+    }
     /* --- TIPOGRAFÍA --- */
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
     .slide .content h1 { font-size: 2.8rem; }
 
     /* --- HERO --- */
+    /* Ajustamos el texto del hero para que esté alineado a la izquierda como en tu imagen */
     .hero { height: 70vh; }
     .slide .content {
-        left: 5%;
-        right: 5%;
-        max-width: none;
-        text-align: center;
+        text-align: left; /* Alineación a la izquierda */
+        left: 8%;
+        right: auto; /* Desactivamos el alineado derecho */
+        max-width: 90%;
+        transform: translateY(-60%); /* Lo subimos un poco para que se vea mejor */
     }
 
-    /* --- GRIDS --- */
+    /* ==========================================================================
+    NUEVO DISEÑO PARA 'TOP DESTINATIONS' EN MÓVIL (TIPO MOSAICO)
+   ========================================================================== */
+
+/* --- La cuadrícula principal --- */
+.destinations .grid {
+    grid-template-columns: repeat(2, 1fr); /* Creamos 2 columnas */
+    grid-auto-rows: auto;                  /* La altura de las filas será automática */
+    gap: 1rem;                             /* Un espacio entre imágenes más pequeño para móvil */
+}
+
+/* --- Reglas para cada tarjeta --- */
+
+/* Reseteamos cualquier estilo previo y preparamos para el nuevo layout */
+#ica, #islas-ballestas, #huacachina, #lima {
+    grid-column: auto;
+    grid-row: auto;
+    height: auto;
+    aspect-ratio: unset; /* Quitamos la proporción fija que pusimos antes */
+}
+
+/* La primera tarjeta (Buggy) ocupa 2 columnas */
+#ica {
+    grid-column: span 2;
+    aspect-ratio: 16 / 11; /* Le damos una proporción panorámica */
+}
+
+/* Las dos tarjetas de en medio (Arco y Dunas) ocupan 1 columna cada una */
+#islas-ballestas, #huacachina {
+    aspect-ratio: 4 / 5;   /* Hacemos que sean un poco más altas que anchas */
+}
+
+/* La última tarjeta (Acantilado) también ocupa 2 columnas */
+#lima {
+    grid-column: span 2;
+    aspect-ratio: 16 / 11; /* Misma proporción que la primera para que sea simétrico */
+}
+
+    /* --- SECCIÓN FEATURED (DESTACADOS) --- */
+    /* Arreglamos la cita para que no se salga de la pantalla en móviles */
+    .destination-info blockquote {
+        margin-left: 0; /* Reseteamos el margen izquierdo */
+        max-width: 100%; /* Ocupa el ancho completo */
+        text-align: left;
+    }
+
+/* Centramos los elementos de la sección cuando se apilan en móvil */
+.reviews-content-wrapper {
+    flex-direction: column;
+    align-items: center; /* Centra la tarjeta horizontalmente */
+    gap: 2rem;
+}
+.reviews-text {
+    text-align: center;
+}
+
+/* Estilo de la tarjeta de testimonio como en tu nueva imagen */
+.testimonial-card {
+    border-radius: 24px; /* Bordes bien redondeados */
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 450px; /* Un ancho máximo para que no se estire demasiado */
+    margin-top: 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12); /* Una sombra más sutil */
+}
+
+/* Nos aseguramos de que no haya ninguna flecha o puntero */
+.testimonial-card::before {
+    content: none;
+}
+
+/* El texto de la reseña */
+.testimonial-text {
+    text-align: center; /* Texto de la cita centrado */
+    padding: 0;
+    margin-bottom: 2.5rem; /* Más espacio sobre la info del cliente */
+}
+
+/* Posicionamiento de las comillas como en tu imagen */
+.testimonial-text::before {
+    content: '“';
+    position: absolute;
+    top: -10px;
+    left: 0; /* Comilla de apertura a la izquierda */
+    font-size: 2rem;
+    color: #000000;
+}
+.testimonial-text::after {
+    content: '”';
+    position: absolute;
+    bottom: -15px;
+    right: 0; /* Comilla de cierre a la derecha */
+    font-size: 2rem;
+    color: #000000;
+}
+
+/* La información del cliente se mantiene a la izquierda */
+.client-info {
+    justify-content: flex-start; /* Aseguramos alineación izquierda */
+}
+
+    /* --- GRIDS (ALL DESTINATIONS & TOUR GUIDES) --- */
+    /* Mantenemos la cuadrícula de 2 columnas como en tus imágenes */
     .all-destinations-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1110,13 +1384,24 @@ img {
 
     /* --- CARRUSEL FEATURED --- */
     .carousel-item {
-        width: 70%; /* Hacemos los slides un poco más anchos en móvil */
+        width: 80%; /* Hacemos los slides un poco más anchos en móvil */
     }
-    .carousel-item.prev { transform: translateX(-40%) scale(0.7); }
-    .carousel-item.next { transform: translateX(40%) scale(0.7); }
+    .carousel-item.prev { transform: translateX(-45%) scale(0.7); }
+    .carousel-item.next { transform: translateX(45%) scale(0.7); }
 
     /* --- MAPA --- */
     .location-map iframe {
         height: 300px;
     }
+
+    /* --- FOOTER --- */
+    /* Ajustamos los links del footer para que se vean como en la imagen */
+    .footer nav {
+        display: flex;
+       flex-shrink: 0; /* Para que los enlaces bajen si no caben */
+        justify-content: center;
+        gap: 1rem 1.5rem; /* Espacio vertical y horizontal */
+        margin-bottom: 1.5rem;
+    }
+
 }

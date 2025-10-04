@@ -177,3 +177,100 @@
 .contact-form .btn:hover {
     background-color: #333; /* Un gris oscuro para el hover */
 }
+
+/* ==========================================================================
+    ESTILOS RESPONSIVE PARA CONTACT (TABLET Y MÓVIL)
+   ========================================================================== */
+
+/* --- Estilos para TABLETS --- */
+@media (max-width: 992px) {
+
+    /* HERO */
+    .contact-hero {
+        height: 400px;
+    }
+    .contact-hero h1 {
+        font-size: 3rem;
+    }
+
+    /* INFO DE CONTACTO (Layout 2 arriba, 1 abajo) */
+    .contact-info .container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+        max-width: 800px; /* Centramos y limitamos el ancho */
+        margin: 0 auto;
+    }
+    .contact-card:last-child {
+        grid-column: 1 / -1; /* Hacemos que la última tarjeta (Location) ocupe todo el ancho */
+    }
+
+    /* FORMULARIO DE CONTACTO (Texto y form apilados) */
+    .contact-form-wrapper {
+        grid-template-columns: 1fr; /* Cambiamos a 1 sola columna */
+        gap: 2rem;
+        max-width: 750px; /* Centramos y limitamos el ancho */
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+    .contact-text {
+        text-align: center;
+    }
+
+    .contact-form-section {
+        padding: 60px 0;
+    }
+
+    .contact-text {
+        text-align: left; /* Alineamos el texto a la izquierda */
+    }
+
+    .contact-text h2 {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* --- Estilos para MÓVILES --- */
+@media (max-width: 668px) {
+
+    /* HERO */
+    .contact-hero {
+        height: 300px;
+    }
+    .contact-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .contact-info {
+        padding: 40px 20px;
+    }
+
+    .contact-text h2 {
+    font-size: 1.5rem; /* Reducimos el tamaño del título en móviles */
+}
+
+    /* INFO DE CONTACTO (Apilado verticalmente) */
+    .contact-info .container {
+        grid-template-columns: 1fr; /* 1 sola columna para apilar las tarjetas */
+        gap: 2.5rem;
+    }
+
+    /* FORMULARIO (Campos de texto apilados) */
+    .contact-form .form-row {
+        flex-direction: column; /* Apilamos los campos que estaban en la misma fila */
+        gap: 1rem;
+        margin-bottom: 0; /* Reseteamos margen porque el gap ya da espacio */
+    }
+    .contact-form input {
+        /* Añadimos margen inferior a cada input que no sea el último de una fila */
+        margin-bottom: 1rem;
+    }
+    .contact-form .form-row input:last-child {
+        margin-bottom: 0;
+    }
+    .contact-form .btn {
+        width: 100%; /* El botón ocupa todo el ancho */
+    }
+    
+    .location-map {
+        padding: 40px 0; /* Menos padding en móvil */
+    }
+}
