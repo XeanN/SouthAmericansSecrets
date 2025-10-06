@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="assets/css/loginSyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -26,13 +27,36 @@
                 <li><a href="index.html">Home</a></li>
                 
                 <li class="dropdown">
-                    <a href="#">Tours & Activities <i class="fa fa-caret-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Full Day</a></li>
-                        <li><a href="#">Half Day</a></li>
-                    </ul>
+                    <a href="tours.html">Tours & Activities <i class="fa fa-caret-down"></i></a>
+                    
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">Coast of Peru</h4>
+                            <ul>
+                                <li><a href="#">Lima</a></li>
+                                <li><a href="#">Paracas & Islas Ballestas</a></li>
+                                <li><a href="#">Ica & Huacachina</a></li>
+                                <li><a href="#">Nazca Lines</a></li>
+                                <li><a href="#">North Coast</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">The Highlands</h4>
+                            <ul>
+                                <li><a href="#">Arequipa</a></li>
+                                <li><a href="#">Lake Titicaca</a></li>
+                                <li><a href="#">Cuzco</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">Rainforest</h4>
+                            <ul>
+                                <li><a href="#">Tambopata Rainforest</a></li>
+                                <li><a href="#">Manu Reserve</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
-                
                 <li class="dropdown">
                     <a href="#">Shore Excursions <i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
@@ -49,8 +73,8 @@
                     </ul>
                 </li>
                 
-                <li><a href="#">Blog</a></li>
-                <li><a href="./about.html">About us</a></li>
+                <li><a href="blog/post.html">Blog</a></li>
+                <li><a href="about.html">About us</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
@@ -58,6 +82,9 @@
         <div class="auth-buttons">
             <a href="login.html" class="btn login">Login</a>
             <a href="register.html" class="btn register">Register</a>
+            <a href="cart.html" class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
         </div>
     </header>
 
@@ -100,7 +127,7 @@
         <div class="footer-content">
         <nav>
             <a href="index.html">Home</a>
-            <a href="blog/index.html">Blog</a>
+            <a href="blog/post.html">Blog</a>
             <a href="about.html">About us</a>
             <a href="contact.html">Contact</a>
         </nav>

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>South Americans Secrets</title>
+    <title>Shopping Cart | South Americans Secrets</title>
+    
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/toursStyles.css">
+    <link rel="stylesheet" href="assets/css/cart.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -89,38 +89,46 @@
     </header>
 
     <main>
-        <section class="tours-hero">
-            <div class="slider-container">
-                <div class="slider">
-                    <a href="tour-detail-1.html" class="slide">
-                        <img src="assets/img/machu_picchu_p.2.jpg" alt="Machu Picchu">
-                    </a>
-                    <a href="tour-detail-2.html" class="slide">
-                        <img src="assets/img/machu_picchu_p.jpg" alt="Nazca Lines">
-                    </a>
-                    </div>
-            </div>
+        <div class="cart-container container">
             
-            <div class="hero-text-overlay">
-                <h1>Tours</h1>
+            <div class="cart-header">
+                <div class="header-item">Item</div>
+                <div class="header-price">Price</div>
+                <div class="header-quantity">Quantity</div>
+                <div class="header-subtotal">Subtotal</div>
+                <div class="header-remove">Remove</div>
             </div>
 
-            <div class="slider-nav">
-                <button class="prev">&lt;</button>
-                <div class="dots">
+            <div class="cart-items" id="cart-items-container">
+                </div>
+
+            <div class="cart-summary">
+                <div class="coupon-section">
+                    <input type="text" placeholder="Enter Coupon Code">
+                    <button class="btn-apply-coupon">Apply Coupon</button>
+                </div>
+
+                <div class="totals-section">
+                    <div class="totals-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">$0.00</span>
                     </div>
-                <button class="next">&gt;</button>
-            </div>
-        </section>
-
-        <section class="all-destinations">
-            <div class="container">
-                <h2 class="section-title">Explore All Destination</h2>
-                <div class="all-destinations-grid grid">
+                    <div class="totals-row">
+                        <span>Fee</span>
+                        <span>$0.00</span>
                     </div>
+                    <div class="totals-row total-line">
+                        <span>Total</span>
+                        <span id="cart-total">$0.00</span>
+                    </div>
+                    <div class="cart-actions">
+                        <button class="btn-update">Update</button>
+                        <button class="btn-checkout">Checkout</button>
+                    </div>
+                </div>
             </div>
-        </section>
 
+        </div>
     </main>
 
     <footer class="footer">
@@ -138,13 +146,8 @@
         <p>© Copyright 2025 SouthAmericansSecrets.com</p>
         </div>
     </footer>
-
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/tours.js"></script>
-    <script src="assets/js/guides.js"></script>
-    <script src="assets/js/destinations.js"></script>
-    <script src="assets/js/featured.js"></script> 
-    <script src="assets/js/all-destinations.js"></script>
-
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/tour.js"></script>
+</body>
 </body>
 </html>

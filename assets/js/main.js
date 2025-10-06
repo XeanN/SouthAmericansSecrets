@@ -93,3 +93,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- LÓGICA PARA EL MENÚ DESPLEGABLE EN MÓVIL ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleccionamos solo los enlaces principales de los dropdowns que están en la navegación
+    const dropdownToggles = document.querySelectorAll('nav .dropdown > a');
+
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(event) {
+            // Esta función solo se ejecutará en la vista de móvil/tablet (ancho <= 992px)
+            if (window.innerWidth <= 992) {
+                event.preventDefault(); // Prevenimos que el enlace nos lleve a otra página
+                
+                // Buscamos el submenú que le sigue (el .mega-menu)
+                const nextMenu = this.nextElementSibling;
+
+                // Le añadimos o quitamos la clase 'active' para mostrarlo u ocultarlo
+                if (nextMenu) {
+                    nextMenu.classList.toggle('active');
+                }
+            }
+        });
+    });
+});

@@ -40,6 +40,12 @@ body {
     color: var(--color-text-primary);
     background-color: var(--color-white);
     line-height: 1.6;
+    display: flex;          /* 1. Activamos el layout flexible */
+    flex-direction: column; /* 2. Apilamos los elementos (header, main, footer) en una columna */
+    min-height: 100vh; 
+}
+main {
+    flex-grow: 1; /* 4. (La magia) Hacemos que el contenido principal crezca y empuje el footer hacia abajo */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -114,7 +120,7 @@ img {
     /* justify-content: space-between; */ 
     align-items: center;
     background: var(--color-primary);
-    padding: 1rem 5%;
+    padding: 1rem 2%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 80px;
     position: sticky;
@@ -143,7 +149,7 @@ img {
 }
 
 .nav-links a {
-    font-size: 1.1rem; /* Aumentamos el tamaño (aprox 17-18px) */
+    font-size: 1.2rem; /* Aumentamos el tamaño (aprox 17-18px) */
     font-weight: 600;  /* Hacemos la letra un poco más gruesa (semi-bold) */
     color: var(--color-white); 
     font-weight: 500;
@@ -177,6 +183,18 @@ img {
     font-size: 19px;
     font-weight: 900;
         border-radius: 10px;
+}
+/* Estilo para el nuevo icono del carrito en el header */
+.cart-icon {
+    color: var(--color-white);
+    font-size: 1.5rem;      /* Tamaño del ícono */
+    margin-left: 1rem;    /* Espacio a la izquierda para separarlo del botón */
+    transition: transform 0.2s ease;
+}
+
+.cart-icon:hover {
+    transform: scale(1.1); /* Efecto sutil al pasar el mouse */
+    color: #000000;
 }
 
 /* El código de los dropdowns que añadiste se mantiene igual */
@@ -221,6 +239,58 @@ img {
 
 .dropdown-menu li a:hover {
     background-color: var(--color-background-light); /* Un sutil efecto hover */
+}
+.nav-links a .fa-caret-down {
+    display: none;
+}
+
+/* ==========================================================================
+    4.2 ESTILOS PARA EL MEGA MENÚ (CORREGIDO)
+   ========================================================================== */
+
+/* Contenedor principal del mega menú */
+.mega-menu {
+    /* Mantenemos los estilos que ya tenías */
+    gap: 1rem;
+    padding: 2rem 2.5rem;
+    width: max-content;
+    left: 50%;
+    transform: translateX(-31%);
+    
+    /* ¡AQUÍ ESTÁ LA CORRECCIÓN! */
+    /* Forzamos el display a 'none' por defecto, igual que los otros menús */
+    display: none; 
+}
+
+/* Hacemos que se muestre como 'flex' solo cuando se pasa el mouse, 
+   anulando la regla general de 'display: block' */
+.dropdown:hover .mega-menu {
+    display: flex;
+}
+
+
+/* Cada columna del menú */
+.mega-menu-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Título de cada columna (ej. "Coast of Peru") */
+.mega-menu-heading {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    margin-left: 5rem;
+    white-space: nowrap;
+}
+
+/* Cada enlace dentro de las columnas */
+.mega-menu-column li a {
+    padding: 0.4rem 0;
+    font-weight: 500;
+    margin-left: 5rem;
 }
 
 /* ==========================================================================
@@ -309,118 +379,92 @@ img {
    ========================================================================== */
 
 /* Contenedor principal de la sección */
-.destinations {
-    padding: 80px 0; /* Espaciado vertical de 80px arriba y abajo para que la sección 'respire' */
-    text-align: center; /* Centramos los títulos de la sección */
-    background-color: var(--color-background-light); /* Un fondo claro para diferenciarla del resto */
-    margin-top: 4rem;
-}
-.destinations .section-title {
-    color: var(--color-black); /* <-- AÑADE ESTA REGLA NUEVA */
-    font-family: var(--font-serif); /* Le ponemos también la fuente elegante */
-    margin: 0 auto 30px;
-}
+/* Seleccionamos el .container que está DENTRO de la sección .destinations */
+    .destinations > .container {
+        max-width: none; /* Quitamos el límite de ancho de 1200px */
+        width: 90%;     /* Hacemos que ocupe el 100% del ancho disponible */
+        
+        /* Opcional: ajusta el padding si quieres más o menos espacio en los bordes */
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
 
-/* El subtítulo, para controlar su ancho */
-.section-subtitle {
-    max-width: 10000px;
-    margin: 0 auto 60px; /* Centrado y con margen inferior */
-}
+    .destinations {
+        padding: 80px 0;
+        text-align: center;
+    }
 
-/* La cuadrícula que contiene las tarjetas, ahora con una estructura específica */
-.destinations .grid {
-    display: grid;
-    /* Definimos un grid de 3 columnas y 2 filas */
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 250px); /* Altura base de cada fila */
-    gap: 1.5rem;
-    margin-top: 3rem;
-    margin-bottom: 8rem;
-}
+    .destinations .section-title {
+        color: var(--color-black);
+        font-family: var(--font-serif);
+        margin-bottom: 1.5rem;
+    }
 
-/* --- Posicionamiento de cada tarjeta en el grid --- */
+    .section-subtitle {
+        max-width: 700px;
+        margin: 0 auto 4rem;
+    }
 
-#ica {
-    /* Ocupa desde la línea de columna 1 hasta la 3 (2 columnas de ancho) */
-    grid-column: 1 / 3;
-}
+    /* --- La cuadrícula que crea el mosaico (ahora de 4 columnas) --- */
+    .destinations .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 280px);
+        gap: 1.5rem;
+    }
 
-#islas-ballestas {
-    grid-column: 1 / 2;
-    grid-row: 2 / 3;
-}
+    .card {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
 
-#huacachina {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-}
+    .card:hover {
+        transform: scale(1.03);
+    }
 
-#lima {
-    /* Ocupa desde la línea de fila 1 hasta la 3 (2 filas de alto) */
-    grid-row: 1 / 3;
-    grid-column: 3 / 4;
-}
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-/* Hacemos que la imagen cubra toda la tarjeta */
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    /* --- Posicionamiento de cada tarjeta en el nuevo grid --- */
 
+    /* #ica (Buggy) -> Ocupa las 2 primeras columnas de la primera fila */
+    #ica {
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
 
+    /* #islas-ballestas (Arco) -> Ocupa la primera columna de la segunda fila */
+    #islas-ballestas {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+    }
 
-/* --- ¡Aquí ocurre la magia! --- */
+    /* #huacachina (Dunas) -> Ocupa la segunda columna de la segunda fila */
+    #huacachina {
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
 
-/* La tarjeta marcada como 'wide' ocupará 2 columnas */
-.card-wide {
-    grid-column: span 2;
-}
+    /* #lima (Acantilado) -> Ahora ocupa las 2 últimas columnas y sigue siendo alta */
+    #lima {
+        grid-column: 3 / 5; /* CAMBIO: Ahora ocupa 2 columnas de ancho */
+        grid-row: 1 / 3;    /* Mantenemos su altura de 2 filas */
+    }
 
-/* La tarjeta marcada como 'tall' ocupará 2 filas */
-.card-tall {
-    grid-row: span 2;
-}
-
-/* Ajuste para que la imagen en las tarjetas altas cubra todo el espacio */
-.card-tall img {
-    height: 100%;
-}
-
-/* Estilo para cada tarjeta individual */
-.card {
-    position: relative; /* Clave para que el texto se posicione dentro de la tarjeta */
-    border-radius: var(--border-radius-medium);
-    overflow: hidden;
-    box-shadow: var(--box-shadow-light);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    /* Quitamos el fondo blanco, ya que ahora la imagen lo cubrirá todo */
-}
-
-/* Efecto al pasar el cursor sobre la tarjeta */
-.card:hover {
-    transform: translateY(-5px); /* La tarjeta se eleva un poco */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* La sombra se hace más pronunciada */
-}
-
-/* La imagen dentro de la tarjeta */
-.card img {
-    height: 200px; /* Altura fija para todas las imágenes */
-    width: 100%;
-    object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
-}
-
-/* El contenedor del texto de la tarjeta, ahora será una capa superpuesta */
+/* --- Estilos para el texto superpuesto (se mantienen igual) --- */
 .card-info {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     padding: 1.5rem;
-    color: var(--color-white);
     background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    text-align: left; /* <-- ¡Esta es la línea que lo soluciona! */
+    text-align: left;
 }
 .card-info h3 {
     margin: 0;
@@ -1058,35 +1102,73 @@ img {
     .hamburger::before { top: -8px; }
     .hamburger::after { bottom: -8px; }
 
-    /* El menú que se mostrará */
+    /* --- PANEL DE NAVEGACIÓN DESLIZABLE --- */
     nav {
         position: fixed;
         top: 0;
-        right: -100%; /* Empieza oculto fuera de la pantalla */
-        width: 60%;
+        right: -100%; /* Empieza oculto */
+        width: 85%;
+        max-width: 350px;
         height: 100vh;
-        background: var(--color-primary-dark);
-        padding-top: 5rem;
-        transition: right 0.3s ease-in-out;
+        background: var(--color-primary); /* Fondo azul principal */
+        padding-top: 6rem;
+        transition: right 0.4s ease-in-out;
         z-index: 1400;
+        overflow-y: auto; /* Permite scroll si el menú es muy largo */
     }
 
     nav.nav-menu-visible {
-        right: 0; /* Aparece desde la derecha */
+        right: 0; /* Muestra el panel */
     }
 
+    /* --- ENLACES DENTRO DEL PANEL MÓVIL --- */
     nav .nav-links {
-        display: flex;
-        flex-direction: column; /* Apilamos los enlaces verticalmente */
-        align-items: center;
-        gap: 2rem;
+        display: flex; /* Ahora sí mostramos los links aquí */
+        flex-direction: column;
+        align-items: flex-start; /* Alineamos a la izquierda como en tu imagen */
+        gap: 1.5rem;
+        padding: 0 2rem;
+    }
+    nav .nav-links > li {
+        width: 100%;
+    }
+    nav .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: left; /* Alineamos el texto a la izquierda */
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+    nav .nav-links a .fa-caret-down {
+        display: inline-block; /* Hacemos visible la flechita */
+    }
+    .mega-menu {
+        flex-direction: column; /* Apilamos las columnas del mega menú */
+        gap: 1rem;
     }
 
-    .dropdown-menu {
-        position: static; /* Quitamos el posicionamiento absoluto en móvil */
-        display: none; /* Lo ocultamos, se podría manejar con JS para abrirlo */
-        background: none;
-        box-shadow: none;
+    /* La clase 'active' que el JS añade para mostrar el submenú */
+    .dropdown-menu.active,
+    .mega-menu.active {
+        display: block;
+    }
+    
+    /* Títulos y enlaces del mega menú en móvil */
+    .mega-menu-heading {
+        color: #000000;
+        font-size: 0.9rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-bottom: 0.8rem;
+    }
+    .mega-menu-column ul {
+        padding-left: 1rem;
+    }
+    .mega-menu-column li a {
+        color: rgba(10, 10, 10, 0.655);
+        font-weight: 400;
+        font-size: 1rem;
+        padding: 0.5rem 0;
     }
 
     /* --- GRIDS --- */
@@ -1161,7 +1243,7 @@ img {
      /* --- SECCIÓN ALL DESTINATIONS (4 COLUMNAS EN TABLET) --- */
     .all-destinations-grid {
         grid-template-columns: repeat(4, 1fr);
-        background: #1E3888;
+        background: #ffffff;
     }
 
     /* --- SECCIÓN TOUR GUIDES (4 COLUMNAS EN TABLET) --- */
@@ -1226,35 +1308,79 @@ img {
     .hamburger::before { top: -8px; }
     .hamburger::after { bottom: -8px; }
 
-    /* El menú que se mostrará */
+    /* --- PANEL DE NAVEGACIÓN DESLIZABLE --- */
     nav {
         position: fixed;
         top: 0;
-        right: -100%; /* Empieza oculto fuera de la pantalla */
-        width: 60%;
+        right: -100%; /* Empieza oculto */
+        width: 85%;
+        max-width: 350px;
         height: 100vh;
-        background: var(--color-primary-dark);
-        padding-top: 5rem;
-        transition: right 0.3s ease-in-out;
+        background: var(--color-primary); /* Fondo azul principal */
+        padding-top: 6rem;
+        transition: right 0.4s ease-in-out;
         z-index: 1400;
+        overflow-y: auto; /* Permite scroll si el menú es muy largo */
     }
 
     nav.nav-menu-visible {
-        right: 0; /* Aparece desde la derecha */
+        right: 0; /* Muestra el panel */
     }
 
+    /* --- ENLACES DENTRO DEL PANEL MÓVIL --- */
     nav .nav-links {
-        display: flex;
-        flex-direction: column; /* Apilamos los enlaces verticalmente */
-        align-items: center;
-        gap: 2rem;
+        display: flex; /* Ahora sí mostramos los links aquí */
+        flex-direction: column;
+        align-items: flex-start; /* Alineamos a la izquierda como en tu imagen */
+        gap: 0.5rem;
+        padding: 0 2rem;
+    }
+    nav .nav-links > li {
+        width: 90%;
+    }
+    nav .nav-links a {
+        display: block;
+        width: 100%;
+        text-align: left; /* Alineamos el texto a la izquierda */
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
+    nav .nav-links a .fa-caret-down {
+        display: inline-block; /* Hacemos visible la flechita */
     }
 
-    .dropdown-menu {
-        position: static; /* Quitamos el posicionamiento absoluto en móvil */
-        display: none; /* Lo ocultamos, se podría manejar con JS para abrirlo */
-        background: none;
-        box-shadow: none;
+    .mega-menu {
+        flex-direction: column; /* Apilamos las columnas del mega menú */
+        gap: 0rem;
+        left: 20%;
+        padding: 1rem 1rem;
+        transform: translateX(-34%);
+    }
+
+    /* La clase 'active' que el JS añade para mostrar el submenú */
+    .dropdown-menu.active,
+    .mega-menu.active {
+        display: block;
+        
+    }
+    /* Títulos y enlaces del mega menú en móvil */
+    .mega-menu-heading {
+        color: #000000;
+        font-size: 0.8rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.8rem;
+        padding: 0;
+    }
+    .mega-menu-column ul {
+        padding-left: 1rem;
+    }
+    .mega-menu-column li a {
+        color: rgba(10, 10, 10, 0.655);
+        font-weight: 400;
+        font-size: 1rem;
+        padding: 0.5rem 0;
     }
     /* --- TIPOGRAFÍA --- */
     h1 { font-size: 2.5rem; }
@@ -1404,4 +1530,24 @@ img {
         margin-bottom: 1.5rem;
     }
 
+}
+
+/* --- AJUSTE FINAL PARA CELULARES MUY ANGOSTOS --- */
+@media (max-width: 450px) {
+
+    /* Seleccionamos la cuadrícula de la sección 'Top Destinations' */
+    .destinations .grid {
+        /* La convertimos a 1 sola columna para que las imágenes se apilen */
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 150px);
+    }
+
+    /* Nos aseguramos que TODAS las tarjetas ocupen el ancho completo */
+    #ica,
+    #islas-ballestas,
+    #huacachina,
+    #lima {
+        grid-column: span 1; /* Forzamos a que cada una ocupe 1 columna */
+        aspect-ratio: 16 / 10; /* Les damos una proporción horizontal agradable */
+    }
 }

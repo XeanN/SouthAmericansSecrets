@@ -1,0 +1,443 @@
+/* --- Estilos Generales y Reseteo (pueden ir en styles.css) --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.main-header {
+    background-color: #0d1e4c;
+    color: white;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav .nav-list a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 0;
+    position: relative;
+}
+
+.main-nav .nav-list a:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+}
+
+.auth-buttons .btn-login,
+.auth-buttons .btn-register {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.auth-buttons .btn-register {
+    background-color: #007bff; /* Color azul para el botón de registro */
+    border: 1px solid #007bff;
+}
+
+/* --- Estilos Específicos de la Página de Booking --- */
+.booking-page {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.go-back {
+    margin-bottom: 20px;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.btn-back span {
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.hero-image {
+    background-image: url('https://via.placeholder.com/1000x200/cccccc/000000?text=Imagen+de+Lima'); /* Placeholder, reemplaza con tu imagen real */
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px dashed #999; /* Para simular el recuadro punteado de la imagen */
+}
+
+.booking-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start; /* Para que la tarjeta de resumen no se estire */
+}
+
+.booking-details {
+    flex: 2; /* Ocupa más espacio */
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.reservation-summary-card {
+    flex: 1; /* Ocupa menos espacio */
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px dashed #999; /* Para simular el recuadro punteado */
+    position: sticky; /* Para que se mantenga visible al hacer scroll */
+    top: 20px; /* Distancia desde la parte superior */
+}
+
+.tour-title {
+    font-size: 2.2rem;
+    color: #0d1e4c;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #999; /* Simula el recuadro punteado */
+    padding-bottom: 10px;
+    display: inline-block; /* Para que el borde punteado no ocupe todo el ancho */
+}
+
+.tour-meta {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 15px;
+    padding-right: 15px; /* Para que los bordes punteados de los spans no se salgan */
+    display: inline-flex; /* Para que el borde punteado no ocupe todo el ancho */
+}
+
+.tour-meta span {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
+    border: 1px dashed #999; /* Borde punteado para cada meta */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.tour-meta span span { /* Los iconos */
+    margin-right: 5px;
+    font-size: 1.1em;
+    border: none; /* Eliminar el borde punteado del icono */
+    padding: 0;
+}
+
+
+.section-title {
+    font-size: 1.5rem;
+    color: #0d1e4c;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #999; /* Simula el recuadro punteado */
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+/* --- Calendario --- */
+.calendar-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border: 1px dashed #999;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-flex;
+}
+
+.calendar-header .month {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.calendar-header .year {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+.calendar {
+    margin-bottom: 30px;
+    border: 1px dashed #999; /* Borde punteado alrededor del calendario */
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block; /* Para que el borde punteado no ocupe todo el ancho */
+}
+
+.day-names, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.day-names span {
+    font-weight: bold;
+    color: #555;
+    padding: 5px 0;
+}
+
+.day, .empty {
+    padding: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px dashed #ccc; /* Borde punteado para cada día */
+}
+
+.day.available:hover {
+    background-color: #e0e0e0;
+}
+
+.day.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.empty {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+}
+
+/* --- Available Times --- */
+.available-times-title {
+    font-size: 1.2rem;
+    color: #0d1e4c;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.available-times {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    border: 1px dashed #999; /* Borde punteado alrededor de los botones de hora */
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-flex; /* Para que el borde no ocupe todo el ancho */
+}
+
+.time-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.time-btn:hover {
+    background-color: #d0d0d0;
+}
+
+.time-btn.selected {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* --- FAQ Section --- */
+.faq-section {
+    margin-top: 30px;
+}
+
+.faq-title {
+    font-size: 1.2rem;
+    color: #0d1e4c;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.faq-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px dashed #999;
+    border-radius: 5px;
+}
+
+.faq-item .question {
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    cursor: pointer; /* Para indicar que es clicable */
+}
+
+/* --- Reservation Summary Card --- */
+.reservation-summary-card .section-title {
+    margin-top: 0;
+    border-bottom: 1px dashed #999;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.summary-item:last-of-type {
+    border-bottom: none;
+}
+
+
+.summary-label {
+    color: #555;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+}
+
+.summary-label span {
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+.summary-value {
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+}
+
+.persons-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.persons-selector button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.persons-selector .num-persons {
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px dashed #999;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #0d1e4c;
+}
+
+.btn-continue {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s;
+}
+
+.btn-continue:hover {
+    background-color: #0056b3;
+}
+
+/* --- Estilos Adicionales para FAQ Interactivo --- */
+
+/* Por defecto, la respuesta está oculta */
+.faq-item .answer {
+    display: none; /* Oculta la respuesta */
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    color: #555;
+}
+
+/* Cuando el item tiene la clase 'active', la respuesta se muestra */
+.faq-item.active .answer {
+    display: block; /* Muestra la respuesta */
+}
+
+/* Opcional: Cambia el cursor para indicar que la pregunta es clicable */
+.faq-item .question {
+    cursor: pointer;
+    position: relative; /* Necesario para el pseudo-elemento */
+    padding-right: 20px; /* Espacio para el icono +/- */
+}
+
+/* Opcional: Agrega un icono de "+" por defecto */
+.faq-item .question::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+/* Opcional: Cambia el icono a "-" cuando está activo */
+.faq-item.active .question::after {
+    content: '−';
+}

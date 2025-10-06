@@ -92,3 +92,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addToCartBtn = document.getElementById('addToCartBtn');
+
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', () => {
+            // 1. Recoger los datos del tour desde los atributos data-*
+            const tour = {
+                id: addToCartBtn.dataset.id,
+                name: addToCartBtn.dataset.name,
+                price: parseFloat(addToCartBtn.dataset.price),
+                image: addToCartBtn.dataset.image,
+                quantity: 1 // Siempre empezamos agregando 1
+            };
+
+            // 2. Obtener el carrito actual de localStorage (o crear uno nuevo si no existe)
+            // Usamos JSON.parse para convertir el texto guardado en un objeto JavaScript
+            let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
+            // 3. Revisar si el tour ya está en el carrito
+            const existingTour = cart.find(item => item.id === tour.id);
+            if (existingTour) {
+                // Si ya existe, solo aumentamos la cantidad
+                existingTour.quantity++;
+            } else {
+                // Si es nuevo, lo añadimos al carrito
+                cart.push(tour);
+            }
+
+            // 4. Guardar el carrito actualizado de vuelta en localStorage
+            // Usamos JSON.stringify para convertir el objeto en texto antes de guardarlo
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+
+            // 5. Avisar al usuario que el producto fue agregado
+            alert(`${tour.name} ha sido añadido a tu carrito!`);
+            
+            // Opcional: Redirigir al carrito
+            // window.location.href = 'cart.html';
+        });
+    }
+});

@@ -1,0 +1,125 @@
+/* ==========================================================================
+    ESTILOS PARA LA PÁGINA DE BLOG (LISTADO DE POSTS)
+   ========================================================================== */
+
+.blog-page-container {
+    padding: 3rem 0;
+}
+
+/* Título principal "Blog" */
+.blog-main-title {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: var(--color-black);
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+/* Contenedor para cada resumen de post */
+.post-summary {
+    margin-bottom: 5rem;
+}
+
+.post-summary-content {
+    max-width: 85%; 
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* --- Estilos compartidos para el texto del post --- */
+.post-summary-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--color-black);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.post-summary-meta {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.post-summary-excerpt p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+}
+
+.post-summary-quote {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--color-text-primary);
+    margin-top: 2rem;
+}
+
+/* ==========================================================================
+    DISEÑO ALTERNADO PARA ESCRITORIO Y TABLET
+   ========================================================================== */
+
+@media (min-width: 769px) {
+    /* --- Estilo por defecto (IZQUIERDA) --- */
+    .post-summary.layout-left .post-summary-title,
+    .post-summary.layout-left .post-summary-meta,
+    .post-summary.layout-left .post-summary-excerpt p {
+        text-align: left;
+    }
+
+    .post-summary.layout-left .post-summary-quote {
+        max-width: 70%;
+        margin-left: auto;
+        margin-right: 0;
+        text-align: right;
+    }
+
+    /* --- Estilo para el layout alterno (DERECHA) --- */
+    .post-summary.layout-right .post-summary-title,
+    .post-summary.layout-right .post-summary-meta,
+    .post-summary.layout-right .post-summary-excerpt p {
+        text-align: right;
+    }
+
+    .post-summary.layout-right .post-summary-quote {
+        max-width: 70%;
+        margin-left: 0;
+        margin-right: auto;
+        text-align: left;
+    }
+}
+
+/* ==========================================================================
+    AJUSTES PARA MÓVILES (CORREGIDO)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .blog-main-title {
+        font-size: 2.8rem;
+        margin-bottom: 3rem;
+    }
+
+    /* Título de cada post: Forzamos el centrado */
+    .post-summary.layout-left .post-summary-title,
+    .post-summary.layout-right .post-summary-title {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    /* Fecha/autor y párrafos: Forzamos alineación a la izquierda */
+    .post-summary.layout-left .post-summary-meta,
+    .post-summary.layout-right .post-summary-meta,
+    .post-summary.layout-left .post-summary-excerpt p,
+    .post-summary.layout-right .post-summary-excerpt p {
+        text-align: left;
+    }
+
+    /* Cita destacada: Forzamos el centrado */
+    .post-summary.layout-left .post-summary-quote,
+    .post-summary.layout-right .post-summary-quote {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+}
