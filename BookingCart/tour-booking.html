@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Booking Tour</title>
+
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/tour-booking.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <a href="../index.html" class="logo">
+            <img src="../assets/img/logoN.png" alt="South Americans Secrets Logo">
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="../tours.html">Tours & Activities <i class="fa fa-caret-down"></i></a>
+                    <div class="dropdown-menu mega-menu">
+                    </div>
+                </li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="../login.html" class="btn login">Login</a>
+            <a href="../register.html" class="btn register">Register</a>
+            <a href="../cart.html" class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </a>
+        </div>
+    </header>
+
+    <main class="booking-page">
+        <div class="go-back">
+            <a href="#" class="btn-back"><span>&lt;</span> Go back to tours</a>
+        </div>
+
+        <div class="hero-image"></div>
+
+        <section class="booking-container">
+            <div class="booking-details">
+
+                <h2 class="section-title">Select Date and Time</h2>
+                
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prev-month-btn">&lt;</button>
+                    
+                    <div>
+                        <span class="month" id="calendar-month"></span>
+                        <span class="year" id="calendar-year"></span>
+                    </div>
+                    
+                    <button class="calendar-nav" id="next-month-btn">&gt;</button>
+                </div>
+                
+                <div class="calendar">
+                    <div class="day-names">
+                        <span>MO</span>
+                        <span>TU</span>
+                        <span>WE</span>
+                        <span>TH</span>
+                        <span>FR</span>
+                        <span>SA</span>
+                        <span>SU</span>
+                    </div>
+                    <div class="days" id="calendar-days"></div>
+                </div>
+                <h3 class="available-times-title">Available Times:</h3>
+                <div class="available-times">
+                    <button class="time-btn selected">08:00 AM</button>
+                    <button class="time-btn">10:00 AM</button>
+                    <button class="time-btn">12:00 PM</button>
+                    <button class="time-btn">02:00 PM</button>
+                </div>
+            </div>
+
+            <aside class="reservation-summary-card">
+                <h1 class="tour-title"></h1> 
+                
+                <div class="tour-meta">
+                    <span class="duration"></span>
+                    <span class="rating"></span>
+                </div>
+                
+                <h2 class="section-title">Reservation Summary</h2>
+                
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#9200;</span> Date</span>
+                    <span class="summary-value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#9200;</span> Time</span>
+                    <span class="summary-value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#x1F464;</span> Persons</span>
+                    <div class="persons-selector">
+                        <button class="decrease-person">-</button>
+                        <span class="num-persons"></span>
+                        <button class="increase-person">+</button>
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-value"></span>
+                </div>
+                
+                <button class="btn-continue">Continue</button>
+            </aside>
+
+            <div class="faq-section">
+                <h3 class="faq-title">Frequently Asked Questions</h3>
+                <div id="faq-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/toursData.js"></script> 
+    <script src="../assets/js/tour-booking.js"></script>
+</body>
+</html>

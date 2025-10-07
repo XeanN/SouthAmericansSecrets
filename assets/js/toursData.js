@@ -5,7 +5,7 @@ const toursData = {
         minPersons: 2,
         duration: "4 Hours",
         rating: "4.9 (120 reviews)",
-        image: "../../assets/img/tours/lima-city.jpg" // Asegúrate de que esta ruta de imagen sea correcta
+        image: "../assets/img/machu_picchu_p.jpg" // Asegúrate de que esta ruta de imagen sea correcta
     },
     "nazca-lines-flight": {
         title: "Nazca Lines Flight From Pisco",

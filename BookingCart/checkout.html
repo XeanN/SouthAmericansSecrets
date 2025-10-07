@@ -1,21 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart | South Americans Secrets</title>
-    
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/cart.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Confirm and Pay</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/checkout.css"> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header class="header">
         <a href="index.html" class="logo">
-            <img src="assets/img/logoN.png" alt="South Americans Secrets Logo">
+            <img src="../assets/img/logoN.png" alt="South Americans Secrets Logo">
         </a>
 
         <button class="nav-toggle" aria-label="Abrir menú">
@@ -82,52 +77,64 @@
         <div class="auth-buttons">
             <a href="login.html" class="btn login">Login</a>
             <a href="register.html" class="btn register">Register</a>
-            <a href="cart.html" class="cart-icon">
-                <i class="fa-solid fa-cart-shopping"></i>
             </a>
         </div>
     </header>
 
-    <main>
-        <div class="cart-container container">
-            
-            <div class="cart-header">
-                <div class="header-item">Item</div>
-                <div class="header-price">Price</div>
-                <div class="header-quantity">Quantity</div>
-                <div class="header-subtotal">Subtotal</div>
-                <div class="header-remove">Remove</div>
-            </div>
+    <main class="checkout-page">
+        <div class="checkout-container">
+            <div class="checkout-details">
+                <h1 class="checkout-title">Confirm and pay</h1>
 
-            <div class="cart-items" id="cart-items-container">
-                </div>
+                <form id="payment-form">
+                    <section>
+                        <h2 class="section-title">Payment method</h2>
+                        <div class="form-group">
+                            <input type="text" id="card-number" placeholder="Card number" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="expiry-date" placeholder="MM/YY" required>
+                            <input type="text" id="cvc" placeholder="CVC" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="name-on-card" placeholder="Name on card" required>
+                        </div>
+                    </section>
 
-            <div class="cart-summary">
-                <div class="coupon-section">
-                    <input type="text" placeholder="Enter Coupon Code">
-                    <button class="btn-apply-coupon">Apply Coupon</button>
-                </div>
-
-                <div class="totals-section">
-                    <div class="totals-row">
-                        <span>Subtotal</span>
-                        <span id="cart-subtotal">$0.00</span>
+                    <section>
+                        <h2 class="section-title">Billing Address</h2>
+                        <div class="form-group">
+                            <input type="text" id="address" placeholder="Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="city" placeholder="City" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="state" placeholder="State" required>
+                            <input type="text" id="zip-code" placeholder="Zip Code" required>
+                        </div>
+                    </section>
+                </form>
+                
+                <section class="trip-summary">
+                    <h2 class="section-title">Your trip</h2>
+                    <div class="trip-details">
+                        <p id="tour-name"></p>
+                        <p id="tour-date-time"></p>
                     </div>
-                    <div class="totals-row">
-                        <span>Fee</span>
-                        <span>$0.00</span>
-                    </div>
-                    <div class="totals-row total-line">
+                    <div class="trip-total">
                         <span>Total</span>
-                        <span id="cart-total">$0.00</span>
+                        <span id="total-price">$55</span>
                     </div>
-                    <div class="cart-actions">
-                        <button class="btn-update">Update</button>
-                        <button class="btn-checkout">Checkout</button>
-                    </div>
-                </div>
+                </section>
+
+                <button type="submit" form="payment-form" class="btn-confirm">Confirm and pay</button>
+
             </div>
 
+            <div class="checkout-image-container">
+                <img id="tour-image" src="" alt="Tour Image">
+            </div>
         </div>
     </main>
 
@@ -146,8 +153,8 @@
         <p>© Copyright 2025 SouthAmericansSecrets.com</p>
         </div>
     </footer>
-    <script src="assets/js/cart.js"></script>
-    <script src="assets/js/tour.js"></script>
-</body>
-</body>
+
+        <script src="../assets/js/checkout.js"></script> </body>
+        
+    </body>
 </html>
