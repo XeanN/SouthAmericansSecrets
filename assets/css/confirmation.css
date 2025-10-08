@@ -3,10 +3,9 @@
 /* ======================================================= */
 
 .confirmation-page {
-    max-width: 1200px;
     margin: 0 auto;
     /* Ajustamos el padding para dar espacio arriba y abajo */
-    padding: 50px 20px; 
+    padding: 50px 75px; 
     text-align: center;
 }
 
@@ -28,8 +27,8 @@
 .subtitle {
     font-size: 1.1rem;
     color: #555;
-    margin-bottom: 50px;
-    max-width: 700px;
+    margin-bottom: 60px;
+    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
@@ -42,9 +41,9 @@
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    padding: 30px;
+    /*padding: 30px;*/
     margin: 0 auto 60px auto; /* Centra y da espacio */
-    max-width: 700px; /* Ancho máximo para la tarjeta */
+    /*max-width: 700px; /* Ancho máximo para la tarjeta */
     gap: 30px; /* Espacio entre el texto y la imagen */
 }
 
@@ -56,13 +55,14 @@
 .detail-item {
     display: flex;
     align-items: baseline;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
+    text-align: left
 }
 
 .detail-item .label {
     font-weight: 600;
     color: #0d1e4c;
-    min-width: 100px; /* Alinea los valores */
+    /*min-width: 100px; /* Alinea los valores */
     margin-right: 15px;
     font-size: 1.1rem;
 }
@@ -71,12 +71,13 @@
     color: #333;
     font-size: 1.1rem;
     flex-grow: 1;
+    text-align: left;
 }
 
 .image-container {
     flex-shrink: 0; /* Evita que la imagen se encoja */
-    width: 200px; /* Tamaño de la imagen pequeña */
-    height: 150px;
+    width: 320px; /* Tamaño de la imagen pequeña */
+    height: 160px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -105,15 +106,23 @@
     text-decoration: underline;
 }
 
-/* --- Responsive para Celulares --- */
-@media (max-width: 768px) {
+/* --- Responsive para tblets --- */
+/* Cambiamos el límite a 900px para que las tablets no se vean afectadas */
+@media (max-width: 956px) {
+
+    .confirmation-page {
+    margin: 0 auto;
+    /* Ajustamos el padding para dar espacio arriba y abajo */
+    padding: 50px 40px; 
+    text-align: center;
+    }   
     .main-title {
         font-size: 2.5rem;
     }
 
     .subtitle {
-        font-size: 1rem;
-        margin-bottom: 30px;
+        font-size: 0.9rem;
+        margin-bottom: 50px;
     }
 
     .hero-confirmation-image {
@@ -122,20 +131,20 @@
     }
 
     .booking-details-card {
-        flex-direction: column; /* Apila los elementos */
+        /*flex-direction: column; /* Apila los elementos */
         align-items: center; /* Centra verticalmente */
         padding: 20px;
         gap: 20px;
     }
 
     .text-details {
-        text-align: center;
+        text-align: left;
     }
 
     .detail-item {
-        flex-direction: column; /* Apila label y value */
+        /*flex-direction: column; /* Apila label y value */
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
     }
 
     .detail-item .label {
@@ -143,15 +152,80 @@
         margin-right: 0;
         margin-bottom: 5px;
         font-size: 1rem;
+        margin-right: 8px;
     }
 
     .detail-item .value {
         font-size: 1rem;
-        text-align: center;
     }
 
     .image-container {
         width: 180px;
-        height: 130px;
+        height: 150px;
+    }
+}
+
+/* ======================================================= */
+/* --- Estilos para Celular (Nuevo Diseño de Confirmación) --- */
+/* ======================================================= */
+@media (max-width: 600px) {
+
+    /* --- TAMAÑO DE LETRAS (Para que puedas regularlas) --- */
+    .main-title {
+        font-size: 2.2rem; /* Título "Thank you..." */
+        margin-bottom: 35px;
+    }
+    .detail-item .label,
+    .detail-item .value {
+        font-size: 1rem;  /* Textos como "Booking:", "#1588255", etc. */
+    }
+    .contact-info {
+        font-size: 0.9rem; /* Párrafo final de contacto */
+    }
+    /* --------------------------------------------------- */
+
+
+    /* --- Ocultamos y "rompemos" elementos --- */
+    .subtitle {
+        display: none; /* Ocultamos el subtítulo que ya no se usa */
+    }
+    .booking-details-card,
+    .text-details {
+        display: contents; /* "Rompemos" la tarjeta para liberar su contenido */
+    }
+
+
+    /* --- Nuevo Estilo para los Detalles --- */
+    .detail-item {
+        display: block;      /* Ya no usamos Flexbox aquí */
+        text-align: left;    /* Alineamos el texto a la izquierda */
+        margin-bottom: 25px; /* Espacio entre cada detalle */
+    }
+    .detail-item .label {
+        font-weight: 600;
+        color: #0d1e4c;
+        display: block;      /* El label (ej: "Booking:") ocupa su propia línea */
+        margin-bottom: 5px;
+    }
+    .detail-item .value {
+        display: block;      /* El valor (ej: "#1588255") ocupa su propia línea */
+    }
+    
+    /* --- Posición de la Imagen del Tour --- */
+    .image-container {
+        order: 10; /* Usamos 'order' para mandarla después de los detalles de texto */
+        width: 100%;
+        height: 120px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+        border-radius: 12px; /* Mantenemos el borde redondeado */
+    }
+    
+    /* Ajustes generales para el espaciado en celular */
+    .hero-confirmation-image {
+        height: 200px;
+    }
+    .confirmation-page {
+        padding: 30px 20px;
     }
 }
