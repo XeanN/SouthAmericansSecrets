@@ -1,0 +1,620 @@
+/* --- Estilos Generales y Reseteo --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+/* --- Estilos Específicos de la Página de Booking --- */
+.booking-page {
+    /* CAMBIO: Aumenté el valor a 98vw para que ocupe casi todo el ancho de la pantalla. */
+    max-width: 98vw; 
+    margin: 20px 40px; /* Aumenté el margen superior para más aire */
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.go-back {
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #555;
+    display: inline-flex;
+    align-items: center;
+}
+
+.go-back::before {
+    content: '<';
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+
+.hero-image {
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+/* ======================================================= */
+/* --- NUEVO LAYOUT DE ESCRITORIO CON CSS GRID --- */
+/* ======================================================= */
+
+.booking-container {
+    display: grid;
+    /* Creamos dos columnas: una flexible a la izq. y una de 500px a la der. */
+    grid-template-columns: 1fr 1fr;  
+    align-items: flex-start;
+    gap: 100px;
+}
+
+.booking-details {
+    /* Le decimos que ocupe la primera columna */
+    grid-column: 1 / 2;
+}
+
+.reservation-summary-card {
+    /* Le decimos que ocupe la segunda columna */
+    grid-column: 2 / 3;
+    
+    /* Y le devolvemos el efecto 'sticky' que habías comentado */
+    position: -webkit-sticky;
+    top: 20px; 
+}
+
+.faq-section {
+    /* Le decimos que también ocupe la primera columna (debajo de los detalles) */
+    grid-column: 1 / 2;
+}
+
+.reservation-summary-card {
+    flex-basis: 500px; /* Un ancho fijo para la tarjeta de resumen */
+    flex-shrink: 0; /* Evita que la tarjeta se encoja */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(255, 254, 254, 0.08);
+    padding: 25px; /* Un padding consistente */
+    padding-top: 0;
+    flex: 1; /* Le dice a ESTA columna que también ocupe el 50% del espacio */
+
+    /* --- ESTA ES LA PARTE IMPORTANTE --- */
+    /*position: -webkit-sticky; /* Para Safari */
+    /*position: sticky;*/
+    top: 20px; /* La distancia donde se va a "pegar" */
+}
+
+/* Ajustes para el título y la info del tour DENTRO de la tarjeta de resumen */
+.reservation-summary-card .tour-title {
+    font-size: 3rem;
+    font-family: "DM Serif Display"; 
+    color: #0d1e4c;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.reservation-summary-card .tour-meta {
+    display: flex;
+    gap: 130px;
+    margin-bottom: 25px;
+    padding-bottom: 25px; 
+    border-bottom: 1px solid #ffffff;
+}
+
+.tour-meta span {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.tour-meta .icon { 
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #0d1e4c;
+    margin-top: 10;
+    margin-bottom: 30px;
+}
+
+/* Apunta específicamente al primer título ("Select Date and Time") 
+   dentro de la columna de la izquierda para no afectar otros títulos. */
+.booking-details > .section-title:first-of-type {
+    margin-top: 25px; 
+}
+
+.reservation-summary-card > .section-title:first-of-type {
+    margin-top: 25px; 
+    margin-bottom: 35px; 
+}
+
+
+/* --- Calendario --- */
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* <-- ESTA LÍNEA CENTRA TODO HORIZONTALMENTE */
+    gap: 15px;               /* Opcional: Aumenta el espacio entre las flechas y el texto */
+    margin-bottom: 40px;
+}
+
+.calendar-header .month-year {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.calendar {
+    margin-bottom: 40px;
+}
+
+.day-names, .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    text-align: center;
+}
+
+.day-names span {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.day {
+    padding: 12px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.day.disabled {
+    color: #ccc;
+    cursor: default;
+    background-color: #f9f9f9;
+}
+
+.day:not(.disabled):hover {
+    background-color: #f0f0f0;
+}
+
+.day.selected {
+    background-color: #0d1e4c;
+    color: white;
+    border-color: #0d1e4c;
+}
+
+.empty {
+    border: none;
+    cursor: default;
+}
+
+/* --- Available Times --- */
+.available-times-container {
+    margin-bottom: 40px;
+}
+
+.available-times-title {
+    font-size: 1.2rem;
+    color: #0d1e4c;
+    margin-bottom: 15px;
+}
+
+.available-times {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.time-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.time-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+.time-btn.selected {
+    background-color: #0d1e4c;
+    color: white;
+    border-color: #0d1e4c;
+}
+
+/* --- FAQ Section --- */
+.faq-section {
+    margin-top: 30px;
+}
+
+.faq-title {
+    font-size: 1.2rem;
+    color: #0d1e4c;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-item {
+    margin-bottom: 5px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-item .question {
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+/* --- Reservation Summary Card --- */
+.summary-title {
+    font-size: 1.5rem;
+    color: #0d1e4c;
+    margin-top: 0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.summary-label {
+    color: #555;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.summary-label .icon {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.summary-value {
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+}
+
+.persons-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.persons-selector button {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+}
+
+.persons-selector .num-persons {
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0d1e4c;
+}
+
+.btn-continue {
+    /* CAMBIO: Se quita el ancho completo para poder alinearlo */
+    width: auto; 
+    /* CAMBIO: Estas líneas mueven el botón a la derecha */
+    display: block;
+    margin-left: auto;
+    margin-right: 0; /* Aseguramos que no haya margen a la derecha */
+    width: 50%;
+
+    background-color: #0d1e4c; 
+    color: white;
+    border: none;
+    padding: 16px 35px; /* Un poco más de padding horizontal */
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: background-color 0.2s;
+}
+
+.btn-continue:hover {
+    background-color: #001a3a;
+}
+
+/* /assets/css/tour-booking.css */
+
+/* Contenedor principal de las FAQs */
+.faq-section {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.faq-title {
+    margin-bottom: 20px;
+}
+
+/* Estilo para cada par de pregunta y respuesta */
+.faq-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+
+/* Estilo para la pregunta (la haremos un botón para la interactividad) */
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+}
+
+/* Icono '+' que se mostrará a la derecha */
+.faq-question::after {
+    content: '+';
+    font-size: 24px;
+    font-weight: 300;
+    color: #007bff;
+    transition: transform 0.3s ease;
+}
+
+/* Estilo para la respuesta, oculta por defecto */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    padding: 0 10px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- ESTILOS PARA CUANDO ESTÁ ACTIVO --- */
+
+/* Cuando el item está activo, el icono '+' rota para ser un 'x' o '-' */
+.faq-item.active .faq-question::after {
+    content: '−'; /* O puedes usar '×' */
+    transform: rotate(180deg);
+}
+
+/* Cuando el item está activo, la respuesta se expande */
+.faq-item.active .faq-answer {
+    max-height: 200px; /* Un valor suficientemente grande */
+    padding: 15px 10px;
+}
+
+/* --- Arreglo para Position: Sticky --- */
+/* Esto anula cualquier 'overflow: hidden' que pueda estar en el body o html */
+/* y que interfiere con el funcionamiento de position: sticky. */
+html, body {
+    overflow-x: visible !important;
+}
+
+/* ======================================================= */
+/* --- Layout Principal (para PC / Desktop) --- */
+/* ======================================================= */
+
+.booking-container {
+    display: grid;
+    /* Dos columnas de igual fracción (mitad y mitad) */
+    grid-template-columns: 1fr 1fr; 
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.booking-details {
+    /* Ocupa la primera columna */
+    grid-column: 1 / 2;
+}
+
+.reservation-summary-card {
+    /* Ocupa la segunda columna */
+    grid-column: 2 / 3;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20px;
+}
+
+.faq-section {
+    /* También ocupa la primera columna (debajo de los detalles) */
+    grid-column: 1 / 2;
+}
+
+
+/* ======================================================= */
+/* --- Layout Principal (para PC / Desktop) --- */
+/* ======================================================= */
+
+.booking-container {
+    display: grid;
+    /* Dos columnas de igual fracción (mitad y mitad) */
+    grid-template-columns: 1fr 1fr; 
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.booking-details {
+    /* Ocupa la primera columna */
+    grid-column: 1 / 2;
+}
+
+.reservation-summary-card {
+    /* Ocupa la segunda columna */
+    grid-column: 2 / 3;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 20px;
+}
+
+.faq-section {
+    /* También ocupa la primera columna (debajo de los detalles) */
+    grid-column: 1 / 2;
+}
+
+
+/* ======================================================= */
+/* --- Layout Adaptable (para Tablet / Una Columna) --- */
+/* ======================================================= */
+@media (max-width: 1024px) {
+
+    .booking-page {
+    /* Hacemos que el contenido ocupe el 90% de la pantalla */
+    width: 100%; 
+    /* Ponemos un límite para que no se estire demasiado en tablets horizontales */
+    max-width: 700px; 
+    
+    /* Mantenemos el centrado y los paddings ajustados */
+    margin: -10px auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+    .booking-container {
+        /* Cambiamos a Flexbox para reordenar fácilmente */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Asignamos un orden numérico a cada bloque */
+    .booking-details {
+        order: 1; /* Aparecerá primero */
+        width: 100%;
+        justify-content: center;
+        
+
+    }
+    
+    .reservation-summary-card {
+        position: static; /* Desactivamos el efecto 'sticky' */
+        order: 2; /* Aparecerá segundo */
+        margin-top: 40px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .faq-section {
+        order: 3; /* Aparecerá tercero (al final) */
+        margin-top: 40px;
+        
+    }
+}
+
+/* ======================================================= */
+/* --- Estilos para Celulares (Más Compacto) --- */
+/* ======================================================= */
+@media (max-width: 768px) {
+
+    /* --- Ajustes Generales de Espaciado --- */
+    .booking-page {
+        /* Reducimos los márgenes y paddings generales de la página */
+        margin: 15px auto;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .hero-image {
+        /* Hacemos la imagen de cabecera más pequeña */
+        height: 180px;
+    }
+    
+    .booking-container {
+        /* Reducimos el espacio entre secciones */
+        gap: 25px;
+    }
+
+    /* --- Ajustes de Tipografía (Textos más pequeños) --- */
+    .reservation-summary-card .tour-title {
+        font-size: 2rem; /* Título principal del tour */
+    }
+
+    .section-title {
+        font-size: 1.2rem; /* Títulos como "Select Date and Time" */
+        margin-bottom: 20px;
+    }
+
+    /* --- Ajustes del Calendario --- */
+    .calendar-header {
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+    
+    .day-names, .days {
+        /* Reducimos el espacio entre los días */
+        gap: 5px;
+    }
+
+    .day {
+        /* Hacemos los botones de los días más pequeños */
+        padding: 8px 4px;
+        font-size: 0.85rem;
+    }
+
+    /* --- Ajustes de Botones --- */
+    .available-times {
+        gap: 10px;
+    }
+
+    .time-btn {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .btn-continue {
+        /* Hacemos que el botón ocupe todo el ancho para que sea fácil de presionar */
+        width: 100%;
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
+    .reservation-summary-card,
+    .faq-section {
+        /* Reducimos el margen superior en la vista de celular */
+        margin-top: 30px;
+    }
+}

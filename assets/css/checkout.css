@@ -1,0 +1,266 @@
+body {
+    background-color: #f8f8f8;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    margin: 0;
+}
+
+.checkout-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.checkout-container {
+    display: flex;
+    max-width: 1100px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.checkout-image-container{
+    padding: 1px;
+}
+
+.checkout-details {
+    flex: 1;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.checkout-image-container {
+    flex-basis: 45%;
+    display: none; /* Oculto por defecto, solo visible en pantallas grandes */
+}
+
+.checkout-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.checkout-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    margin-top: 3px;
+    margin-bottom: 70px;
+    color: #000;
+}
+
+.section-title {
+    font-family: "Open Sans";
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    color: #000;
+}
+
+.trip-summary .section-title {
+    font-size: 2.5rem; /* Puedes ajustar este valor como prefieras */
+    border-bottom: none; /* Opcional: quita la línea de abajo si ya no la quieres */
+}
+
+.form-group, .form-row {
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row input {
+    width: 100%;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #0d1e4c;
+}
+
+.trip-summary {
+    margin-top: 40px;
+}
+
+.trip-details p {
+    margin: 5px 0;
+    color: #000;
+}
+
+#tour-name {
+    font-weight: 600;
+}
+#tour-date-time {
+    font-size: 0.9rem;
+    color: #000000;
+}
+
+.trip-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #0b0b0b;
+}
+
+.btn-confirm {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    width: 50%;
+    background-color: #0d1e4c;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.2s;
+}
+
+.btn-confirm:hover {
+    background-color: #001a3a;
+}
+.checkout-image-container {
+    display: block; /* Muestra la imagen en pantallas grandes */
+}
+
+
+/* ======================================================= */
+/* --- Estilos para Tablet (Checkout con Imagen Arriba) --- */
+/* ======================================================= */
+@media (max-width: 992px) {
+
+    .checkout-page {
+        padding: 30px 20px;
+    }
+
+    /* 1. Convertimos el contenedor en una parrilla (Grid) */
+    .checkout-container {
+        display: grid;
+        /* Dos columnas: una flexible y una que se ajusta a la imagen */
+        grid-template-columns: 1fr auto; 
+        /* Dos filas: una para el título/imagen, la otra para el resto */
+        grid-template-rows: auto 1fr;    
+        gap: 0 30px; /* Solo espacio horizontal entre columnas */
+        box-shadow: none;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    /* 2. "Rompemos" la caja de la izquierda para controlar sus hijos */
+    .checkout-details {
+        display: contents;
+    }
+
+    /* 3. Colocamos cada pieza en su lugar de la parrilla */
+
+    .checkout-title {
+        grid-column: 1 / 2; /* Va en la primera columna */
+        grid-row: 1 / 2;    /* Va en la primera fila */
+        align-self: center; /* Lo centramos verticalmente con la imagen */
+        font-size: 2.2rem;
+        margin-bottom: 40px; /* Espacio antes del formulario */
+    }
+
+    .checkout-image-container {
+        display: block;
+        grid-column: 2 / 3; /* Va en la segunda columna */
+        grid-row: 1 / 2;    /* También va en la primera fila */
+        width: 450px;       /* Ancho fijo para la imagen en tablet */
+        height: auto;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    
+    /* 4. El resto de los elementos ocuparán todo el ancho en las filas de abajo */
+    #payment-form,
+    .trip-summary,
+    .btn-confirm {
+        grid-column: 1 / -1; /* Ocupa TODAS las columnas (de la 1 a la última) */
+    }
+    
+    /* Reseteamos el 'order' que ya no necesitamos */
+    #payment-form, .trip-summary, .btn-confirm {
+        order: initial;
+    }
+}
+
+/* ======================================================= */
+/* --- Estilos para Celular (Checkout) --- */
+/* ======================================================= */
+@media (max-width: 768px) {
+
+    .checkout-page {
+        padding: 20px 15px; /* Menos padding en los lados */
+    }
+
+    .checkout-container {
+        /* En celular, Flexbox es más simple para una sola columna */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Mantenemos el truco 'display: contents' para poder reordenar */
+    .checkout-details {
+        display: contents;
+    }
+
+    /* --- Asignamos el NUEVO orden para celulares --- */
+
+    .checkout-image-container {
+        order: 1; /* Posición 1: La imagen va arriba del todo */
+        width: 100%; /* Ocupa todo el ancho */
+        margin-top: 0; /* Quitamos el margen de la vista de tablet */
+        margin-bottom: 25px;
+        height: 180px; /* Una altura adecuada para la imagen en celular */
+    }
+
+    .checkout-title {
+        order: 2; /* Posición 2: El título va después de la imagen */
+        font-size: 1.8rem; /* Hacemos el título un poco más pequeño */
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    #payment-form {
+        order: 3; /* El resto sigue en orden */
+    }
+
+    .trip-summary {
+        order: 4;
+    }
+
+    .btn-confirm {
+        order: 5;
+    }
+
+    /* Ajustes menores de espaciado y texto para celulares */
+    .section-title {
+        font-size: 1.1rem;
+    }
+
+    .trip-total {
+        font-size: 1.3rem;
+    }
+}

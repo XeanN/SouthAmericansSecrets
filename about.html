@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="assets/css/aboutStyles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- HEADER -->
+    <!-- HEADER -->
 
-  <header class="header">
+    <header class="header">
         <a href="index.html" class="logo">
             <img src="assets/img/logoN.png" alt="South Americans Secrets Logo">
         </a>
@@ -27,13 +28,36 @@
                 <li><a href="index.html">Home</a></li>
                 
                 <li class="dropdown">
-                    <a href="#">Tours & Activities <i class="fa fa-caret-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Full Day</a></li>
-                        <li><a href="#">Half Day</a></li>
-                    </ul>
+                    <a href="toursIndex/tours.html">Tours & Activities <i class="fa fa-caret-down"></i></a>
+                    
+                    <div class="dropdown-menu mega-menu">
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">Coast of Peru</h4>
+                            <ul>
+                                <li><a href="toursIndex/Lima.html">Lima</a></li>
+                                <li><a href="toursIndex/ParacasyIslasBallestas.html">Paracas & Islas Ballestas</a></li>
+                                <li><a href="toursIndex/ica-huacachina.html">Ica & Huacachina</a></li>
+                                <li><a href="toursIndex/NazcaLines.html">Nazca Lines</a></li>
+                                <li><a href="toursIndex/NorthCoast.html">North Coast</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">The Highlands</h4>
+                            <ul>
+                                <li><a href="#">Arequipa</a></li>
+                                <li><a href="#">Lake Titicaca</a></li>
+                                <li><a href="#">Cuzco</a></li>
+                            </ul>
+                        </div>
+                        <div class="mega-menu-column">
+                            <h4 class="mega-menu-heading">Rainforest</h4>
+                            <ul>
+                                <li><a href="#">Tambopata Rainforest</a></li>
+                                <li><a href="#">Manu Reserve</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
-                
                 <li class="dropdown">
                     <a href="#">Shore Excursions <i class="fa fa-caret-down"></i></a>
                     <ul class="dropdown-menu">
@@ -50,7 +74,7 @@
                     </ul>
                 </li>
                 
-                <li><a href="#">Blog</a></li>
+                <li><a href="blog/post.html">Blog</a></li>
                 <li><a href="about.html">About us</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -62,79 +86,79 @@
         </div>
     </header>
 
-  <!-- HERO SECTION -->
-  <main>
-      <section class="about-hero">
-          <img src="assets/img/Imagen_About.jpg" alt="Barcos en la bahía de Paracas" class="about-hero-bg">
-          <div class="about-hero-text">
-              <h1>About Us</h1>
-          </div>
-      </section>
-
-      <section class="about-content">
-          <div class="container">
-              <h2 class="about-title">
-                  South Americans' Secrets is a company focused on tourism and founded by expert guides of Peru.
-              </h2>
-              <p>
-                  We are the most versatile tour guides on the south coast of Peru, operating directly in Paracas, Nazca, and Arequipa. We are also based in Cusco, ready to serve with a professional team dedicated to both customers and foreign travel agents. Our knowledgeable staff carefully monitors every arrival and departure, responding to customer needs with confidence and courtesy.
-              </p>
-              <p>
-                  Founded in 2002, South Americans' Secrets is committed to creating memorable experiences for all travelers. Our mission is to build trust and friendship with our guests, ensuring sustainable and inclusive tourism through social and environmental responsibility. We listen to our customers' needs, offering custom programs, private travel, fixed departures, regional activities, and special interest tours.              </p>
-          </div>
-      </section>
-
-      <section class="our-team">
-        <div class="container">
-          <h2 class="section-title">Our Team</h2>
-
-          <div class="team-grid" id="teamGrid">
+    <!-- HERO SECTION -->
+    <main>
+        <section class="about-hero">
+            <img src="assets/img/Imagen_About.jpg" alt="Barcos en la bahía de Paracas" class="about-hero-bg">
+            <div class="about-hero-text">
+                <h1>About Us</h1>
             </div>
-        </div>
-      </section>
-
-      <section class="certificates">
-          <div class="container">
-            <h2 class="section-title">Certificates of Excellence</h2>
-        
-            <div class="certificates-logos">
-              <img src="assets/img/image 12.png" alt="US EPA Certified" />
-              <img src="assets/img/Tria_About.gif" alt="Tripadvisor Travellers Choice" />
-              <img src="assets/img/Positiva_About.png" alt="La Positiva Seguros" />
-              <img src="assets/img/logo2.png" alt="Ultra Low Emission" />
-            </div>
-        
-            <p class="certificates-text">
-              South Americans' Secrets was established in 2002 with the mission to create memorable experiences for all travelers alike. 
-              Sixteen years after, we won the Tripadvisor certificate of excellence. All our ships have US EPA certificate, ranked as ultra-low emissions. 
-              Our client is the priority; every boat trip customer is insured with Positiva Seguros.
-            </p>
-          </div>
         </section>
 
-    </div> </main>
+        <section class="about-content">
+            <div class="container">
+                <h2 class="about-title">
+                    South Americans' Secrets is a company focused on tourism and founded by expert guides of Peru.
+                </h2>
+                <p>
+                    We are the most versatile tour guides on the south coast of Peru, operating directly in Paracas, Nazca, and Arequipa. We are also based in Cusco, ready to serve with a professional team dedicated to both customers and foreign travel agents. Our knowledgeable staff carefully monitors every arrival and departure, responding to customer needs with confidence and courtesy.
+                </p>
+                <p>
+                    Founded in 2002, South Americans' Secrets is committed to creating memorable experiences for all travelers. Our mission is to build trust and friendship with our guests, ensuring sustainable and inclusive tourism through social and environmental responsibility. We listen to our customers' needs, offering custom programs, private travel, fixed departures, regional activities, and special interest tours.              </p>
+            </div>
+        </section>
 
-  </main>
+        <section class="our-team">
+            <div class="container">
+            <h2 class="section-title">Our Team</h2>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-  <div class="footer-content">
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="blog/index.html">Blog</a>
-      <a href="about.html">About us</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+            <div class="team-grid" id="teamGrid">
+                </div>
+            </div>
+        </section>
 
-    <!-- Línea divisoria -->
-    <div class="divider"></div>
+        <section class="certificates">
+            <div class="container">
+                <h2 class="section-title">Certificates of Excellence</h2>
+            
+                <div class="certificates-logos">
+                <img src="assets/img/image 12.png" alt="US EPA Certified" />
+                <img src="assets/img/Tria_About.gif" alt="Tripadvisor Travellers Choice" />
+                <img src="assets/img/Positiva_About.png" alt="La Positiva Seguros" />
+                <img src="assets/img/logo2.png" alt="Ultra Low Emission" />
+                </div>
+            
+                <p class="certificates-text">
+                South Americans' Secrets was established in 2002 with the mission to create memorable experiences for all travelers alike. 
+                Sixteen years after, we won the Tripadvisor certificate of excellence. All our ships have US EPA certificate, ranked as ultra-low emissions. 
+                Our client is the priority; every boat trip customer is insured with Positiva Seguros.
+                </p>
+            </div>
+            </section>
 
-    <p>© Copyright 2025 SouthAmericansSecrets.com</p>
-  </div>
-</footer>
-  <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/destinations.js"></script>
-  <script src="./assets/js/guides.js"></script>
-  <script src="./assets/js/aboutUs.js"></script>
-</body>
-</html>
+        </div> </main>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+    <div class="footer-content">
+        <nav>
+        <a href="index.html">Home</a>
+        <a href="blog/post.html">Blog</a>
+        <a href="about.html">About us</a>
+        <a href="contact.html">Contact</a>
+        </nav>
+
+        <!-- Línea divisoria -->
+        <div class="divider"></div>
+
+        <p>© Copyright 2025 SouthAmericansSecrets.com</p>
+    </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/destinations.js"></script>
+    <script src="assets/js/guides.js"></script>
+    <script src="assets/js/aboutUs.js"></script>
+    </body>
+    </html>
