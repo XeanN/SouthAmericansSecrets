@@ -133,3 +133,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+// Espera a que todo el contenido de la página se cargue
+document.addEventListener('DOMContentLoaded', function() {
+
+    // 1. Define el contenido HTML que quieres agregar
+    const additionalInfoHTML = `
+        <div class="additional-info-section">
+            <h2>Additional Information</h2>
+            
+            <ul>
+                <li>All your personal information is required at the moment of your booking.</li>
+                <li>Confirmation of the excursion will be received at time of booking.</li>
+                <li>All tours are operated in English unless otherwise stated.</li>
+            </ul>
+
+            <h3>Travel voucher:</h3>
+            <ul>
+                <li>You will receive an electronic voucher via e mail once you booking is confirmed.</li>
+                <li>For each confirmed booking you are required to print your electronic voucher for presentation at the start of the excursion.</li>
+                <li>The electronic voucher acts a confirmation for all services you request.</li>
+            </ul>
+
+            <h3>Local operator information:</h3>
+            <ul>
+                <li>We will send you complete operator information, including phone numbers at your destination.</li>
+                <li>Our managers select only the most experienced and reliable operators in each destination, removing the guesswork for you, and ensuring your peace of mind.</li>
+            </ul>
+        </div>
+    `;
+
+    // 2. Busca el último elemento de la sección del tour para colocar la info después
+    const bookingSection = document.querySelector('.tour-booking-info');
+
+    // 3. Si encuentra ese elemento, inserta el nuevo contenido HTML justo después
+    if (bookingSection) {
+        bookingSection.insertAdjacentHTML('afterend', additionalInfoHTML);
+    }
+
+});

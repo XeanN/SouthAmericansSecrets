@@ -220,13 +220,14 @@
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
+    line-height: 1.5;
 }
 
 .meta-item i {
     color: #000000;
     margin-right: 0.5rem;
     font-size: 1.2rem;
+    line-height: 1.5;
 }
 
 .tour-detail .detail-title {
@@ -371,7 +372,7 @@
     color: #000000;
 }
 
-.book-now-btn {
+.btn-book-now {
     background-color: #0b0b0b;
     color: #fff;
     border: none;
@@ -385,7 +386,7 @@
     align-self: flex-end; /* Alinea el botón a la derecha */
 }
 
-.book-now-btn:hover {
+.btn-book-now:hover {
     background-color: #555;
 }
 
@@ -399,5 +400,501 @@
 
     .book-now-btn {
         align-self: auto; /* Desactiva la alineación a la derecha cuando están en la misma fila */
+    }
+}
+
+/* ==========================================================================
+    SECCIÓN DE INFORMACIÓN ADICIONAL (AGREGADA CON JS)
+   ========================================================================== */
+.additional-info-section {
+    background-color: #3e3d36cd; /* Un color oscuro similar al de tu imagen */
+    color: #e2a931; /* Color dorado/amarillo para el texto */
+    padding: 2rem 3rem;
+    margin-top: 4rem; /* Espacio para separarlo del contenido anterior */
+    border-radius: 8px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.additional-info-section h2 {
+    font-family: "DM Serif Display", serif;
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #000000e1;
+}
+
+.additional-info-section h3 {
+    font-family: "DM Serif Display", serif;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #000000e1;
+}
+
+.additional-info-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.additional-info-section ul li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #ffffff; /* Un color un poco más claro para el texto de los items */
+}
+
+.additional-info-section ul li::before {
+    content: '•'; /* Crea la viñeta */
+    position: absolute;
+    left: 0;
+    color: #fdb211; /* Color dorado para la viñeta */
+    font-weight: bold;
+}
+
+/* Adaptación para móviles */
+@media (max-width: 767px) {
+    .additional-info-section {
+        padding: 1.5rem;
+    }
+    .additional-info-section h2 {
+        font-size: 2.5rem;
+    }
+    .additional-info-section h3 {
+        font-size: 1.5rem;
+    }
+}
+
+.Activities-title {
+    color: #1D1D1F;
+    font-family: "DM Serif Display";
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    padding-bottom: 1rem;
+}
+
+.tour-Activities ul {
+    list-style: none;
+    padding: 0;
+    color: #000000;
+    font-family: "Open Sans";
+    font-size: 1.1rem;
+}
+.tour-Activities ul li {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.meta-item {
+    /* width: auto; */
+    max-width: 100%;
+    color: #1D1D1F;
+    font-family: "Open Sans";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* ==========================================================================
+    ESTILOS PARA EL ITINERARIO DE TOUR
+   ========================================================================== */
+
+/* Contenedor principal del itinerario */
+.itinerary-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas pasen abajo en móvil */
+    gap: 2rem; /* Espacio entre las columnas */
+    font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 2rem auto; /* Centra el itinerario en la página */
+    background-color: #f7f7f0; /* Fondo general color crema claro */
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* Estilo para cada columna (Día 1, Día 2) */
+.day-column {
+    flex: 1; /* Hace que cada columna ocupe el mismo espacio */
+    min-width: 300px; /* Ancho mínimo antes de que se rompa la línea */
+    background-color: #fff;
+    border: 1px solid #e0e0d1;
+    border-radius: 5px;
+    overflow: hidden; /* Para que el borde redondeado afecte al título */
+}
+
+/* Título de cada día (Day 1, Day 2) */
+.day-title {
+    background-color: #585858;
+    color: #ffffff;
+    padding: 0.75rem;
+    margin: 0;
+    font-size: 1.2rem;
+    text-align: left;
+    padding-left: 1rem;
+}
+
+/* Lista de actividades */
+.schedule {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Cada item de la lista (hora + descripción) */
+.schedule-item {
+    display: flex;
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid #e0e0d1; /* Línea divisoria */
+    gap: 1.5rem; /* Espacio entre la hora y la descripción */
+}
+
+.schedule-item:last-child {
+    border-bottom: none; /* Elimina la línea del último elemento */
+}
+
+/* Estilo para la hora */
+.time {
+    font-weight: bold;
+    flex-shrink: 0; /* Evita que la columna de hora se encoja */
+    width: 130px; /* Ancho fijo para alinear las descripciones */
+    color: #111;
+}
+
+/* Estilo para la descripción */
+.description {
+    line-height: 1.5;
+}
+
+.description strong {
+    display: block; /* Pone el título de la actividad en su propia línea */
+    margin-bottom: 5px;
+    color: #000;
+}
+
+.description small {
+    color: #666;
+    display: block; /* Asegura que el texto pequeño esté debajo */
+}
+
+/* ==========================================================================
+ADAPTACIÓN PARA MÓVILES
+   ========================================================================== */
+@media (max-width: 768px) {
+    .itinerary-container {
+        flex-direction: column; /* Apila las columnas una encima de la otra */
+        padding: 0.5rem;
+    }
+    
+    .schedule-item {
+        flex-direction: column; /* Apila la hora encima de la descripción */
+        gap: 0.5rem;
+        align-items: flex-start; /* Alinea todo a la izquierda */
+    }
+
+    .time {
+        width: auto; /* El ancho ya no necesita ser fijo */
+        background-color: #f0f2e6;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ==========================================================================
+    ESTILOS PARA ITINERARIO DE ACTIVIDADES
+   ========================================================================== */
+
+/* Contenedor principal */
+.activities-itinerary {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 900px; /* Ancho máximo, puedes ajustarlo */
+    margin: 2rem auto; /* Centra el componente en la página */
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen a los hijos */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    /* Fondo con un gradiente sutil como en la imagen */
+    background: linear-gradient(to bottom, #e4e8d5, #d9ddc6);
+}
+
+/* Cabecera oscura del título "Activities" */
+.itinerary-header {
+    background-color: #5a5a51; /* Color gris oliva oscuro */
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid #4a4a41; /* Línea sutil para dar profundidad */
+}
+
+.itinerary-header h2 {
+    margin: 0;
+    color: #f0f0f0; /* Color de texto claro */
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Lista de actividades */
+.activity-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Cada fila de actividad */
+.activity-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #c9ccb9; /* Color de la línea divisoria */
+    color: #555;
+    transition: background-color 0.2s ease;
+}
+
+/* Elimina la línea del último elemento */
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+/* Efecto hover para interactividad */
+.activity-item:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Etiqueta del día (Day 1, Day 2, etc.) */
+.day-label {
+    flex-basis: 90px; /* Ancho fijo para la columna de los días */
+    flex-shrink: 0; /* Evita que se encoja */
+    font-weight: 700;
+    color: #333;
+}
+
+/* Descripción de la actividad */
+.day-description {
+    line-height: 1.5;
+}
+
+/* ==========================================================================
+    ADAPTACIÓN PARA MÓVILES
+   ========================================================================== */
+@media (max-width: 600px) {
+    .activity-item {
+        flex-direction: column; /* Apila el día y la descripción */
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .day-label {
+        flex-basis: auto; /* Ancho automático en móvil */
+    }
+}
+
+
+/* ==========================================================================
+   ESTILOS PARA CONTENEDOR DE DOS COLUMNAS (ITINERARIO Y CRUCEROS)
+   ========================================================================== */
+
+.tour-details-container {
+    display: flex;
+    flex-wrap: wrap; /* Para que se apilen en móvil */
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo base para ambas columnas */
+.timeline-column,
+.cruise-list-column {
+    flex: 1; /* Ocupan el mismo espacio */
+    min-width: 320px;
+    position: relative;
+    padding: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #ffffff;
+    background-size: cover;
+    background-position: center;
+     /* === AÑADIDO: Altura máxima y scroll para AMBAS columnas === */
+    max-height: 750px; /* Altura máxima antes de que aparezca el scroll */
+    overflow-y: auto; /* Muestra el scroll vertical solo cuando se necesita */
+}
+
+/* Superposición oscura para mejorar legibilidad */
+.timeline-column::before,
+.cruise-list-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background: rgba(10, 20, 30, 0.65); /* Tono azul oscuro semi-transparente */
+    z-index: 1;
+}
+
+/* --- Estilos específicos para la columna de ITINERARIO --- */
+.timeline-column {
+    /* CAMBIA ESTA IMAGEN POR LA TUYA */
+    background-image: url('https://i.imgur.com/G4hR95d.jpeg');
+}
+
+.timeline {
+    position: relative;
+    z-index: 2; /* Por encima de la superposición */
+    padding-left: 25px; /* Espacio para la línea */
+}
+
+/* La línea naranja vertical */
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: #f39c12; /* Naranja */
+}
+
+
+/* ========================================================== */
+/* SECCIÓN CORREGIDA PARA LA LÍNEA DE TIEMPO                  */
+/* Se han hecho los selectores más específicos para evitar    */
+/* conflictos con otros archivos CSS.                         */
+/* ========================================================== */
+
+.timeline .timeline-item {
+    position: relative; /* ¡Esencial para que funcione el posicionamiento de la hora! */
+    margin-bottom: 2rem;
+}
+.timeline .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* El círculo en la línea */
+.timeline .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -12px; /* Centra el círculo en la línea */
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 3px solid #f39c12;
+}
+
+/* Regla corregida y más específica para la hora */
+.timeline .timeline-item .timeline-time {
+    left: -95px; /* Mueve la hora 95px a la izquierda del punto de inicio */
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    width: 70px; /* Ancho fijo para consistencia */
+    text-align: center;
+}
+
+.timeline .timeline-item .timeline-content {
+    padding-left: 20px; /* Espacio entre el círculo y el texto */
+    line-height: 1.6;
+}
+.timeline .timeline-item .timeline-content strong {
+    display: block;
+}
+
+
+/* --- Estilos específicos para la columna de CRUCEROS --- */
+.cruise-list-column {
+    /* CAMBIA ESTA IMAGEN POR LA TUYA */
+    background-image: url('../../assets/img/machu_picchu_p.jpg');
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cruise-list-column h2,
+.cruise-list-column .cruise-list {
+    position: relative;
+    z-index: 2; /* Por encima de la superposición */
+}
+
+.cruise-list-column h2 {
+    color: #f39c12; /* Naranja */
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.cruise-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cruise-list li {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+.cruise-list strong {
+    color: #ffc107; /* Amarillo/Dorado para el nombre del crucero */
+}
+
+/* --- Estilos para la barra de scroll (para AMBAS columnas) --- */
+.timeline-column::-webkit-scrollbar,
+.cruise-list-column::-webkit-scrollbar {
+    width: 8px;
+}
+
+.timeline-column::-webkit-scrollbar-track,
+.cruise-list-column::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.timeline-column::-webkit-scrollbar-thumb,
+.cruise-list-column::-webkit-scrollbar-thumb {
+    background-color: #f39c12;
+    border-radius: 10px;
+}
+
+.timeline-column::-webkit-scrollbar-thumb:hover,
+.cruise-list-column::-webkit-scrollbar-thumb:hover {
+    background-color: #ffc107;
+}
+
+/* ==========================================================================
+EFECTO HOVER PARA LA LISTA DE CRUCEROS
+   ========================================================================== */
+
+/*
+ * Se añade una transición suave y el cursor de puntero a cada
+ * elemento de la lista para indicar que es interactivo.
+*/
+.cruise-list li {
+    transition: transform 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+}
+
+/*
+ * Estilos que se aplican CUANDO el mouse está ENCIMA del elemento.
+*/
+.cruise-list li:hover {
+    color: #ffd700;           /* Cambia el color del texto a dorado/amarillo */
+    transform: scale(1.03);   /* Aumenta el tamaño del elemento un 3% */
+}
+/* ==========================================================================
+    ADAPTACIÓN PARA MÓVILES
+   ========================================================================== */
+@media (max-width: 900px) {
+    .tour-details-container {
+        flex-direction: column; /* Apila las columnas */
     }
 }
