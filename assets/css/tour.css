@@ -696,7 +696,7 @@ ADAPTACIÓN PARA MÓVILES
 
 
 /* ==========================================================================
-   ESTILOS PARA CONTENEDOR DE DOS COLUMNAS (ITINERARIO Y CRUCEROS)
+    ESTILOS PARA CONTENEDOR DE DOS COLUMNAS (ITINERARIO Y CRUCEROS)
    ========================================================================== */
 
 .tour-details-container {
@@ -725,23 +725,68 @@ ADAPTACIÓN PARA MÓVILES
     overflow-y: auto; /* Muestra el scroll vertical solo cuando se necesita */
 }
 
-/* Superposición oscura para mejorar legibilidad */
-.timeline-column::before,
-.cruise-list-column::before {
+
+/* --- Estilos específicos para la columna de ITINERARIO --- */
+.timeline1-column {
+    /* CAMBIA ESTA IMAGEN POR LA TUYA */
+    background-image: url('../img/machu_picchu_p.jpg');
+}
+.timeline {
+    position: relative;
+    z-index: 2; /* Por encima de la superposición */
+    padding-left: 25px; /* Espacio para la línea */
+}
+
+/* La línea naranja vertical */
+.timeline::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 200%;
-    background: rgba(10, 20, 30, 0.65); /* Tono azul oscuro semi-transparente */
-    z-index: 1;
+    width: 3px;
+    height: 100%;
+    background-color: #f39c12; /* Naranja */
 }
 
+
+/* ========================================================== */
+/* SECCIÓN CORREGIDA PARA LA LÍNEA DE TIEMPO                  */
+/* Se han hecho los selectores más específicos para evitar    */
+/* conflictos con otros archivos CSS.                         */
+/* ========================================================== */
+
+.timeline .timeline-item {
+    position: relative; /* ¡Esencial para que funcione el posicionamiento de la hora! */
+    margin-bottom: 2rem;
+}
+.timeline .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* El círculo en la línea */
+.timeline .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -12px; /* Centra el círculo en la línea */
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 3px solid #f39c12;
+}
 /* --- Estilos específicos para la columna de ITINERARIO --- */
 .timeline-column {
-    /* CAMBIA ESTA IMAGEN POR LA TUYA */
-    background-image: url('https://i.imgur.com/G4hR95d.jpeg');
+    /* 1. Definimos una variable con una imagen POR DEFECTO */
+    --timeline-bg-image: url('https://i.imgur.com/G4hR95d.jpeg');
+
+    /* 2. Usamos la variable en el fondo */
+    background: 
+        linear-gradient(rgba(10, 20, 30, 0.545), rgba(10, 20, 30, 0.65)),
+        var(--timeline-bg-image); /* <-- Usamos la variable aquí */
+    
+    background-size: cover;
+    background-position: center;
 }
 
 .timeline {
@@ -798,7 +843,7 @@ ADAPTACIÓN PARA MÓVILES
     border-radius: 5px;
     font-weight: bold;
     font-size: 0.9rem;
-    width: 70px; /* Ancho fijo para consistencia */
+    width: 75px; /* Ancho fijo para consistencia */
     text-align: center;
 }
 
@@ -813,11 +858,16 @@ ADAPTACIÓN PARA MÓVILES
 
 /* --- Estilos específicos para la columna de CRUCEROS --- */
 .cruise-list-column {
-    /* CAMBIA ESTA IMAGEN POR LA TUYA */
-    background-image: url('../../assets/img/machu_picchu_p.jpg');
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* 1. Definimos una variable con una imagen POR DEFECTO */
+    --crise-bg-image: url('https://i.imgur.com/G4hR95d.jpeg');
+
+    /* 2. Usamos la variable en el fondo */
+    background: 
+        linear-gradient(rgba(10, 20, 30, 0.434), rgba(10, 20, 30, 0.65)),
+        var(--cruise-bg-image); /* <-- Usamos la variable aquí */
+    
+    background-size: cover;
+    background-position: center;
 }
 
 .cruise-list-column h2,

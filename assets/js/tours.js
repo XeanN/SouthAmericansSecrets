@@ -7,3 +7,8 @@ prev.addEventListener('click', prevSlide);
 // Iniciar el carrusel
 showSlide(0);
 startAutoSlide(); // Esto hará que el carrusel se mueva automáticamente
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+});
