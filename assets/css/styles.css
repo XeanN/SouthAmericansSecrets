@@ -281,8 +281,9 @@ img {
     font-size: 1rem;
     font-weight: 700;
     color: var(--color-text-primary);
-    margin-bottom: 1rem;
-    margin-left: 5rem;
+    padding-bottom: 15px;
+    
+    margin: auto;
     white-space: nowrap;
 }
 
@@ -290,7 +291,8 @@ img {
 .mega-menu-column li a {
     padding: 0.4rem 0;
     font-weight: 500;
-    margin-left: 5rem;
+    margin: auto;
+    margin-left: 50px;
 }
 
 /* ==========================================================================
@@ -1046,6 +1048,7 @@ img {
     color: #ffffff;
 }
 
+
 /* ==========================================================================
     13. RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
@@ -1107,7 +1110,7 @@ img {
         position: fixed;
         top: 0;
         right: -100%; /* Empieza oculto */
-        width: 85%;
+        width: 50%;
         max-width: 350px;
         height: 100vh;
         background: var(--color-primary); /* Fondo azul principal */
@@ -1145,6 +1148,8 @@ img {
     .mega-menu {
         flex-direction: column; /* Apilamos las columnas del mega menú */
         gap: 1rem;
+        left: 10%;
+        padding: 1rem 1.5rem;
     }
 
     /* La clase 'active' que el JS añade para mostrar el submenú */
@@ -1160,6 +1165,7 @@ img {
         font-weight: 400;
         text-transform: uppercase;
         margin-bottom: 0.8rem;
+        margin: auto;
     }
     .mega-menu-column ul {
         padding-left: 1rem;
@@ -1169,6 +1175,7 @@ img {
         font-weight: 400;
         font-size: 1rem;
         padding: 0.5rem 0;
+        margin-left: 20px;
     }
 
     /* --- GRIDS --- */
@@ -1251,6 +1258,30 @@ img {
         grid-template-columns: repeat(4, 1fr);
     }
     
+
+    /* ========================================================================
+    INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN TABLET
+    ======================================================================== */
+    .footer nav, .footer .footer-nav {
+        /* Forzamos a que sea visible y se comporte normalmente */
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        right: auto !important;
+        top: auto !important;
+        background: none !important;
+        padding: 0 !important;
+        margin-bottom: 1.5rem !important;
+
+        /* Estilos para alinear los enlaces */
+        justify-content: center;
+        flex-wrap: wrap;
+        max-width: 1000px;
+    }
+    /* ========================================================================
+    FIN DE LA CORRECCIÓN
+    ======================================================================== */
 }
 
 
@@ -1370,7 +1401,7 @@ img {
         font-weight: 400;
         text-transform: uppercase;
         letter-spacing: 1px;
-        margin-bottom: 0.8rem;
+        margin:auto;
         padding: 0;
     }
     .mega-menu-column ul {
@@ -1381,6 +1412,8 @@ img {
         font-weight: 400;
         font-size: 1rem;
         padding: 0.5rem 0;
+        margin: auto;
+        margin-left:25px;
     }
     /* --- TIPOGRAFÍA --- */
     h1 { font-size: 2.5rem; }
@@ -1520,15 +1553,29 @@ img {
         height: 300px;
     }
 
-    /* --- FOOTER --- */
-    /* Ajustamos los links del footer para que se vean como en la imagen */
-    .footer nav {
-        display: flex;
-       flex-shrink: 0; /* Para que los enlaces bajen si no caben */
+    /* ========================================================================
+    INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN celulares
+    ======================================================================== */
+    .footer nav, .footer .footer-nav {
+        /* Forzamos a que sea visible y se comporte normalmente */
+        display: flex !important;
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        right: auto !important;
+        top: auto !important;
+        background: none !important;
+        padding: 0 !important;
+        margin-bottom: 1rem !important;
+        font-size: 25px;
+        /* Estilos para alinear los enlaces */
         justify-content: center;
-        gap: 1rem 1.5rem; /* Espacio vertical y horizontal */
-        margin-bottom: 1.5rem;
+        flex-wrap: wrap;
+        max-width: 1000px;
     }
+    /* ========================================================================
+    FIN DE LA CORRECCIÓN
+    ======================================================================== */
 
 }
 
@@ -1550,4 +1597,27 @@ img {
         grid-column: span 1; /* Forzamos a que cada una ocupe 1 columna */
         aspect-ratio: 16 / 10; /* Les damos una proporción horizontal agradable */
     }
+        /* ========================================================================
+        INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN celulares
+        ======================================================================== */
+        .footer nav, .footer .footer-nav {
+            /* Forzamos a que sea visible y se comporte normalmente */
+            display: flex !important;
+            position: static !important;
+            width: 100% !important;
+            height: auto !important;
+            right: auto !important;
+            top: auto !important;
+            background: none !important;
+            padding: 0 !important;
+            margin-bottom: 1rem !important;
+            font-size: 8.5px;
+            /* Estilos para alinear los enlaces */
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1000px;
+        }
+        /* ========================================================================
+        FIN DE LA CORRECCIÓN
+        ======================================================================== */
 }
