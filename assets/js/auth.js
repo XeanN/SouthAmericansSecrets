@@ -1,4 +1,6 @@
-// auth.js
+// =========================
+// ✅ IMPORTS
+// =========================
 import { auth, db, googleProvider, signInWithPopup, ref, set } from "./firebase.js";
 import {
   createUserWithEmailAndPassword,
@@ -8,11 +10,44 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-// Detectar si estamos en register o login
-const registerForm = document.querySelector(".register-form");
-const loginForm = document.querySelector(".login-form");
 
-// 🟢 REGISTRO NUEVO USUARIO
+// =========================
+// ✅ FUNCIONES GLOBALES
+// =========================
+
+// ✅ Mostrar nombre del usuario + botón logout en el header
+function updateHeader(user) {
+  const header = document.querySelector(".auth-buttons");
+  if (!header) return;
+
+  if (user) {
+    header.innerHTML = `
+      <span class="user-name">Hi, ${user.displayName || user.email}</span>
+      <button class="btn logout-btn">Logout</button>
+    `;
+
+    // Bind logout
+    const logoutBtn = header.querySelector(".logout-btn");
+    logoutBtn.addEventListener("click", async () => {
+      await signOut(auth);
+      localStorage.removeItem("user");
+      window.location.href = "/index.html";
+    });
+
+  } else {
+    header.innerHTML = `
+      <a href="/pages/login.html" class="btn login">Login</a>
+      <a href="/pages/register.html" class="btn register">Register</a>
+    `;
+  }
+}
+
+
+// =========================
+// ✅ REGISTRO
+// =========================
+const registerForm = document.querySelector(".register-form");
+
 if (registerForm) {
   registerForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -30,24 +65,20 @@ if (registerForm) {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Actualizar perfil en Firebase Auth
       await updateProfile(user, { displayName: name });
 
-      // Guardar en Realtime Database
       await set(ref(db, "users/" + user.uid), {
         name,
         email,
         createdAt: new Date().toISOString()
       });
 
-      // Guardar en localStorage
       localStorage.setItem("user", JSON.stringify({
         uid: user.uid,
         name,
         email
       }));
 
-      // Redirigir al dashboard automáticamente
       window.location.href = "/pages/dashboard.html";
     } catch (error) {
       alert("Error creating account: " + error.message);
@@ -55,7 +86,12 @@ if (registerForm) {
   });
 }
 
-// 🔵 LOGIN EXISTENTE
+
+// =========================
+// ✅ LOGIN
+// =========================
+const loginForm = document.querySelector(".login-form");
+
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -80,7 +116,10 @@ if (loginForm) {
   });
 }
 
-// 🟠 LOGIN CON GOOGLE
+
+// =========================
+// ✅ LOGIN CON GOOGLE
+// =========================
 const googleBtns = document.querySelectorAll(".google-btn");
 googleBtns.forEach((btn) => {
   btn.addEventListener("click", async (e) => {
@@ -89,7 +128,6 @@ googleBtns.forEach((btn) => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      // Guardar usuario si es nuevo
       await set(ref(db, "users/" + user.uid), {
         name: user.displayName,
         email: user.email,
@@ -111,19 +149,24 @@ googleBtns.forEach((btn) => {
   });
 });
 
-// 🧩 LOGOUT (para dashboard)
-export async function logout() {
-  await signOut(auth);
-  localStorage.removeItem("user");
-  window.location.href = "/index.html";
-}
 
-// 🔍 Detectar si hay usuario logueado (para proteger páginas)
+// =========================
+// ✅ OBSERVADOR DE SESIÓN
+// =========================
 onAuthStateChanged(auth, (user) => {
-  if (window.location.pathname.includes("dashboard.html")) {
-    if (!user) {
-      // Si no hay usuario → forzar login
-      window.location.href = "/pages/login.html";
-    }
+
+  // ✅ Actualiza el header en todas las páginas
+  updateHeader(user);
+
+  // ✅ Si estoy en dashboard y NO hay usuario → forzar login
+  if (window.location.pathname.includes("dashboard.html") && !user) {
+    window.location.href = "/pages/login.html";
   }
+
+  // ✅ Si estoy en login/register y YA estoy logueado → mandar al dashboard
+  if ((window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html")) 
+      && user) {
+    window.location.href = "/pages/dashboard.html";
+  }
+
 });
