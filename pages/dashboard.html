@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - South Americans Secrets</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+<header class="header">
+  <a href="/index.html" class="logo">
+      <img src="/assets/img/logoN.png" alt="Logo">
+  </a>
+
+  <nav>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/tours.html">Tours</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="auth-buttons">
+    <button id="logoutBtn" class="btn login">Logout</button>
+  </div>
+</header>
+
+<main style="padding: 40px;">
+  <h2 id="welcomeText">Loading...</h2>
+  <p>Here will be the user panel content (reservations, profile, etc.)</p>
+</main>
+
+<footer class="footer">
+  <div class="footer-content">
+    <p>© Copyright 2025 SouthAmericansSecrets.com</p>
+  </div>
+</footer>
+
+<!-- Importa auth.js para proteger la página y usar logout -->
+<script type="module">
+  import { logout } from "/assets/js/auth.js";
+
+  document.getElementById("logoutBtn").addEventListener("click", logout);
+
+  // Mostrar nombre del usuario
+  const user = JSON.parse(localStorage.getItem("user"));
+  const welcome = document.getElementById("welcomeText");
+
+  if (user) {
+    welcome.textContent = `Welcome, ${user.name || user.email}!`;
+  } else {
+    // Si no hay usuario, lo redirigimos al login automáticamente (esto también lo hace auth.js)
+    window.location.href = "/pages/login.html";
+  }
+</script>
+
+</body>
+</html>
