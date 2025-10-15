@@ -1,4 +1,36 @@
 // Esperamos a que todo el HTML esté cargado antes de ejecutar el script. Es una buena práctica.
+document.addEventListener("DOMContentLoaded", function() {
+
+    // --- CÓDIGO PARA CARGAR EL HEADER ---
+    const headerPlaceholder = document.getElementById("header-placeholder");
+
+    if (headerPlaceholder) {
+        fetch('/reusable/header.html')
+            .then(response => response.text())
+            .then(data => {
+                headerPlaceholder.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error al cargar el header:', error);
+            });
+    }
+
+    // --- CÓDIGO PARA CARGAR EL FOOTER (AÑADIR ESTO) ---
+    const footerPlaceholder = document.getElementById("footer-placeholder");
+
+    if (footerPlaceholder) {
+        fetch('/reusable/footer.html')
+            .then(response => response.text())
+            .then(data => {
+                footerPlaceholder.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error al cargar el footer:', error);
+            });
+    }
+
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. SELECCIÓN DE ELEMENTOS ---
