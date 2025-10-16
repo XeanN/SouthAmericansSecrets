@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>South Americans Secrets</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/toursStyles.css">
+    <title>Tours | South Americans Secrets</title>
+
+    <!-- CSS (ruta correcta) -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/toursStyles.css">
+
+    <!-- TIPOGRAFÍAS / ICONOS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -13,18 +17,20 @@
 </head>
 <body>
 
+    <!-- HEADER -->
     <div id="header-placeholder"></div>
 
     <main>
+
+        <!-- HERO -->
         <section class="tours-hero">
             <div class="slider-container">
-                <a  class="slide">
-                        <img src="../assets/img/machu_picchu_p.2.jpg" alt="Machu Picchu">
-                    </a>
-                    <a  class="slide">
-                        <img src="../assets/img/machu_picchu_p.jpg" alt="Nazca Lines">
-                    </a>
-                    </div>
+                <div class="slide">
+                    <img src="assets/img/machu_picchu_p.2.jpg" alt="Machu Picchu">
+                </div>
+                <div class="slide">
+                    <img src="assets/img/machu_picchu_p.jpg" alt="Nazca Lines">
+                </div>
             </div>
             
             <div class="hero-text-overlay">
@@ -33,30 +39,33 @@
 
             <div class="slider-nav">
                 <button class="prev">&lt;</button>
-                <div class="dots">
-                    </div>
+                <div class="dots"></div>
                 <button class="next">&gt;</button>
             </div>
         </section>
 
+        <!-- ALL DESTINATIONS -->
         <section class="all-destinations">
             <div class="container">
                 <h2 class="section-title">Explore All Destination</h2>
                 <div class="all-destinations-grid grid" data-category="all">
-                    </div>
+                    <!-- contenido generado dinámicamente por JS -->
+                </div>
             </div>
         </section>
 
     </main>
 
+    <!-- FOOTER -->
     <div id="footer-placeholder"></div>
 
-    <script src="../assets/js/main.js"></script>
-    <script src="../assets/js/tours.js"></script>
-    <script src="../assets/js/guides.js"></script>
-    <script src="../assets/js/destinations.js"></script>
-    <script src="../assets/js/featured.js"></script> 
-    <script src="../assets/js/all-destinations.js"></script>
+    <!-- SCRIPTS (nivel raíz) -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tours.js"></script>
+    <script src="assets/js/guides.js"></script>
+    <script src="assets/js/destinations.js"></script>
+    <script src="assets/js/featured.js"></script>
+    <script src="assets/js/all-destinations.js"></script>
 
 </body>
 </html>

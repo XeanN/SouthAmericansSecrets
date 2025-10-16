@@ -1,33 +1,59 @@
 // =====================================
-// ✅ CARGAR HEADER Y FOOTER
+// ✅ CÁLCULO AUTOMÁTICO DE BASE PATH
+// =====================================
+function getBasePath() {
+  // Ejemplo de rutas:
+  // /index.html                  → depth 0 → ""
+  // /pages/login.html           → depth 1 → "../"
+  // /tour/The Highlands/...     → depth 2 → "../../"
+
+  const path = window.location.pathname;
+
+  // Quitamos el nombre del archivo
+  const pathParts = path.split("/").filter(Boolean); // elimina ""
+
+  if (pathParts.length <= 1) {
+    return ""; // estamos en raíz
+  }
+
+  // Por cada carpeta, subir un nivel
+  return "../".repeat(pathParts.length - 1);
+}
+
+const BASE = getBasePath();
+
+// =====================================
+// ✅ CARGAR HEADER Y FOOTER CON {{BASE}}
 // =====================================
 document.addEventListener("DOMContentLoaded", function () {
   const headerPlaceholder = document.getElementById("header-placeholder");
 
   if (headerPlaceholder) {
-    fetch("/reusable/header.html")
-      .then(response => response.text())
-      .then(data => {
-        headerPlaceholder.innerHTML = data;
+    fetch(BASE + "reusable/header.html")
+      .then((res) => res.text())
+      .then((html) => {
+        // Reemplazamos {{BASE}} dentro del HTML cargado
+        html = html.replace(/{{BASE}}/g, BASE);
 
-        // ✅ IMPORTANTE: Avisamos que el header ya está listo
+        headerPlaceholder.innerHTML = html;
+
         document.dispatchEvent(new Event("headerLoaded"));
       })
-      .catch(error => console.error("Error al cargar el header:", error));
+      .catch((err) => console.error("Error al cargar header:", err));
   } else {
-    // ✅ Si no hay header, igual disparamos el evento
     document.dispatchEvent(new Event("headerLoaded"));
   }
 
   const footerPlaceholder = document.getElementById("footer-placeholder");
 
   if (footerPlaceholder) {
-    fetch("/reusable/footer.html")
-      .then(response => response.text())
-      .then(data => {
-        footerPlaceholder.innerHTML = data;
+    fetch(BASE + "reusable/footer.html")
+      .then((res) => res.text())
+      .then((html) => {
+        html = html.replace(/{{BASE}}/g, BASE);
+        footerPlaceholder.innerHTML = html;
       })
-      .catch(error => console.error("Error al cargar el footer:", error));
+      .catch((err) => console.error("Error al cargar footer:", err));
   }
 });
 
