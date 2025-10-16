@@ -1,26 +1,30 @@
 // =====================================
-// ✅ CÁLCULO AUTOMÁTICO DE BASE PATH
+// ✅ CÁLCULO AUTOMÁTICO DE BASE PATH (compatible con GitHub Pages)
 // =====================================
 function getBasePath() {
-  // Ejemplo de rutas:
-  // /index.html                  → depth 0 → ""
-  // /pages/login.html           → depth 1 → "../"
-  // /tour/The Highlands/...     → depth 2 → "../../"
+  let path = window.location.pathname;
 
-  const path = window.location.pathname;
+  // Detectar si está en GitHub Pages
+  const repo = "/SouthAmericansSecrets";
 
-  // Quitamos el nombre del archivo
-  const pathParts = path.split("/").filter(Boolean); // elimina ""
+  // Si la ruta comienza con el nombre del repo, lo quitamos
+  if (path.startsWith(repo)) {
+    path = path.replace(repo, "");
+  }
 
-  if (pathParts.length <= 1) {
-    return ""; // estamos en raíz
+  // Dividir en partes
+  const parts = path.split("/").filter(Boolean); // ["toursIndex", "Lima.html"]
+
+  if (parts.length <= 1) {
+    return ""; // Estamos en raíz del proyecto
   }
 
   // Por cada carpeta, subir un nivel
-  return "../".repeat(pathParts.length - 1);
+  return "../".repeat(parts.length - 1);
 }
 
 const BASE = getBasePath();
+
 
 // =====================================
 // ✅ CARGAR HEADER Y FOOTER CON {{BASE}}
@@ -32,11 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(BASE + "reusable/header.html")
       .then((res) => res.text())
       .then((html) => {
-        // Reemplazamos {{BASE}} dentro del HTML cargado
         html = html.replace(/{{BASE}}/g, BASE);
-
         headerPlaceholder.innerHTML = html;
-
         document.dispatchEvent(new Event("headerLoaded"));
       })
       .catch((err) => console.error("Error al cargar header:", err));
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((err) => console.error("Error al cargar footer:", err));
   }
 });
+
 
 // =====================================
 // ✅ SLIDER PRINCIPAL (igual que antes)
@@ -135,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
 // =====================================
 // ✅ DROPDOWN EN MÓVIL
