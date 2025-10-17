@@ -12,6 +12,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 
+const base = window.location.pathname.includes("SouthAmericansSecrets")
+  ? "/SouthAmericansSecrets"
+  : "";
+
 // =========================
 // ✅ FUNCIONES GLOBALES
 // =========================
@@ -35,12 +39,12 @@ function updateHeaderUI(user) {
     logoutBtn.addEventListener("click", async () => {
       await signOut(auth);
       localStorage.removeItem("user");
-      window.location.href = "/index.html";
+      window.location.href = base + "/index.html";
     });
   } else {
     header.innerHTML = `
-      <a href="/pages/login.html" class="btn login">Login</a>
-      <a href="/pages/register.html" class="btn register">Register</a>
+      <a href="${base}/pages/login.html" class="btn login">Login</a>     
+      <a href="${base}/pages/register.html" class="btn register">Register</a>
     `;
   }
 }
@@ -87,7 +91,7 @@ if (registerForm) {
         email
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = base + "/pages/dashboard.html";
     } catch (error) {
       alert("Error creating account: " + error.message);
     }
@@ -117,7 +121,7 @@ if (loginForm) {
         email: user.email
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = base + "/pages/dashboard.html";
     } catch (error) {
       alert("Login failed: " + error.message);
     }
@@ -150,7 +154,7 @@ googleBtns.forEach((btn) => {
         email: user.email
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = base + "/pages/dashboard.html";
     } catch (error) {
       alert("Google login failed: " + error.message);
     }
@@ -190,7 +194,7 @@ appleBtns.forEach((btn) => {
         email: user.email || "No email"
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = base + "/pages/dashboard.html";
     } catch (error) {
       alert("Apple login failed: " + error.message);
     }
@@ -212,11 +216,11 @@ onAuthStateChanged(auth, (user) => {
 
   // Si estoy en dashboard y NO hay usuario → login
   if (path.includes("dashboard.html") && !user) {
-    window.location.href = "/pages/login.html";
+    window.location.href = base + "/pages/login.html";
   }
 
   // Si estoy en login o register y YA estoy logueado → dashboard
   if ((path.includes("login.html") || path.includes("register.html")) && user) {
-    window.location.href = "/pages/dashboard.html";
+    window.location.href = base + "/pages/dashboard.html";
   }
 });

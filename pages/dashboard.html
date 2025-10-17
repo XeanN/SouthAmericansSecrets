@@ -37,7 +37,8 @@
 
     <script src="../assets/js/main.js"></script>
     <script type="module">
-        import { auth } from "/assets/js/firebase.js";
+        import { auth } from "../assets/js/firebase.js";
+
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
         onAuthStateChanged(auth, (user) => {
