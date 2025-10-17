@@ -117,7 +117,7 @@ if (loginForm) {
         email: user.email
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = "SouthAmericansSecrets/pages/dashboard.html";
     } catch (error) {
       alert("Login failed: " + error.message);
     }
