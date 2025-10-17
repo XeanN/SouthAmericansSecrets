@@ -4,7 +4,7 @@
 .contact-hero {
     position: relative;
     height: 550px;
-    background-image: url('../img/nazca_p.1.jpg'); /* O la imagen que prefieras */
+    background-image: url('/assets/img/Hero/heroParacas.jpg'); /* O la imagen que prefieras */
     background-size: cover;
     background-position: center;
     display: flex;
