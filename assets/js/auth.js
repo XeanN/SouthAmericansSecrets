@@ -7,7 +7,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  OAuthProvider
 } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 
@@ -15,10 +16,13 @@ import {
 // ✅ FUNCIONES GLOBALES
 // =========================
 
-// ✅ Mostrar nombre del usuario + botón logout en el header
-function updateHeader(user) {
+// Guardamos el usuario actual globalmente
+let currentUser = null;
+
+// ✅ Función que actualiza el header (login/register o nombre + logout)
+function updateHeaderUI(user) {
   const header = document.querySelector(".auth-buttons");
-  if (!header) return;
+  if (!header) return; // Si el header aún no existe, salimos
 
   if (user) {
     header.innerHTML = `
@@ -33,7 +37,6 @@ function updateHeader(user) {
       localStorage.removeItem("user");
       window.location.href = "/index.html";
     });
-
   } else {
     header.innerHTML = `
       <a href="/pages/login.html" class="btn login">Login</a>
@@ -41,6 +44,11 @@ function updateHeader(user) {
     `;
   }
 }
+
+// ✅ Escuchar cuando el HEADER termine de cargarse
+document.addEventListener("headerLoaded", () => {
+  updateHeaderUI(currentUser);
+});
 
 
 // =========================
@@ -149,24 +157,66 @@ googleBtns.forEach((btn) => {
   });
 });
 
+// =========================
+// ✅ LOGIN CON APPLE
+// =========================
+const appleProvider = new OAuthProvider("apple.com");
+
+const appleBtns = document.querySelectorAll(".apple-btn");
+appleBtns.forEach((btn) => {
+  btn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    try {
+      // Opcional: solicitar nombre y email al usuario
+      appleProvider.addScope('email');
+      appleProvider.addScope('name');
+
+      const result = await signInWithPopup(auth, appleProvider);
+      const user = result.user;
+
+      // Guardar usuario si es nuevo
+      await set(ref(db, "users/" + user.uid), {
+        name: user.displayName || "Apple User",
+        email: user.email || "No email",
+        photoURL: user.photoURL || null,
+        provider: "Apple",
+        createdAt: new Date().toISOString()
+      });
+
+      // Guardar en localStorage
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        name: user.displayName || "Apple User",
+        email: user.email || "No email"
+      }));
+
+      window.location.href = "/pages/dashboard.html";
+    } catch (error) {
+      alert("Apple login failed: " + error.message);
+    }
+  });
+});
+
 
 // =========================
 // ✅ OBSERVADOR DE SESIÓN
 // =========================
 onAuthStateChanged(auth, (user) => {
+  currentUser = user; // Guardamos el usuario actual
 
-  // ✅ Actualiza el header en todas las páginas
-  updateHeader(user);
+  // ✅ Si el header ya está cargado, lo actualizamos
+  updateHeaderUI(user);
 
-  // ✅ Si estoy en dashboard y NO hay usuario → forzar login
-  if (window.location.pathname.includes("dashboard.html") && !user) {
+  // ✅ Redirecciones inteligentes
+  const path = window.location.pathname;
+
+  // Si estoy en dashboard y NO hay usuario → login
+  if (path.includes("dashboard.html") && !user) {
     window.location.href = "/pages/login.html";
   }
 
-  // ✅ Si estoy en login/register y YA estoy logueado → mandar al dashboard
-  if ((window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html")) 
-      && user) {
+  // Si estoy en login o register y YA estoy logueado → dashboard
+  if ((path.includes("login.html") || path.includes("register.html")) && user) {
     window.location.href = "/pages/dashboard.html";
   }
-
 });

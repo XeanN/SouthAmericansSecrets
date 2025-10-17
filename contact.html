@@ -5,72 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact | South Americans Secrets</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/contact.css" />
+
+    <!-- TIPOGRAFÍAS / ICONOS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    </head>
-    <body>
+</head>
+<body>
 
+    <!-- HEADER -->
     <div id="header-placeholder"></div>
 
     <main>
         <section class="contact-hero">
-        <div class="overlay">
-            <h1>Contact Us</h1>
-            <p>Get in touch!</p>
-        </div>
+            <div class="overlay">
+                <h1>Contact Us</h1>
+                <p>Get in touch!</p>
+            </div>
         </section>
 
         <section class="contact-info">
-        <div class="container">
-            <div class="contact-card">
-            <img class="icon" src="assets/img/call.svg" alt="Phone Icon">
-            <h3>Phone</h3>
-            <p>+51 987 654 321</p>
-            </div>
+            <div class="container">
+                <div class="contact-card">
+                    <img class="icon" src="assets/img/call.svg" alt="Phone Icon">
+                    <h3>Phone</h3>
+                    <p>+51 987 654 321</p>
+                </div>
 
-            <div class="contact-card">
-            <img class="icon" src="assets/img/mail.svg" alt="Email Icon">
-            <h3>Email</h3>
-            <p>info@southamericanssecrets.com</p>
-            </div>
+                <div class="contact-card">
+                    <img class="icon" src="assets/img/mail.svg" alt="Email Icon">
+                    <h3>Email</h3>
+                    <p>info@southamericanssecrets.com</p>
+                </div>
 
-            <div class="contact-card">
-            <img class="icon" src="assets/img/location_on.svg" alt="Location Icon">
-            <h3>Location</h3>
-            <p>Av. El Chaco 123, Paracas, Perú</p>
+                <div class="contact-card">
+                    <img class="icon" src="assets/img/location_on.svg" alt="Location Icon">
+                    <h3>Location</h3>
+                    <p>Av. El Chaco 123, Paracas, Perú</p>
+                </div>
             </div>
-        </div>
         </section>
 
-    <section class="contact-form-section">
-        <div class="container contact-form-wrapper">
-            <div class="contact-text">
-                <p class="subtitle">Get in touch!</p>
-                <h2>Feel Free to Contact With Us</h2>
-                <p>
-                    We’d love to hear from you. Whether you have questions about tours, bookings, or special requests, our team is here to help fill your journey with unforgettable moments.
-                </p>
+        <section class="contact-form-section">
+            <div class="container contact-form-wrapper">
+                <div class="contact-text">
+                    <p class="subtitle">Get in touch!</p>
+                    <h2>Feel Free to Contact With Us</h2>
+                    <p>
+                        We’d love to hear from you. Whether you have questions about tours, bookings, or special requests, our team is here to help fill your journey with unforgettable moments.
+                    </p>
+                </div>
+                <form class="contact-form">
+                    <div class="form-row">
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="text" placeholder="Phone Number">
+                        <input type="text" placeholder="Subject" required>
+                    </div>
+                    <textarea placeholder="Write your message..." rows="5" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
             </div>
-            <form class="contact-form">
-                <div class="form-row">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email Address" required>
-                </div>
-                <div class="form-row">
-                    <input type="text" placeholder="Phone Number">
-                    <input type="text" placeholder="Subject" required>
-                </div>
-                <textarea placeholder="Write your message..." rows="5" required></textarea>
-                <button type="submit" class="btn">Log In</button>
-            </form>
-        </div>
-    </section>
+        </section>
 
-    <section class="location-map">
+        <section class="location-map">
             <div class="container">
                 <h2 class="section-title">Location Map</h2>
                 <div class="map-container">
@@ -88,8 +92,10 @@
         </section>
     </main>
 
+    <!-- FOOTER -->
     <div id="footer-placeholder"></div>
-    
+
+    <!-- SCRIPTS -->
     <script src="assets/js/main.js"></script>
 </body>
 </html>

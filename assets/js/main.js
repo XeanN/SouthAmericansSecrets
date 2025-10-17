@@ -1,150 +1,157 @@
-// Esperamos a que todo el HTML esté cargado antes de ejecutar el script. Es una buena práctica.
-document.addEventListener("DOMContentLoaded", function() {
+// =====================================
+// ✅ CÁLCULO AUTOMÁTICO DE BASE PATH (compatible con GitHub Pages)
+// =====================================
+function getBasePath() {
+  let path = window.location.pathname;
 
-    // --- CÓDIGO PARA CARGAR EL HEADER ---
-    const headerPlaceholder = document.getElementById("header-placeholder");
+  // Detectar si está en GitHub Pages
+  const repo = "/SouthAmericansSecrets";
 
-    if (headerPlaceholder) {
-        fetch('/reusable/header.html')
-            .then(response => response.text())
-            .then(data => {
-                headerPlaceholder.innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error al cargar el header:', error);
-            });
-    }
+  // Si la ruta comienza con el nombre del repo, lo quitamos
+  if (path.startsWith(repo)) {
+    path = path.replace(repo, "");
+  }
 
-    // --- CÓDIGO PARA CARGAR EL FOOTER (AÑADIR ESTO) ---
-    const footerPlaceholder = document.getElementById("footer-placeholder");
+  // Dividir en partes
+  const parts = path.split("/").filter(Boolean); // ["toursIndex", "Lima.html"]
 
-    if (footerPlaceholder) {
-        fetch('/reusable/footer.html')
-            .then(response => response.text())
-            .then(data => {
-                footerPlaceholder.innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error al cargar el footer:', error);
-            });
-    }
+  if (parts.length <= 1) {
+    return ""; // Estamos en raíz del proyecto
+  }
 
+  // Por cada carpeta, subir un nivel
+  return "../".repeat(parts.length - 1);
+}
+
+const BASE = getBasePath();
+
+
+// =====================================
+// ✅ CARGAR HEADER Y FOOTER CON {{BASE}}
+// =====================================
+document.addEventListener("DOMContentLoaded", function () {
+  const headerPlaceholder = document.getElementById("header-placeholder");
+
+  if (headerPlaceholder) {
+    fetch(BASE + "reusable/header.html")
+      .then((res) => res.text())
+      .then((html) => {
+        html = html.replace(/{{BASE}}/g, BASE);
+        headerPlaceholder.innerHTML = html;
+        document.dispatchEvent(new Event("headerLoaded"));
+      })
+      .catch((err) => console.error("Error al cargar header:", err));
+  } else {
+    document.dispatchEvent(new Event("headerLoaded"));
+  }
+
+  const footerPlaceholder = document.getElementById("footer-placeholder");
+
+  if (footerPlaceholder) {
+    fetch(BASE + "reusable/footer.html")
+      .then((res) => res.text())
+      .then((html) => {
+        html = html.replace(/{{BASE}}/g, BASE);
+        footerPlaceholder.innerHTML = html;
+      })
+      .catch((err) => console.error("Error al cargar footer:", err));
+  }
 });
 
+
+// =====================================
+// ✅ SLIDER PRINCIPAL (igual que antes)
+// =====================================
 document.addEventListener('DOMContentLoaded', () => {
+  const slider = document.querySelector('.slider');
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.querySelector('.dots');
+  
+  if (!slider) return;
 
-    // --- 1. SELECCIÓN DE ELEMENTOS ---
-    // Seleccionamos solo los elementos que existen en nuestro nuevo HTML.
-    const slider = document.querySelector('.slider');
-    const slides = document.querySelectorAll('.slide');
-    const dotsContainer = document.querySelector('.dots');
-    
-    // Si no hay un slider en la página, detenemos el script para evitar errores.
-    if (!slider) {
-        return;
-    }
+  let currentIndex = 0;
+  let autoSlideInterval;
+  const SLIDE_INTERVAL_TIME = 5000;
 
-    // --- 2. CONFIGURACIÓN ---
-    let currentIndex = 0;
-    let autoSlideInterval;
-    const SLIDE_INTERVAL_TIME = 5000; // 5 segundos, en una constante para fácil configuración.
-
-    // --- 3. CREACIÓN DE DOTS (CORREGIDO) ---
-    // Creamos un dot por cada slide que exista.
-    slides.forEach((_, i) => {
-        const dot = document.createElement('span');
-        // ¡LA CORRECCIÓN CLAVE! Añadimos la clase '.dot' que faltaba.
-        dot.classList.add('dot'); 
-        dot.addEventListener('click', () => {
-            showSlide(i);
-        });
-        dotsContainer.appendChild(dot);
+  slides.forEach((_, i) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    dot.addEventListener('click', () => {
+      showSlide(i);
     });
+    dotsContainer.appendChild(dot);
+  });
 
-    // Ahora sí podemos seleccionar los dots recién creados.
-    const dots = document.querySelectorAll('.dots .dot');
+  const dots = document.querySelectorAll('.dots .dot');
 
-    // --- 4. FUNCIONES DEL SLIDER ---
-    function showSlide(index) {
-        // Lógica para que el slider sea cíclico (vuelva al inicio/final).
-        const newIndex = (index + slides.length) % slides.length;
+  function showSlide(index) {
+    const newIndex = (index + slides.length) % slides.length;
+    slider.style.transform = `translateX(-${newIndex * 100}%)`;
 
-        // Movemos el contenedor del slider.
-        slider.style.transform = `translateX(-${newIndex * 100}%)`;
-
-        // Actualizamos la clase 'active' solo en el dot actual y el nuevo. Es más eficiente.
-        if (dots.length > 0) {
-            dots[currentIndex].classList.remove('active');
-            dots[newIndex].classList.add('active');
-        }
-
-        currentIndex = newIndex;
-        
-        // Reiniciamos el temporizador con cada cambio manual para una mejor UX.
-        resetAutoSlide();
+    if (dots.length > 0) {
+      dots[currentIndex].classList.remove('active');
+      dots[newIndex].classList.add('active');
     }
 
-    function nextSlide() {
-        showSlide(currentIndex + 1);
-    }
-    
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, SLIDE_INTERVAL_TIME);
-    }
-    
-    function resetAutoSlide() {
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
+    currentIndex = newIndex;
+    resetAutoSlide();
+  }
 
-    // --- 5. EVENTOS Y EJECUCIÓN INICIAL ---
-    // Pausar el slider al pasar el ratón por encima del contenedor hero.
-    const heroSection = document.querySelector('.hero');
-    if (heroSection) {
-        heroSection.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        heroSection.addEventListener('mouseleave', () => startAutoSlide());
-    }
+  function nextSlide() {
+    showSlide(currentIndex + 1);
+  }
 
-    // Iniciar el carrusel en el primer slide.
-    if (slides.length > 0) {
-        showSlide(0);
-        // Desactivamos el reinicio inicial para que no se adelante el primer slide
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-    }
-});
-// Lógica para el menú de hamburguesa
-document.addEventListener('DOMContentLoaded', () => {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('nav');
+  function startAutoSlide() {
+    autoSlideInterval = setInterval(nextSlide, SLIDE_INTERVAL_TIME);
+  }
 
-    // Verifica que ambos elementos existen antes de agregar el evento
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('nav-menu-visible');
-        });
-    }
+  function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+  }
+
+  const heroSection = document.querySelector('.hero');
+  if (heroSection) {
+    heroSection.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+    heroSection.addEventListener('mouseleave', () => startAutoSlide());
+  }
+
+  if (slides.length > 0) {
+    showSlide(0);
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+  }
 });
 
-// --- LÓGICA PARA EL MENÚ DESPLEGABLE EN MÓVIL ---
+
+// =====================================
+// ✅ MENÚ HAMBURGUESA
+// =====================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleccionamos solo los enlaces principales de los dropdowns que están en la navegación
-    const dropdownToggles = document.querySelectorAll('nav .dropdown > a');
+  const navToggle = document.querySelector('.nav-toggle');
+  const navMenu = document.querySelector('nav');
 
-    dropdownToggles.forEach(toggle => {
-        toggle.addEventListener('click', function(event) {
-            // Esta función solo se ejecutará en la vista de móvil/tablet (ancho <= 992px)
-            if (window.innerWidth <= 992) {
-                event.preventDefault(); // Prevenimos que el enlace nos lleve a otra página
-                
-                // Buscamos el submenú que le sigue (el .mega-menu)
-                const nextMenu = this.nextElementSibling;
-
-                // Le añadimos o quitamos la clase 'active' para mostrarlo u ocultarlo
-                if (nextMenu) {
-                    nextMenu.classList.toggle('active');
-                }
-            }
-        });
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('nav-menu-visible');
     });
+  }
+});
+
+
+// =====================================
+// ✅ DROPDOWN EN MÓVIL
+// =====================================
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownToggles = document.querySelectorAll('nav .dropdown > a');
+
+  dropdownToggles.forEach(toggle => {
+    toggle.addEventListener('click', function (event) {
+      if (window.innerWidth <= 992) {
+        event.preventDefault();
+        const nextMenu = this.nextElementSibling;
+        if (nextMenu) nextMenu.classList.toggle('active');
+      }
+    });
+  });
 });
