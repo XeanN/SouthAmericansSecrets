@@ -4,9 +4,7 @@
 .contact-hero {
     position: relative;
     height: 550px;
-    background-image: url('/assets/img/Hero/heroParacas.jpg'); /* O la imagen que prefieras */
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +18,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.381);
     z-index: 1;
 }
 

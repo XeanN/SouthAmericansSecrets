@@ -10,21 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------------------------
     const featuredData = [
         {
-            image: 'assets/img/SIerra/Cuzco/Machu Picchu en Un Día/106.jpg',
+            image: 'assets/img/SIerra/Cuzco/Machu-Picchu-en-Un-Día/106.jpg',
             title: 'Machu Picchu',
             meta: 'November 06, 2017 · Cameron Metreaud',
             description: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value. Most recently it has been recognized as one of the seven wonders of the modern world. This impressing archaeological site has been steadily growing in popularity and currently receives over 2500 tourists daily. Veteran guide Lucio explains that “due to increasing demand, the areas accessible to visitors are reduced and increasingly restricted every year.” Today the visitors are still able to go inside and touch most the ancient structures of Machu Picchu allowing for a very intimate and personal experience. In coming years the tours will be restricted to fenced-off pathways and single file lines.',
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.”'
         },
         {
-            image: 'assets/img/Costa/Ica_Huaca/Viñedo Museo y Oasis/16.jpg',
+            image: 'assets/img/Costa/Ica_Huaca/Viñedo_MuseoOasis/16.jpg',
             title: 'Huacachina Oasis',
             meta: 'January 12, 2020 · Alex Rodriguez',
             description: 'A true desert oasis, Huacachina is a stunning lagoon surrounded by massive sand dunes. It is a hub for adventure sports like sandboarding and dune buggy rides, offering a unique experience in the Peruvian landscape.',
             quote: '“The sunset over the dunes is something you will never forget. The colors are simply breathtaking.”'
         },
         {
-            image: 'assets/img/Costa/tours_Paracas/La Reserva Nacional de Paracas/70.jpg',
+            image: 'assets/img/Costa/tours_Paracas/La_Reserva_Nacional_Paracas/70.jpg',
             title: 'Paracas National Reserve',
             meta: 'March 22, 2023 · Maria Garcia',
             description: 'This protected area is a sanctuary for marine life, including sea lions, dolphins, and countless bird species. The dramatic cliffs and red-sand beaches create a landscape unlike any other in Peru.',
