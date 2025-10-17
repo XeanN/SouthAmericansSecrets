@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Dune Buggy & Sandboard',
             category: 'Ica y Huacachina',
+            url: 'tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html',
             url: '../tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html',
+            image: 'assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/tourBuggy.jpg',
             image: '../assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/tourBuggy.jpg'
         },
         {
@@ -279,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Shore Excursions to Pachacamac',
             category: 'Cruceros desde Callao',
             url: '../ShoreExcursions/FromCallaoCruiseTerminal/tourShoreExcursionstoPachacamacArchaeological.html',
-            image: '/../assets/img/Excursiones/Terminal_Callao/Excursiones_tierra_Sitios_arqueológicos_Pachacamac/Lima.jpg'
+            image: '../assets/img/Excursiones/Terminal_Callao/Excursiones_tierra_Sitios_arqueológicos_Pachacamac/Lima.jpg'
         },
 
         // === Shore Excursions (Salaverry) ===
@@ -295,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Nazca Lines Flight',
             category: 'Cruceros desde Pisco/Paracas',
             url: '../ShoreExcursions/FromTPPPiscoParacasCruiseTerminal/tourNazcaLinesFlight.html',
-            image: '/../assets/img/Excursiones/Terminal_Paracas/Vuelo_las_Líneas_Nazca/ExcursionesLineasN.jpg'
+            image: '../assets/img/Excursiones/Terminal_Paracas/Vuelo_las_Líneas_Nazca/ExcursionesLineasN.jpg'
         },
         {
             name: 'Shore Excursions to Islas Ballestas',

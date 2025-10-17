@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsData = [
         {
             id: 1,
-            link: '/blog/post-1.html',
+            link: '../blog/post-1.html',
             title: 'Machu Picchu',
             meta: 'November 06, 2017 - Cameron Metreaud',
             excerpt: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value...',
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 2,
-            link: '/blog/post-2.html',
+            link: '../blog/post-2.html',
             title: 'Enigma del Monte Sierpe',
             meta: 'April 20, 2014 - Rein Petersen',
             excerpt: 'The geoglyphs at Monte Sierpe are one of Peru’s greatest mysteries, with massive serpent-like patterns carved into the desert. Their origin and purpose remain unknown, adding to their allure.Getting to Nasca to see the famous Nasca Lines used to be difficult, requiring a long 7-8 hour drive from Lima. Unless you chartered a private flight, public transport options were limited and time-consuming. Fortunately, access has improved, making it easier for travelers to visit and experience Peru’s ancient wonders from the sky.',
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 3,
-            link: '/blog/post-3.html',
+            link: '../blog/post-3.html',
             title: 'Guano Collectors',
             meta: 'February 22, 2014 - Rein Peterson',
             excerpt: 'Guano, once a highly coveted resource during the 19th century, is making a resurgence as synthetic fertilizer costs rise. On North Guañape Island, off the coast of Peru, workers collect seabird dung, prized for its high nutrient content. This labor is physically demanding, with heat, exhaustion, and the smell posing constant challenges. But as worker Domingo León explains, “The worst enemy is the dust—sticking to our eyebrows, covering our noses and cheeks, turning our faces into rigid masks.” Despite the harsh conditions, the global demand for guano is soaring once again, fueling this unique industry.',
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 4,
-            link: '/blog/post-4.html',
+            link: '../blog/post-4.html',
             title: 'Nasca Lines from Pisco',
             meta: 'February 26, 2014 - Rein Petersen',
             excerpt: 'Getting to Nasca to see the Nasca lines once used to be a complicated and time-consuming effort. Unless you chartered your own private flight from Lima, public access was limited to mostly car or bus which is very long (7-8 hour one-way) trip from Lima.',

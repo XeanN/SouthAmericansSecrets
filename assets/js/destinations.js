@@ -24,7 +24,7 @@ const topDestinations = [
     },
     {
         id: 'lima',
-        image: '/assets/img/Costa/tours_Lima/Tour_de_Lima/37.jpg',
+        image: 'assets/img/Costa/tours_Lima/Tour_de_Lima/37.jpg',
         title1: 'Lima',
         title2: 'Perú',
         url: 'tour/Coast-of-Peru/Lima/tourLimaCityTour.html'
