@@ -87,7 +87,7 @@ if (registerForm) {
         email
       }));
 
-      window.location.href = "/pages/dashboard.html";
+      window.location.href = "SouthAmericansSecrets/pages/dashboard.html";
     } catch (error) {
       alert("Error creating account: " + error.message);
     }
