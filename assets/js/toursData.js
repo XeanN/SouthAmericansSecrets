@@ -9,7 +9,7 @@ const toursData = {
         minPersons: 1,
         duration: "0 Hours",
         rating: "0.0 (0 reviews)",
-        image: "../assets/img/tours/dune-buggy-sandboard-falta.jpg"
+        image: '../assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/15.jpg',
     },
     "vineyard-museum-oasis-tour": {
         title: "Vineyard Museum Oasis Tour",
