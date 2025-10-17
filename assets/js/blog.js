@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             excerpt: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value...',
 
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.”',
-            images: [ '/assets/img/Sierra/Cuzco/Tour de Cuzco/109.jpg', '/assets/img/Sierra/Cuzco/tour de Cuzco/110.jpg', '/assets/img/Sierra/Cuzco/tour de Cuzco/111.jpg' ]
+            images: [ '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/109.jpg', '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/110.jpg', '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/111.jpg' ]
         },
         {
             id: 2,
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             quote: '“I believe that what appears to be a serpent is actually the deity Qhoa. He was the servant or acolyte of the god of water known as Illapa and his likeness was used in a majority of rituals regarding rain” ',
 
-            images: [ '/assets/img/Enigma del Monte Sierpe1.jpg', '/assets/img/Enigma del Monte Sierpe2.jpg', '/assets/img/Enigma del Monte Sierpe3.jpg' ]
+            images: [ '../assets/img/EnigmadelMonteSierpe1.jpg', '../assets/img/EnigmadelMonteSierpe2.jpg', '../assets/img/EnigmadelMonteSierpe3.jpg' ]
         },
         {
             id: 3,
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             quote: '“The worst enemy is not the smell, heat or exhaustion... [it] is dust sticking on the eyebrows, covering our noses and cheeks and turning our face into a rigid mask.” ',
 
-            images: [ '/assets/img/Guano Collectors1.jpg', '/assets/img/Guano Collectors2.jpg', '/assets/img/Guano Collectors3.jpg' ]
+            images: [ '../assets/img/GuanoCollectors1.jpg', '../assets/img/GuanoCollectors2.jpg', '../assets/img/GuanoCollectors3.jpg' ]
         },
         {
             id: 4,
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.” ',
 
-            images: [ '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/46.jpg', '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/47.jpg', '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/48.jpg' ]
+            images: [ '../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/46.jpg', '../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/47.jpg', '../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/48.jpg' ]
         },
         
     ];
