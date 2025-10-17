@@ -87,7 +87,7 @@ if (registerForm) {
         email
       }));
 
-      window.location.href = "SouthAmericansSecrets/pages/dashboard.html";
+      window.location.href = "/pages/dashboard.html";
     } catch (error) {
       alert("Error creating account: " + error.message);
     }
@@ -117,7 +117,7 @@ if (loginForm) {
         email: user.email
       }));
 
-      window.location.href = "SouthAmericansSecrets/pages/dashboard.html";
+      window.location.href = "/pages/dashboard.html";
     } catch (error) {
       alert("Login failed: " + error.message);
     }
