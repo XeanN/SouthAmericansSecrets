@@ -1,48 +1,37 @@
-const destinations = [
-  { city: "Lima", img: "assets/img/cities/lima.jpg" },
-  { city: "Cusco", img: "assets/img/cities/cusco.jpg" },
-  { city: "Arequipa", img: "assets/img/cities/arequipa.jpg" },
-  { city: "Ica", img: "assets/img/cities/ica.jpg" },
-  { city: "Paracas", img: "assets/img/cities/paracas.jpg" },
-  { city: "Nazca", img: "assets/img/cities/nazca.jpg" },
-  { city: "Puno", img: "assets/img/cities/puno.jpg" },
-  { city: "Trujillo", img: "assets/img/cities/trujillo.jpg" },
-  { city: "Chiclayo", img: "assets/img/cities/chiclayo.jpg" },
-  { city: "Tarapoto", img: "assets/img/cities/tarapoto.jpg" },
-  { city: "Iquitos", img: "assets/img/cities/iquitos.jpg" },
-  { city: "Piura", img: "assets/img/cities/piura.jpg" }
-];
-
 // assets/js/topdestinations.js
 
 const topDestinations = [
     {
         id: 'ica',
-        image: 'assets/img/ica-buggy.jpg',
-        // CAMBIO: Ahora el título tiene dos partes
+        image: '/assets/img/Costa/Ica_Huaca/Buggy Tour y Sandboard/15.jpg',
         title1: 'Ica',
-        title2: 'Perú'
+        title2: 'Perú',
+        url: '/tour/Coas of Peru/Ica y Huacachina/tourDuneBuggySandboardFalta.html'
     },
     {
         id: 'islas-ballestas',
-        image: 'assets/img/nazca_p.1.jpg',
+        image: '/assets/img/Costa/tours_Paracas/Islas Ballestas/62.jpg',
         title1: 'Islas Ballestas',
-        title2: 'Perú'
+        title2: 'Perú',
+        url: '/tour/Coas of Peru/Paracas y Islas Ballestas/tourIslasBallestas.html'
     },
     {
         id: 'huacachina',
-        image: 'assets/img/huacachina.jpg',
+        image: '/assets/img/Costa/Ica_Huaca/Viñedo Museo y Oasis/16.jpg',
         title1: 'Huacachina',
-        title2: 'Perú'
+        title2: 'Perú',
+        url: '/tour/Coas of Peru/Ica y Huacachina/tourVineyardMuseumOasisTour.html'
     },
     {
         id: 'lima',
-        image: 'assets/img/lima-costa.jpg',
+        image: '/assets/img/Costa/tours_Lima/Tour de Lima/37.jpg',
         title1: 'Lima',
-        title2: 'Perú'
+        title2: 'Perú',
+        url: '/tour/Coas of Peru/Lima/tourLimaCityTour.html'
     }
 ];
 
+// ESTE ES EL ÚNICO BLOQUE QUE NECESITAS PARA MOSTRAR LAS TARJETAS
 document.addEventListener('DOMContentLoaded', () => {
     const destinationsContainer = document.querySelector('.destinations-grid');
 
@@ -51,10 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     destinationsContainer.innerHTML = '';
 
     topDestinations.forEach(destination => {
-        // CAMBIO: Ahora construimos el h3 con dos spans adentro
         const cardHTML = `
             <div class="card" id="${destination.id}">
-                <img src="${destination.image}" alt="${destination.title1}, ${destination.title2}">
+                
+                <a href="${destination.url}">
+                    <img src="${destination.image}" alt="${destination.title1}, ${destination.title2}">
+                </a>
+                
                 <div class="card-info">
                     <h3>
                         <span>${destination.title1}</span>
@@ -66,15 +58,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         destinationsContainer.innerHTML += cardHTML;
     });
-});
-const grid = document.getElementById('destinationsGrid');
-
-destinations.forEach(dest => {
-    const card = document.createElement('div');
-    card.classList.add('destination-card');
-    card.innerHTML = `
-    <img src="${dest.img}" alt="${dest.city}">
-    <div class="city">${dest.city}</div>
-    `;
-    grid.appendChild(card);
 });

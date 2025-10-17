@@ -3,46 +3,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsData = [
         {
             id: 1,
-            link: '../blog/post-1.html',
+            link: '/blog/post-1.html',
             title: 'Machu Picchu',
             meta: 'November 06, 2017 - Cameron Metreaud',
             excerpt: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value...',
 
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.”',
-            images: [ '../assets/img/machu_picchu_p.jpg', '../assets/img/machu_picchu_p.2.jpg', '../assets/img/nazca_p.1.jpg' ]
+            images: [ '/assets/img/Sierra/Cuzco/Tour de Cuzco/109.jpg', '/assets/img/Sierra/Cuzco/tour de Cuzco/110.jpg', '/assets/img/Sierra/Cuzco/tour de Cuzco/111.jpg' ]
         },
         {
             id: 2,
-            link: 'post-monte-sierpe.html',
+            link: '/blog/post-2.html',
             title: 'Enigma del Monte Sierpe',
-            meta: 'April 20, 2024 - Rein Petersen',
+            meta: 'April 20, 2014 - Rein Petersen',
             excerpt: 'The geoglyphs at Monte Sierpe are one of Peru’s greatest mysteries, with massive serpent-like patterns carved into the desert. Their origin and purpose remain unknown, adding to their allure.Getting to Nasca to see the famous Nasca Lines used to be difficult, requiring a long 7-8 hour drive from Lima. Unless you chartered a private flight, public transport options were limited and time-consuming. Fortunately, access has improved, making it easier for travelers to visit and experience Peru’s ancient wonders from the sky.',
 
             quote: '“I believe that what appears to be a serpent is actually the deity Qhoa. He was the servant or acolyte of the god of water known as Illapa and his likeness was used in a majority of rituals regarding rain” ',
 
-            images: [ '../assets/img/fondo_de_reviews.png', '../assets/img/bike_paracas_1_p.jpg', '../assets/img/Hero_Login.jpg' ]
+            images: [ '/assets/img/Enigma del Monte Sierpe1.jpg', '/assets/img/Enigma del Monte Sierpe2.jpg', '/assets/img/Enigma del Monte Sierpe3.jpg' ]
         },
         {
             id: 3,
-            link: 'post-monte-sierpe.html',
+            link: '/blog/post-3.html',
             title: 'Guano Collectors',
             meta: 'February 22, 2014 - Rein Peterson',
             excerpt: 'Guano, once a highly coveted resource during the 19th century, is making a resurgence as synthetic fertilizer costs rise. On North Guañape Island, off the coast of Peru, workers collect seabird dung, prized for its high nutrient content. This labor is physically demanding, with heat, exhaustion, and the smell posing constant challenges. But as worker Domingo León explains, “The worst enemy is the dust—sticking to our eyebrows, covering our noses and cheeks, turning our faces into rigid masks.” Despite the harsh conditions, the global demand for guano is soaring once again, fueling this unique industry.',
 
             quote: '“The worst enemy is not the smell, heat or exhaustion... [it] is dust sticking on the eyebrows, covering our noses and cheeks and turning our face into a rigid mask.” ',
 
-            images: [ '../assets/img/fondo_de_reviews.png', '../assets/img/bike_paracas_1_p.jpg', '../assets/img/Hero_Login.jpg' ]
+            images: [ '/assets/img/Guano Collectors1.jpg', '/assets/img/Guano Collectors2.jpg', '/assets/img/Guano Collectors3.jpg' ]
         },
         {
             id: 4,
-            link: 'post-monte-sierpe.html',
+            link: '/blog/post-4.html',
             title: 'Nasca Lines from Pisco',
             meta: 'February 26, 2014 - Rein Petersen',
             excerpt: 'Getting to Nasca to see the Nasca lines once used to be a complicated and time-consuming effort. Unless you chartered your own private flight from Lima, public access was limited to mostly car or bus which is very long (7-8 hour one-way) trip from Lima.',
 
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.” ',
 
-            images: [ '../assets/img/fondo_de_reviews.png', '../assets/img/bike_paracas_1_p.jpg', '../assets/img/Hero_Login.jpg' ]
+            images: [ '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/46.jpg', '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/47.jpg', '/assets/img/Costa/Lineas de Nazca/Líneas de Nazca desde Paracas/48.jpg' ]
         },
         
     ];
