@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Sobrevuelo a las Líneas de Nazca desde Lima',
             category: 'Lima',
-            url: '/tour/Coast-of-Peru/Lima/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
+            url: '/tour/Coast-of-Peru/Lima/tourFlightsOverNazca-LinesFromLima(1-dayVipPrivate).html',
             image: '/assets/img/tours/lima_nazca_flight.jpg'
         },
         {
