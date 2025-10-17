@@ -6,13 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Dune Buggy & Sandboard',
             category: 'Ica y Huacachina',
-            url: '/tour/Coas of Peru/Ica y Huacachina/tourDuneBuggySandboardFalta.html',
+            url: '/tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html',
             image: '/assets/img/machu_picchu_p.jpg'
         },
         {
             name: 'Tour de Viñedo, Museo y Oasis',
             category: 'Ica y Huacachina',
-            url: '/tour/Coas of Peru/Ica y Huacachina/tourVineyardMuseumOasisTour.html',
+            url: '/tour/Coast-of-Peru/Ica-y-Huacachina/tourVineyardMuseumOasisTour.html',
             image: '/assets/img/tours/ica_vineyard.jpg'
         },
 
@@ -20,43 +20,43 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Tour a Caral',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourCaral.html',
+            url: '/tour/Coast-of-Peru/Lima/tourCaral.html',
             image: '/assets/img/tours/lima_ccral.jpg'
         },
         {
             name: 'Sobrevuelo a las Líneas de Nazca desde Lima',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
+            url: '/tour/Coast-of-Peru/Lima/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
             image: '/assets/img/tours/lima_nazca_flight.jpg'
         },
         {
             name: 'City Tour en Lima',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourLimaCityTour.html',
+            url: '/tour/Coast-of-Peru/Lima/tourLimaCityTour.html',
             image: '/assets/img/tours/lima_city_tour.jpg'
         },
         {
             name: 'Tour de Museos de Lima',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourMuseumsOfLima.html',
+            url: '/tour/Coast-of-Peru/Lima/tourMuseumsOfLima.html',
             image: '/assets/img/tours/lima_museums.jpg'
         },
         {
             name: 'Tour de Vida Nocturna en Lima',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourNightlifeInLima.html',
+            url: '/tour/Coast-of-Peru/Lima/tourNightlifeInLima.html',
             image: '/assets/img/tours/lima_nightlife.jpg'
         },
         {
             name: 'Tour a Pachacamac',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourPachacamac.html',
+            url: '/tour/Coast-of-Peru/Lima/tourPachacamac.html',
             image: '/assets/img/tours/lima_pachacamac.jpg'
         },
         {
             name: 'Tour Museo del Oro del Perú',
             category: 'Lima',
-            url: '/tour/Coas of Peru/Lima/tourPeruGold.html',
+            url: '/tour/Coast-of-Peru/Lima/tourPeruGold.html',
             image: '/assets/img/tours/lima_gold_museum.jpg'
         },
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Acueductos de Cantalloc',
             category: 'Nazca Lines',
-            url: '/tour/Coas of Peru/Nazca Lines/tourCantallocAqueducts.html',
+            url: '/tour/Coast-of-Peru/Nazca-Lines/tourCantallocAqueducts.html',
             image: '/assets/img/tours/nazca_aqueducts.jpg'
         },
         // ... (todos los demás tours de Nazca)
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Tour a Chan Chan',
             category: 'North Coast',
-            url: '/tour/Coas of Peru/North Coast/tourChanChan.html',
+            url: '/tour/Coast-of-Peru/North-Coast/tourChanChan.html',
             image: '/assets/img/tours/north_chan_chan.jpg'
         },
         // ... (todos los demás tours de North Coast)
@@ -82,14 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Islas Ballestas para Cruceros (Primera Clase)',
             category: 'Paracas y Islas Ballestas',
-            url: '/tour/Coas of Peru/Paracas y Islas Ballestas/tourCruiseMemberIslasBallestasFirtsClass.html',
+            url: '/tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourCruiseMemberIslasBallestasFirtsClass.html',
             image: '/assets/img/tours/paracas_cruise_first.jpg'
         },
         // ... (todos los demás tours de Paracas)
         {
             name: 'Alquiler de yates turísticos',
             category: 'Paracas y Islas Ballestas',
-            url: '/tour/Coas of Peru/Paracas y Islas Ballestas/tourYachtCharter.html',
+            url: '/tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourYachtCharter.html',
             image: '/assets/img/tours/paracas_ballestas.jpg'
         },
 
@@ -97,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Manu Reserve Tour',
             category: 'Manu Reserve',
-            url: '/tour/Rainforest/Manu Reserve/tourManuReserve.html',
+            url: '/tour/Rainforest/Manu-Reserve/tourManuReserve.html',
             image: '/assets/img/tours/manu_reserve.jpg'
         },
         {
             name: 'Tambopata Reserve Tour (desde Manu)', 
             category: 'Manu Reserve',
-            url: '/tour/Rainforest/Manu Reserve/tourTambopataReserve.html',
+            url: '/tour/Rainforest/Manu-Reserve/tourTambopataReserve.html',
             image: '/assets/img/tours/tambopata_reserve.jpg'
         },
 
@@ -111,13 +111,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Manu Reserve Tour (desde Tambopata)',
             category: 'Tambopata Rainforest',
-            url: '/tour/Rainforest/Tambopata Rainforest/tourManuReserve.html',
+            url: '/tour/Rainforest/Tambopata-Rainforest/tourManuReserve.html',
             image: '/assets/img/tours/manu_reserve.jpg'
         },
         {
             name: 'Tambopata Reserve Tour',
             category: 'Tambopata Rainforest',
-            url: '/tour/Rainforest/Tambopata Rainforest/tourTambopataReserve.html',
+            url: '/tour/Rainforest/Tambopata-Rainforest/tourTambopataReserve.html',
             image: '/assets/img/tours/tambopata_reserve.jpg'
         },
 
@@ -125,13 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Arequipa City Tour',
             category: 'Arequipa',
-            url: '/tour/The Highlands/Arequipa/tourArequipaCity.html',
+            url: '/tour/The-Highlands/Arequipa/tourArequipaCity.html',
             image: '/assets/img/tours/arequipa_city.jpg'
         },
         {
             name: 'Colca Canyon Tour',
             category: 'Arequipa',
-            url: '/tour/The Highlands/Arequipa/tourColcaCanyon.html',
+            url: '/tour/The-Highlands/Arequipa/tourColcaCanyon.html',
             image: '/assets/img/tours/colca_canyon.jpg'
         },
 
@@ -139,14 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Cuzco City Tour',
             category: 'Cuzco',
-            url: '/tour/The Highlands/Cuzco/tourCuzcoCity.html',
+            url: '/tour/The-Highlands/Cuzco/tourCuzcoCity.html',
             image: '/assets/img/tours/cuzco_city.jpg'
         },
         // ... (todos los demás tours de Cuzco)
         {
             name: 'White Water Rafting',
             category: 'Cuzco',
-            url: '/tour/The Highlands/Cuzco/tourWhiteWaterRafting.html',
+            url: '/tour/The-Highlands/Cuzco/tourWhiteWaterRafting.html',
             image: '/assets/img/tours/white_water_rafting.jpg'
         },
 
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Lake Titicaca Boat Tour',
             category: 'Lake Titicaca',
-            url: '/tour/The Highlands/Lake Titicaca/tourLakeTiticacaBoat.html',
+            url: '/tour/The-Highlands/Lake-Titicaca/tourLakeTiticacaBoat.html',
             image: '/assets/img/tours/lake_titicaca.jpg'
         },
         
