@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>South Americans Secrets</title>
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
 
@@ -181,6 +181,16 @@
     <script src="assets/js/guides.js"></script>
     <script src="assets/js/destinations.js"></script>
     <script src="assets/js/featured.js"></script>
+    <script>
+    (function() {
+        const path = window.location.pathname;
+        const isIndexInSubfolder = path.includes('/index.html') && path.length > '/index.html'.length;
+        let finalPath = isIndexInSubfolder ? path.replace(/index\.html$/, '') : path;
+        const dir = finalPath.substring(0, finalPath.lastIndexOf('/'));
+        const depth = (dir.match(/\/pages\//) ? (dir.split('/pages/')[1] || '').split('/').filter(Boolean).length : 0);
+        window.pathPrefix = './'.repeat(depth === 0) + '../'.repeat(depth);
+    })();
+    </script>
     <script src="assets/js/all-destinations.js"></script>
 
 </body>
