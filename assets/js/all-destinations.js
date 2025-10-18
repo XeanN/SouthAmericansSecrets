@@ -7,9 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Dune Buggy & Sandboard',
             category: 'Ica y Huacachina',
             url: 'tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html',
-            url: '../tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html',
             image: 'assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/tourBuggy.jpg',
-            image: '../assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/tourBuggy.jpg'
         },
         {
             name: 'Tour de Viñedo, Museo y Oasis',
