@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Sobrevuelo a las Líneas de Nazca desde Paracas',
             category: 'Lima',
-            url: 'tour/Coast-of-Peru/Lima/tourFlightsOverNazcaLinesFromLima(1-dayVipPrivate).html',
+            url: 'tour/Coast-of-Peru/Lima/tourFlightsOverNazcaLinesFromLima1-dayVipPrivate.html',
             image: 'assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/sobrevueloLineasNazca.jpg'
         },
         {
