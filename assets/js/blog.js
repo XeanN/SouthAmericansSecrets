@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             excerpt: 'Machu Picchu, also known as Pata Llacta the lost city of the Incas, is one of the earth’s ancient megastructures of great historical value...',
 
             quote: '“Before, the only way to see the Nasca lines was to travel to Nasca - usually by bus. But now we fly from Pisco and people prefer it.”',
-            images: [ '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/109.jpg', '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/110.jpg', '../assets/img/Sierra/Cuzco/Tour-de-Cuzco/111.jpg' ]
+            images: [ '../assets/img/SIerra/Cuzco/Tour-de-Cuzco/109.jpg', '../assets/img/SIerra/Cuzco/Tour-de-Cuzco/110.jpg', '../assets/img/SIerra/Cuzco/Tour-de-Cuzco/111.jpg' ]
         },
         {
             id: 2,
