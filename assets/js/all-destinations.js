@@ -345,10 +345,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return city.category === categoryToDisplay;
     });
 
+    // ¡AQUÍ ESTÁ LA MAGIA! Usamos la variable `BASE` de tu archivo `main.js`
     filteredList.forEach(city => {
+        // La variable `BASE` es creada por tu propio script `main.js` y ya contiene la ruta correcta.
         const cardHTML = `
-            <a href="${city.url}" class="destination-item-card">
-                <img src="${city.image}" alt="Destino: ${city.name}">
+            <a href="${BASE}${city.url}" class="destination-item-card">
+                <img src="${BASE}${city.image}" alt="Destino: ${city.name}">
                 <div class="city-name">
                     <span>${city.name}</span>
                 </div>
