@@ -1,7 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // --- LÓGICA INTELIGENTE AUTO-CONTENIDA ---
+    // Esta función detecta la ubicación del archivo HTML y calcula la ruta correcta a la raíz.
+    // Es la única parte nueva y hace que este script funcione por sí solo.
+    const getBasePath = () => {
+        const path = window.location.pathname;
+        const pageName = path.substring(path.lastIndexOf('/') + 1);
+
+        // Si estamos en una página dentro de una subcarpeta (ej: /toursIndex/tours.html)
+        if (pageName.length > 0 && path.split('/').length > 2) {
+             // Contamos cuántas carpetas hay que "subir"
+            const depth = path.split('/').length - 2;
+            return '../'.repeat(depth);
+        }
+        
+        // Si estamos en la raíz (ej: /index.html), la ruta base es el directorio actual.
+        return './';
+    };
+
+    // Calculamos la ruta base correcta para la página actual.
+    const basePath = getBasePath();
+    // --- FIN DE LA LÓGICA ---
+    
+    
     // Aquí está tu lista completa con todos los tours y paquetes unidos.
     const allDestinationsData = [
+        
         // === Ica y Huacachina ===
         {
             name: 'Dune Buggy & Sandboard',
