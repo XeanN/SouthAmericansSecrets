@@ -305,6 +305,8 @@ img {
     background-color: var(--color-primary-dark);
 }
 
+
+
 .slider {
     display: flex;
     height: 100%;
@@ -315,6 +317,17 @@ img {
     min-width: 100%;
     position: relative;
     height: 100%;
+}
+/* 2. Crea la capa de superposición oscura */
+.slide::after {
+    content: ''; /* Necesario para que el pseudo-elemento se muestre */
+    position: absolute; /* Se posiciona sobre el .slide */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.229); /* Negro con 40% de opacidad */
+    z-index: 1; /* Asegura que la capa esté por encima de la imagen */
 }
 
 .slide img {
@@ -338,6 +351,13 @@ img {
     font-weight: 800;
     color: var(--color-white);
 }
+
+.slide .content h3 {
+    font-size: 1.2rem;
+    font-weight: 200;
+    color: rgb(252, 252, 252);
+}
+
 /* ==========================================================================
 5. SECCIÓN - HERO (Añadir al final)
    ========================================================================== */
@@ -793,6 +813,60 @@ img {
     font-size: 0.9rem;
 }
 /* ==========================================================================
+    8.2. ESTILOS PARA EL SLIDER DE TESTIMONIOS 
+   ========================================================================== */
+
+/* Contenedor principal del slider (reemplaza a .testimonial-card en el layout) */
+.testimonial-slider {
+    flex-basis: 50%;
+    position: relative; /* Clave para posicionar las flechas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor de la tarjeta, para permitir transiciones */
+#testimonial-card-container {
+    width: 100%;
+    transition: opacity 0.3s ease-in-out; /* Efecto suave de desvanecimiento */
+}
+
+/* Estilo de las flechas de navegación */
+.slider-arrow {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-primary); /* Usa tu color primario */
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.slider-arrow:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* Posición específica para cada flecha */
+.slider-arrow.prev {
+    left: -50px; /* Ajusta este valor para mover la flecha */
+}
+
+.slider-arrow.next {
+    right: -50px; /* Ajusta este valor para mover la flecha */
+}
+/* ==========================================================================
     9. SECCIÓN - ALL DESTINATIONS
    ========================================================================== */
 
@@ -822,7 +896,7 @@ img {
     box-shadow: var(--box-shadow-light);
     transition: transform 0.3s ease;
     cursor: pointer;
-    
+    background-color: #f0f0f0;
     /* Quitamos el flexbox de centrado y el padding */
 }
 
@@ -838,7 +912,7 @@ img {
     
     /* AÑADIMOS la proporción vertical que quieres */
     aspect-ratio: 3 / 4; /* Por cada 3 unidades de ancho, tendrá 4 de alto */
-
+    
     object-fit: cover;
     display: block;
 }
@@ -848,6 +922,11 @@ img {
     padding: 1rem;
     text-align: center;
     background-color: #f0f0f0; /* Fondo gris claro para el texto */
+    /* --- LA MAGIA ESTÁ AQUÍ --- */
+             /* ¡CLAVE! Le dice a esta caja que CREZCA y ocupe todo el espacio vertical sobrante */
+    display: flex;         /* La convertimos en un contenedor flexible también */
+    justify-content: center; /* Centra el texto horizontalmente */
+    align-items: center;   /* Centra el texto verticalmente */
 }
 
 .city-name span {
@@ -863,11 +942,11 @@ img {
 
 /* Un efecto hover para darle interactividad */
 .destination-item-card:hover {
-    background-color: var(--color-primary);
+    background-color: #f0f0f0;
     color: var(--color-white);
 }
 .destination-item-card:hover span {
-    color: var(--color-white);
+    color: var(--color-black);
 }
 /* ==========================================================================
     10. SECCIÓN - TOUR GUIDES
@@ -1620,4 +1699,64 @@ img {
         /* ========================================================================
         FIN DE LA CORRECCIÓN
         ======================================================================== */
+}
+
+/* ==========================================================================
+    14. BOTÓN FLOTANTE DE WHATSAPP (CORREGIDO)
+   ========================================================================== */
+
+.whatsapp-flotante {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    
+    /* === LA CORRECCIÓN ESTÁ AQUÍ === */
+    display: flex;          /* 1. Activa Flexbox */
+    align-items: center;    /* 2. Centra los elementos verticalmente */
+    gap: 10px;               /* 3. Añade un pequeño espacio entre el texto y el ícono */
+    /* =============================== */
+
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    overflow: hidden; 
+    text-decoration: none;
+}
+
+/* El ícono de WhatsApp */
+.whatsapp-flotante i {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    flex-shrink: 0; /* Evita que el ícono se encoja */
+}
+
+/* El texto que se despliega */
+.whatsapp-texto {
+    width: 0;
+    opacity: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 1rem;
+    padding-right: 5px; /* Ajustado para dar espacio a la derecha del texto */
+    transition: all 0.3s ease;
+}
+
+/* El efecto al pasar el mouse */
+.whatsapp-flotante:hover {
+    border-radius: 30px;
+    color: #FFF;
+}
+
+.whatsapp-flotante:hover .whatsapp-texto {
+    width: 170px;
+    opacity: 1;
+    padding-left: 15px; /* Mantenemos el padding a la izquierda */
 }
