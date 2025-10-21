@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Shore Excursions to Islas Ballestas',
             category: 'Cruceros desde Pisco/Paracas',
-            url: 'FromTPPPiscoParacasCruiseTerminal/tourShoreExcursionsIslasBallestas.html',
+            url: 'ShoreExcursions/FromTPPPiscoParacasCruiseTerminal/tourShoreExcursionsIslasBallestas.html',
             image: 'assets/img/Excursiones/Terminal_Paracas/Excursiones_tierra_IslasBallestas/ExcursionesIslasBallestas.jpg'
         },
         {

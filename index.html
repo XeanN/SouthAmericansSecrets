@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>South Americans Secrets</title>
-
+    <link rel="icon" href="assets/img/logoN.png" type="image/png">
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles.css">
 
@@ -31,7 +31,7 @@
                     <div class="content container">
                         <span class="smallText">Maravilla del Mundo</span>
                         <h1>Machu Picchu, Cusco</h1>
-                        <p>Descubre la ciudadela inca perdida entre las nubes.</p>
+                        <h3>Descubre la ciudadela inca perdida entre las nubes.</h3>
                         <a href="tours.html" class="btn">Ver Tour</a>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="content container">
                         <span class="smallText">Oasis en el Desierto</span>
                         <h1>Huacachina, Ica</h1>
-                        <p>Aventura y adrenalina en las dunas más impresionantes.</p>
+                        <h3>Aventura y adrenalina en las dunas más impresionantes.</h3>
                         <a href="tours.html" class="btn">Explorar</a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="content container">
                         <span class="smallText">Vida Marina</span>
                         <h1>Reserva de Paracas</h1>
-                        <p>Navega junto a lobos marinos y pingüinos de Humboldt.</p>
+                        <h3>Navega junto a lobos marinos y pingüinos de Humboldt.</h3>
                         <a href="tours.html" class="btn">Descubrir</a>
                     </div>
                 </div>
@@ -99,7 +99,6 @@
             </div>
         </section>
 
-        <!-- REVIEWS -->
         <section class="reviews">
             <div class="overlay">
                 <div class="container">
@@ -108,23 +107,21 @@
                         <div class="reviews-text">
                             <h2>Reviews By Clients</h2>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur. Aenean viverra eu aliquet et phasellus en arcu.
+                                Descubre lo que nuestros viajeros dicen sobre su experiencia. Testimonios reales de aventuras inolvidables.
                             </p>
                         </div>
 
-                        <div class="testimonial-card">
-                            <p class="testimonial-text">
-                                “Lorem ipsum dolor sit amet consectetur...”
-                            </p>
-                            <div class="client-info">
-                                <img class="client-img" src="assets/img/clients/paul.jpg" alt="Foto de Paul Percival">
-                                <div class="client-details">
-                                    <h4>Paul Percival</h4>
-                                    <span>Accountant</span>
+                        <div class="testimonial-slider">
+                            
+                            <button id="prev-testimonial" class="slider-arrow prev" aria-label="Anterior testimonio">&lt;</button>
+                            
+                            <div id="testimonial-card-container">
                                 </div>
-                            </div>
-                        </div>
 
+                            <button id="next-testimonial" class="slider-arrow next" aria-label="Siguiente testimonio">&gt;</button>
+
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -177,11 +174,11 @@
 
     <!-- SCRIPTS -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/tours.js"></script>
     <script src="assets/js/guides.js"></script>
     <script src="assets/js/destinations.js"></script>
     <script src="assets/js/featured.js"></script>
     <script src="assets/js/all-destinations.js"></script>
+    <script src="assets/js/reviews.js"></script>
 
 </body>
 </html>
