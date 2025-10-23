@@ -217,32 +217,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-    COMPONENTES DINÁMICOS
+  COMPONENTES DINÁMICOS - Versión Universal
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
 
     /**
-     * Función para calcular la ruta base relativa a la raíz del sitio.
-     * Esto asegura que las rutas a los assets (como imágenes) funcionen
-     * sin importar en qué nivel de profundidad se encuentre la página actual.
-     * @returns {string} La ruta relativa para llegar a la carpeta raíz (ej: './', '../', '../../').
+     * Función para obtener la ruta raíz del sitio, sin importar el hosting.
+     * Funciona tanto en un dominio principal (ej: misitio.com) como en 
+     * un subdirectorio (ej: usuario.github.io/mi-repo/).
+     * @returns {string} La ruta base correcta para los assets (ej: "/" o "/mi-repo/").
      */
     function getBasePath() {
-        // Obtiene la ruta del directorio actual de la URL
+        const repoName = 'SouthAmericansSecrets'; // IMPORTANTE: El nombre de tu repositorio de GitHub.
         const path = window.location.pathname;
-        const dirPath = path.substring(0, path.lastIndexOf('/'));
-        
-        // Calcula la profundidad contando las carpetas
-        const depth = dirPath.split('/').filter(Boolean).length;
-        
-        // Si la profundidad es 0, estamos en la raíz
-        if (depth === 0) {
-            return './';
+
+        // Comprueba si la URL contiene el nombre del repositorio (caso de GitHub Pages)
+        if (path.includes(`/${repoName}/`)) {
+            return `/${repoName}/`;
         }
-        
-        // Construye la ruta relativa para volver a la raíz (ej: ../../)
-        return '../'.repeat(depth);
+
+        // Para cualquier otro hosting (donde tu web está en la raíz)
+        return '/';
     }
 
     // --- CÓDIGO PARA LOS ICONOS FLOTANTES DE REDES SOCIALES ---
@@ -250,7 +246,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. Obtener la ruta base correcta
     const basePath = getBasePath();
 
-    // 2. Define el HTML de los iconos flotantes usando la ruta base calculada
+    // 2. Define el HTML de los iconos flotantes usando la nueva ruta base.
+    // Nota que ahora la ruta empieza desde la raíz del sitio.
     const floatingSocialsHTML = `
         <div class="floating-socials">
             <a href="https://www.tripadvisor.com/" target="_blank" aria-label="TripAdvisor">
