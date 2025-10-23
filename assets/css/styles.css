@@ -116,8 +116,6 @@ img {
 .header {
     width: 100%;
     display: flex;
-    /* CAMBIO: Quitamos esta línea para tener más control */
-    /* justify-content: space-between; */ 
     align-items: center;
     background: var(--color-primary);
     padding: 1rem 2%;
@@ -134,6 +132,14 @@ img {
 .logo img {
     height: 50px; /* Le damos una altura fija y manejable */
     width: auto;  /* El ancho se ajusta para no deformar la imagen */
+}
+
+/* --- Contenedor para los enlaces de navegación de ESCRITORIO --- */
+.nav-desktop {
+    display: flex; /* Se asegura que sea visible en PC */
+    align-items: center;
+    margin-left: 3rem; /* Espacio después del logo */
+    width: 100%; /* Ocupa el espacio disponible */
 }
 
 .nav-links {
@@ -183,6 +189,11 @@ img {
     font-size: 19px;
     font-weight: 900;
         border-radius: 10px;
+}
+
+/* --- Ocultamos los elementos de móvil en la vista de escritorio --- */
+.header-right-icons, .nav-mobile, .nav-toggle {
+    display: none;
 }
 /* Estilo para el nuevo icono del carrito en el header */
 .cart-icon {
@@ -1055,76 +1066,82 @@ img {
     12. SECCIÓN - FOOTER (Pie de Página)
    ========================================================================== */
 
+/* --- Footer Styles --- */
+
 .footer {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    padding: 3rem 0; /* Espaciado generoso */
+    background: #1c3d82;
+    color: #fff;
+    padding: 2.5rem 0;
     text-align: center;
 }
 
-.footer-nav a {
-    color: var(--color-white);
-    text-decoration: none;
-    margin: 0 1rem; /* Espacio entre cada enlace */
-    font-weight: 500;
-    transition: opacity 0.3s ease;
+.footer-content {
+    display: flex;
+    justify-content: center; /* Centra el bloque de columnas */
+    text-align: left;
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+    padding: 0 2rem;
+    flex-wrap: wrap;
+    gap: 2rem 4rem; /* Espacio entre filas y columnas */
 }
 
-.footer-nav a:hover {
-    opacity: 0.8;
+.footer-column {
+    flex: 1;
+    min-width: 220px;
 }
 
-/* La línea divisora */
-.footer-divider {
-    border: none; /* Quitamos el borde por defecto */
-    height: 1px; /* Le damos un grosor de 1px */
-    background-color: rgba(255, 255, 255, 0.2); /* Blanco semitransparente */
-    margin: 2rem auto; /* Espacio vertical y centrado horizontal */
-    width: 80%; /* No ocupa todo el ancho */
-}
-
-/* El texto de copyright */
-.copyright {
-    margin: 0; /* Quitamos cualquier margen extra */
-    font-size: 0.9rem;
-    opacity: 0.7; /* Lo hacemos un poco más sutil */
-}
-/* ====== FOOTER ====== */
-.footer {
-  background: #1c3d82; /* azul corporativo */
+.footer-column h4 {
     color: #fff;
-    text-align: center;
-    padding: 20px 10px 10px;
+    margin-bottom: 1.2rem;
+    font-size: 1.2rem;
+    font-family: "DM Serif Display", serif;
 }
 
-.footer nav {
-    margin-bottom: 10px;
+.footer-column ul {
+    list-style: none;
+    padding: 0;
 }
 
-.footer nav a {
+.footer-column ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-column a, .footer-column p {
     color: #fff;
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: 500;
+    font-size: 0.95rem;
 }
 
-.footer nav a:hover {
+.footer-column a:hover {
     text-decoration: underline;
 }
 
-/* --- Línea separadora --- */
-.footer .divider {
-    width: 80%;
-    max-width: 800px;
-    margin: 10px auto;
-    border-top: 1px solid rgba(255,255,255,0.4);
+/* --- Social Icons Styling --- */
+.social-icons li a {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
 
-/* Copyright */
-.footer p {
-    font-size: 14px;
-    margin: 10px 0 0;
-    color: #ffffff;
+.social-icons li a i {
+    font-size: 1.3rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* --- Divider and Copyright --- */
+.footer .divider {
+    width: 90%;
+    max-width: 1200px;
+    margin: 1.5rem auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer .copyright {
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 
@@ -1135,128 +1152,6 @@ img {
 /* --- Estilos para TABLETS --- */
 @media (min-width: 669px) and (max-width: 992px) {
     
-    /* --- HEADER --- */
-    .nav-links {
-        display: none; /* Ocultamos la navegación de escritorio */
-    }
-
-    .auth-buttons {
-        /*
-            CAMBIO CLAVE: Quitamos 'display: none;' para que los botones sean visibles.
-            Ahora, los botones se mostrarán y se agruparán a la derecha
-            junto con el botón de hamburguesa.
-        */
-        display: flex;
-        gap: 1rem;
-        gap: 0.5rem; /* Reduce el espacio entre los botones */
-    }
-
-    .btn.login,
-    .btn.register {
-        padding: 0.8rem 1rem; /* Reduce el padding para que sean más pequeños */
-        font-size: 0.7rem; /* Reduce el tamaño de la fuente */
-    }
-
-    .nav-toggle {
-        display: block; /* Mostramos el botón de hamburguesa */
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 1500;
-    }
-
-    .hamburger {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background: var(--color-white);
-        position: relative;
-    }
-    .hamburger::before,
-    .hamburger::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 3px;
-        background: var(--color-white);
-        left: 0;
-    }
-    .hamburger::before { top: -8px; }
-    .hamburger::after { bottom: -8px; }
-
-    /* --- PANEL DE NAVEGACIÓN DESLIZABLE --- */
-    nav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Empieza oculto */
-        width: 50%;
-        max-width: 350px;
-        height: 100vh;
-        background: var(--color-primary); /* Fondo azul principal */
-        padding-top: 6rem;
-        transition: right 0.4s ease-in-out;
-        z-index: 1400;
-        overflow-y: auto; /* Permite scroll si el menú es muy largo */
-    }
-
-    nav.nav-menu-visible {
-        right: 0; /* Muestra el panel */
-    }
-
-    /* --- ENLACES DENTRO DEL PANEL MÓVIL --- */
-    nav .nav-links {
-        display: flex; /* Ahora sí mostramos los links aquí */
-        flex-direction: column;
-        align-items: flex-start; /* Alineamos a la izquierda como en tu imagen */
-        gap: 1.5rem;
-        padding: 0 2rem;
-    }
-    nav .nav-links > li {
-        width: 100%;
-    }
-    nav .nav-links a {
-        display: block;
-        width: 100%;
-        text-align: left; /* Alineamos el texto a la izquierda */
-        font-size: 1.2rem;
-        font-weight: 500;
-    }
-    nav .nav-links a .fa-caret-down {
-        display: inline-block; /* Hacemos visible la flechita */
-    }
-    .mega-menu {
-        flex-direction: column; /* Apilamos las columnas del mega menú */
-        gap: 1rem;
-        left: 10%;
-        padding: 1rem 1.5rem;
-    }
-
-    /* La clase 'active' que el JS añade para mostrar el submenú */
-    .dropdown-menu.active,
-    .mega-menu.active {
-        display: block;
-    }
-    
-    /* Títulos y enlaces del mega menú en móvil */
-    .mega-menu-heading {
-        color: #000000;
-        font-size: 0.9rem;
-        font-weight: 400;
-        text-transform: uppercase;
-        margin-bottom: 0.8rem;
-        margin: auto;
-    }
-    .mega-menu-column ul {
-        padding-left: 1rem;
-    }
-    .mega-menu-column li a {
-        color: rgba(10, 10, 10, 0.655);
-        font-weight: 400;
-        font-size: 1rem;
-        padding: 0.5rem 0;
-        margin-left: 20px;
-    }
-
     /* --- GRIDS --- */
     .destinations .grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1337,163 +1232,12 @@ img {
         grid-template-columns: repeat(4, 1fr);
     }
     
-
-    /* ========================================================================
-    INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN TABLET
-    ======================================================================== */
-    .footer nav, .footer .footer-nav {
-        /* Forzamos a que sea visible y se comporte normalmente */
-        display: flex !important;
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
-        right: auto !important;
-        top: auto !important;
-        background: none !important;
-        padding: 0 !important;
-        margin-bottom: 1.5rem !important;
-
-        /* Estilos para alinear los enlaces */
-        justify-content: center;
-        flex-wrap: wrap;
-        max-width: 1000px;
-    }
-    /* ========================================================================
-    FIN DE LA CORRECCIÓN
-    ======================================================================== */
 }
-
-
 
 
 /* --- Estilos para MÓVILES (Basado en tus imágenes de referencia) --- */
 @media (max-width: 668px) {
     
-    /* --- HEADER --- */
-    .nav-links {
-        display: none; /* Ocultamos la navegación de escritorio */
-    }
-
-    .auth-buttons {
-        /*
-            CAMBIO CLAVE: Quitamos 'display: none;' para que los botones sean visibles.
-            Ahora, los botones se mostrarán y se agruparán a la derecha
-            junto con el botón de hamburguesa.
-        */
-        display: flex;
-        gap: 1rem;
-        gap: 0.5rem; /* Reduce el espacio entre los botones */
-    }
-
-    .btn.login,
-    .btn.register {
-        padding: 0.8rem 1rem; /* Reduce el padding para que sean más pequeños */
-        font-size: 0.7rem; /* Reduce el tamaño de la fuente */
-    }
-
-    .nav-toggle {
-        display: block; /* Mostramos el botón de hamburguesa */
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 1500;
-    }
-
-    .hamburger {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background: var(--color-white);
-        position: relative;
-    }
-    .hamburger::before,
-    .hamburger::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 3px;
-        background: var(--color-white);
-        left: 0;
-    }
-    .hamburger::before { top: -8px; }
-    .hamburger::after { bottom: -8px; }
-
-    /* --- PANEL DE NAVEGACIÓN DESLIZABLE --- */
-    nav {
-        position: fixed;
-        top: 0;
-        right: -100%; /* Empieza oculto */
-        width: 85%;
-        max-width: 350px;
-        height: 100vh;
-        background: var(--color-primary); /* Fondo azul principal */
-        padding-top: 6rem;
-        transition: right 0.4s ease-in-out;
-        z-index: 1400;
-        overflow-y: auto; /* Permite scroll si el menú es muy largo */
-    }
-
-    nav.nav-menu-visible {
-        right: 0; /* Muestra el panel */
-    }
-
-    /* --- ENLACES DENTRO DEL PANEL MÓVIL --- */
-    nav .nav-links {
-        display: flex; /* Ahora sí mostramos los links aquí */
-        flex-direction: column;
-        align-items: flex-start; /* Alineamos a la izquierda como en tu imagen */
-        gap: 0.5rem;
-        padding: 0 2rem;
-    }
-    nav .nav-links > li {
-        width: 90%;
-    }
-    nav .nav-links a {
-        display: block;
-        width: 100%;
-        text-align: left; /* Alineamos el texto a la izquierda */
-        font-size: 1.2rem;
-        font-weight: 400;
-    }
-    nav .nav-links a .fa-caret-down {
-        display: inline-block; /* Hacemos visible la flechita */
-    }
-
-    .mega-menu {
-        flex-direction: column; /* Apilamos las columnas del mega menú */
-        gap: 0rem;
-        left: 20%;
-        padding: 1rem 1rem;
-        transform: translateX(-34%);
-    }
-
-    /* La clase 'active' que el JS añade para mostrar el submenú */
-    .dropdown-menu.active,
-    .mega-menu.active {
-        display: block;
-        
-    }
-    /* Títulos y enlaces del mega menú en móvil */
-    .mega-menu-heading {
-        color: #000000;
-        font-size: 0.8rem;
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin:auto;
-        padding: 0;
-    }
-    .mega-menu-column ul {
-        padding-left: 1rem;
-    }
-    .mega-menu-column li a {
-        color: rgba(10, 10, 10, 0.655);
-        font-weight: 400;
-        font-size: 1rem;
-        padding: 0.5rem 0;
-        margin: auto;
-        margin-left:25px;
-    }
     /* --- TIPOGRAFÍA --- */
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
@@ -1631,31 +1375,6 @@ img {
     .location-map iframe {
         height: 300px;
     }
-
-    /* ========================================================================
-    INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN celulares
-    ======================================================================== */
-    .footer nav, .footer .footer-nav {
-        /* Forzamos a que sea visible y se comporte normalmente */
-        display: flex !important;
-        position: static !important;
-        width: 100% !important;
-        height: auto !important;
-        right: auto !important;
-        top: auto !important;
-        background: none !important;
-        padding: 0 !important;
-        margin-bottom: 1rem !important;
-        font-size: 25px;
-        /* Estilos para alinear los enlaces */
-        justify-content: center;
-        flex-wrap: wrap;
-        max-width: 1000px;
-    }
-    /* ========================================================================
-    FIN DE LA CORRECCIÓN
-    ======================================================================== */
-
 }
 
 /* --- AJUSTE FINAL PARA CELULARES MUY ANGOSTOS --- */
@@ -1676,87 +1395,312 @@ img {
         grid-column: span 1; /* Forzamos a que cada una ocupe 1 columna */
         aspect-ratio: 16 / 10; /* Les damos una proporción horizontal agradable */
     }
-        /* ========================================================================
-        INICIO DE LA CORRECCIÓN POTENTE PARA FOOTER EN celulares
-        ======================================================================== */
-        .footer nav, .footer .footer-nav {
-            /* Forzamos a que sea visible y se comporte normalmente */
-            display: flex !important;
-            position: static !important;
-            width: 100% !important;
-            height: auto !important;
-            right: auto !important;
-            top: auto !important;
-            background: none !important;
-            padding: 0 !important;
-            margin-bottom: 1rem !important;
-            font-size: 8.5px;
-            /* Estilos para alinear los enlaces */
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1000px;
-        }
-        /* ========================================================================
-        FIN DE LA CORRECCIÓN
-        ======================================================================== */
 }
 
 /* ==========================================================================
-    14. BOTÓN FLOTANTE DE WHATSAPP (CORREGIDO)
+    14. ICONOS FLOTANTES DE REDES SOCIALES
    ========================================================================== */
 
-.whatsapp-flotante {
+/* Contenedor principal de los iconos */
+.floating-socials {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
-    
-    /* === LA CORRECCIÓN ESTÁ AQUÍ === */
-    display: flex;          /* 1. Activa Flexbox */
-    align-items: center;    /* 2. Centra los elementos verticalmente */
-    gap: 10px;               /* 3. Añade un pequeño espacio entre el texto y el ícono */
-    /* =============================== */
-
-    background-color: #25D366;
-    color: #FFF;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    font-size: 1.5rem;
-    z-index: 1000;
-    transition: all 0.4s ease;
-    overflow: hidden; 
-    text-decoration: none;
-}
-
-/* El ícono de WhatsApp */
-.whatsapp-flotante i {
-    width: 60px;
-    height: 60px;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    flex-shrink: 0; /* Evita que el ícono se encoja */
+    flex-direction: column;
+    gap: 1rem; /* Espacio entre los iconos */
+    z-index: 1000;
+    transition: opacity 0.3s ease; /* Transición suave */
 }
 
-/* El texto que se despliega */
-.whatsapp-texto {
-    width: 0;
+/* --- ¡REGLA CORREGIDA! --- */
+/* Cuando el menú está abierto (body tiene la clase 'nav-open'), oculta los iconos */
+.nav-open .floating-socials {
     opacity: 0;
-    white-space: nowrap;
-    font-weight: 600;
-    font-size: 1rem;
-    padding-right: 5px; /* Ajustado para dar espacio a la derecha del texto */
-    transition: all 0.3s ease;
+    visibility: hidden; /* Asegura que esté completamente oculto */
+    pointer-events: none;
 }
 
-/* El efecto al pasar el mouse */
-.whatsapp-flotante:hover {
-    border-radius: 30px;
-    color: #FFF;
+/* Estilo base para CADA CÍRCULO de icono */
+.floating-socials a {
+    width: 52px;  /* Hacemos los círculos más grandes */
+    height: 52px; /* Hacemos los círculos más grandes */
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.whatsapp-flotante:hover .whatsapp-texto {
-    width: 170px;
-    opacity: 1;
-    padding-left: 15px; /* Mantenemos el padding a la izquierda */
+.floating-socials a:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo para los iconos de Font Awesome (los que son letras/símbolos) */
+.floating-socials a i {
+    color: #fff; /* Todos los iconos (letras) serán blancos */
+    font-size: 1.8rem; /* Tamaño del icono dentro del círculo */
+}
+
+/* Estilo para la imagen de TripAdvisor */
+.floating-socials a img {
+    width: 35px; /* Tamaño de la imagen del búho */
+    height: auto;
+}
+
+/* --- Colores de fondo para cada red social --- */
+
+.floating-socials a[aria-label="TripAdvisor"] {
+    background-color: #34E0A1; /* Verde de TripAdvisor */
+}
+
+.floating-socials a[aria-label="Facebook"] {
+    background-color: #1877F2; /* Azul de Facebook */
+}
+
+.floating-socials a[aria-label*="X"] {
+    background-color: #000000; /* Negro de X */
+}
+
+.floating-socials a[aria-label="WhatsApp"] {
+    background-color: #13be51; /* Verde de WhatsApp */
+}
+
+.floating-socials a[aria-label="Instagram"] {
+    /* Gradiente oficial de Instagram */
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+
+
+/* ==========================================================================
+    16. RESPONSIVE DESIGN (VERSIÓN FINAL Y UNIFICADA)
+   ========================================================================== */
+
+/* --- Estilos Generales para TABLETS Y MÓVILES --- */
+@media (max-width: 992px) {
+
+    /* --- Ocultar/Mostrar elementos base --- */
+    .nav-desktop,
+    .auth-buttons {
+        display: none;
+    }
+
+    .header-right-icons {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
+    .header {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-icon, .nav-toggle {
+        display: block;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1600;
+    }
+
+    .hamburger {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: var(--color-white);
+        position: relative;
+        transition: background-color 0.3s ease;
+    }
+    .hamburger::before, .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background: var(--color-white);
+        left: 0;
+        transition: transform 0.3s ease;
+    }
+    .hamburger::before { top: -8px; }
+    .hamburger::after { bottom: -8px; }
+
+    /* --- ESTADO DEL MENÚ ABIERTO --- */
+
+    /* Bloquea el scroll de la página de fondo */
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    /* Mover el LOGO a la esquina superior izquierda */
+    body.nav-open .logo {
+        position: fixed;
+        top: 15px;
+        left: 5vw; 
+        z-index: 1600;
+    }
+
+    /* Ocultar la LUPA cuando el menú está abierto */
+    body.nav-open .search-icon {
+        display: none;
+    }
+
+    /* Posicionar la "X" de forma segura */
+    body.nav-open .nav-toggle {
+        position: fixed;
+        top: 25px;
+        right: 5vw; 
+    }
+
+    /* Transformar hamburguesa en "X" */
+    body.nav-open .hamburger { background-color: transparent; }
+    body.nav-open .hamburger::before { transform: translateY(8px) rotate(45deg); }
+    body.nav-open .hamburger::after { transform: translateY(-8px) rotate(-45deg); }
+
+    /* --- PANEL DE NAVEGACIÓN FULLSCREEN --- */
+    .nav-mobile {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #111;
+        z-index: 1500;
+        padding: 80px 8vw 2rem 8vw; /* Espacio para la barra superior */
+        overflow-y: auto;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, visibility 0s 0.4s, transform 0.4s ease;
+    }
+
+    /* Mostrar el panel y la barra cuando el menú está abierto */
+    body.nav-open .nav-mobile {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: opacity 0.4s ease, visibility 0s 0s, transform 0.4s ease;
+    }
+    /* La cabecera FIJA del menú (la barra negra) */
+    .nav-mobile-header {
+        flex-shrink: 0;
+        height: 5px; /* Altura de la barra superior */
+        width: 100%;
+        background-color: #111; /* Color de fondo */
+    }
+
+    /* El contenido con SCROLL */
+    .nav-mobile-content {
+        flex-grow: 1;
+        overflow-y: auto; /* Permite el scroll SÓLO aquí */
+        background-color: #111;
+
+    }
+
+    body.nav-open .nav-mobile::before {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* --- RESTO DE ESTILOS (Scrollbar, enlaces, botones, etc.) --- */
+    .nav-mobile::-webkit-scrollbar { width: 8px; }
+    .nav-mobile::-webkit-scrollbar-track { background: transparent; }
+    .nav-mobile::-webkit-scrollbar-thumb { background-color: #444; border-radius: 10px; border: 2px solid #111; }
+    .nav-links-mobile { list-style: none; padding: 0; margin: 0 0 2rem 0; }
+    .nav-links-mobile > li > a { display: flex; justify-content: space-between; align-items: center; color: white; font-size: 1.5rem; padding: 0.75rem 0; border-bottom: 1px solid #444; transition: color 0.3s ease; }
+    .nav-links-mobile > li > a:hover, .nav-links-mobile .dropdown.active > a { color: var(--color-accent-yellow); }
+    .nav-links-mobile .fa-caret-down { display: inline-block; transition: transform 0.3s ease; }
+    .nav-links-mobile .dropdown.active > a > .fa-caret-down { transform: rotate(180deg); }
+    .dropdown:hover .dropdown-menu, .dropdown:hover .mega-menu { display: none; }
+    .nav-links-mobile .dropdown-menu { display: none; position: static; background-color: transparent; box-shadow: none; padding: 0.5rem 0 0.5rem 1rem; list-style: none; min-width: 100%; }
+    .nav-links-mobile .dropdown-menu.active { display: block; }
+    .nav-links-mobile .dropdown-menu li a:hover { color: var(--color-white); background-color: transparent; }
+    .nav-links-mobile .mega-menu { flex-direction: column; gap: 1rem; padding-left: 1rem; width: 100%; transform: none !important; left: 0; }
+    .nav-links-mobile .mega-menu.active { display: flex; }
+    .nav-links-mobile .dropdown-menu li a, .nav-links-mobile .mega-menu-column li a { padding: 0.5rem 0; color: #ccc; font-size: 1.2rem; margin: 0; transition: color 0.3s ease; }
+    .nav-links-mobile .mega-menu-heading { color: var(--color-accent-yellow); font-size: 1rem; margin-top: 0.5rem; padding: 0; }
+    .auth-buttons-mobile { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; padding-top: 2rem; border-top: 1px solid #444; }
+    .auth-buttons-mobile .btn { width: 100%; text-align: center; padding: 1rem; font-size: 1.2rem; font-weight: 500; text-transform: none; }
+    .auth-buttons-mobile .login { background: transparent; border: 1px solid white; }
+    .auth-buttons-mobile .register { background: white; color: #111; font-weight: 700; }
+}
+/* ==========================================================================
+    15. ÍCONOS FLOTANTES EN MÓVIL (SIN FONDO)
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .floating-socials {
+        /* 1. Posición y Dirección */
+        flex-direction: row; 
+        bottom: 15px;           /* Lo subimos un poco para que no esté pegado al borde */
+        left: 50%;           
+        transform: translateX(-50%); 
+        
+        /* 2. Reseteamos la posición que ya no necesitamos */
+        top: auto;
+        right: auto;
+
+        /* 3. Estilos del contenedor SIN FONDO */
+        width: auto;         /* El ancho se ajusta al contenido */
+        padding: 0;          /* Sin padding vertical */
+        background-color: transparent; /* <-- ¡CAMBIO CLAVE! Fondo transparente */
+        justify-content: center; 
+        border-radius: 0;    
+        gap: 1rem;           /* Reducimos un poco el espacio entre íconos */
+        box-shadow: none;    /* Quitamos cualquier sombra del contenedor principal */
+    }
+
+    .floating-socials a {
+        width: 48px;  /* Hacemos los círculos un poco más grandes */
+        height: 48px;
+        /* Le añadimos una sombra a cada icono individualmente para que resalte */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); 
+    }
+
+    /* Oculta la barra cuando el menú de hamburguesa está abierto */
+    .nav-open .floating-socials {
+        display: none;
+    }
+}
+/* ==========================================================================
+    14. CORRECCIÓN FINAL Y DEFINITIVA PARA CELULARES ANGOSTOS
+   ========================================================================== */
+
+/* Esta regla se aplica a pantallas de 420px o menos, cubriendo todos los celulares pequeños. */
+@media (max-width: 420px) {
+
+    /* 1. Mueve la 'X' a una posición fija y segura, más hacia adentro. */
+    body.nav-open .nav-toggle {
+        right: 20px; /* Le damos una distancia fija de 20px desde el borde. */
+    }
+
+    /* 2. Reducimos el padding (relleno) del menú en los lados.
+          Esto crea más espacio para el contenido y evita que la barra de scroll choque con la 'X'. */
+    .nav-mobile {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    
+    /* 3. Movemos el logo también a una posición fija para que se vea simétrico. */
+    body.nav-open .logo {
+        left: 20px;
+        
+    }
+}
+/* --- Media Query para letras en celulares MÁS angostos --- */
+@media (max-width: 450px) {
+    .nav-links-mobile > li > a { font-size: 1rem; }
+    .nav-links-mobile .dropdown-menu li a, .nav-links-mobile .mega-menu-column li a { font-size: 0.95rem; }
+}
+
+/* --- Media Query para letras en celulares MÁS angostos --- */
+@media (max-width: 350px) {
+    .nav-links-mobile > li > a { font-size: 1.2rem; }
+    .nav-links-mobile .dropdown-menu li a, .nav-links-mobile .mega-menu-column li a { font-size: 0.8rem; }
 }

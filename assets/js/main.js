@@ -27,11 +27,10 @@ const BASE = getBasePath();
 
 
 // =====================================
-// ✅ CARGAR HEADER Y FOOTER CON {{BASE}}
+// ✅ CARGAR HEADER Y FOOTER
 // =====================================
 document.addEventListener("DOMContentLoaded", function () {
   const headerPlaceholder = document.getElementById("header-placeholder");
-
   if (headerPlaceholder) {
     fetch(BASE + "reusable/header.html")
       .then((res) => res.text())
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const footerPlaceholder = document.getElementById("footer-placeholder");
-
   if (footerPlaceholder) {
     fetch(BASE + "reusable/footer.html")
       .then((res) => res.text())
@@ -56,6 +54,64 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((err) => console.error("Error al cargar footer:", err));
   }
+});
+
+// =======================================================
+// ✅ LÓGICA PARA EL MENÚ MÓVIL (VERSIÓN FINAL CORREGIDA)
+// =======================================================
+document.addEventListener("headerLoaded", () => {
+  const navToggle = document.querySelector(".nav-toggle");
+  const navMobile = document.querySelector(".nav-mobile");
+
+  // Si no encuentra los elementos, no hace nada para evitar errores.
+  if (!navToggle || !navMobile) return;
+
+  // --- CLONACIÓN DE ELEMENTOS ---
+  const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
+  const authButtonsDesktop = document.querySelector(".header .auth-buttons");
+  const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile");
+  const authButtonsMobileContainer = navMobile.querySelector(".auth-buttons-mobile");
+
+  // Clonamos los links de navegación
+  if (navLinksDesktop && navLinksMobileContainer) {
+    navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
+  }
+  // Clonamos los botones de Login/Register
+  if (authButtonsDesktop && authButtonsMobileContainer) {
+    authButtonsMobileContainer.innerHTML = authButtonsDesktop.innerHTML;
+  }
+
+  // --- LÓGICA PARA ABRIR Y CERRAR EL MENÚ PRINCIPAL ---
+  navToggle.addEventListener("click", () => {
+    document.body.classList.toggle("nav-open");
+  });
+
+  // --- LÓGICA PARA LOS SUBMENÚS (SOLO CON TOQUE/CLICK) ---
+  const dropdownTogglesMobile = navMobile.querySelectorAll(".dropdown > a");
+
+  dropdownTogglesMobile.forEach(toggle => {
+    toggle.addEventListener("click", function(event) {
+        // Prevenimos que el enlace navegue a otra página
+        event.preventDefault(); 
+        
+        const parentDropdown = this.parentElement;
+        const nextMenu = this.nextElementSibling;
+        
+        // Cerrar cualquier otro submenú que esté abierto
+        parentDropdown.parentElement.querySelectorAll('.dropdown.active').forEach(otherDropdown => {
+            if (otherDropdown !== parentDropdown) {
+                otherDropdown.classList.remove('active');
+                otherDropdown.querySelector('.dropdown-menu, .mega-menu')?.classList.remove('active');
+            }
+        });
+
+        // Abrir/Cerrar el submenú actual
+        parentDropdown.classList.toggle("active");
+        if (nextMenu) {
+            nextMenu.classList.toggle("active");
+        }
+    });
+  });
 });
 
 
@@ -134,6 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (navToggle && navMenu) {
     navToggle.addEventListener('click', () => {
       navMenu.classList.toggle('nav-menu-visible');
+      
+      // ¡LÍNEA AÑADIDA!
+      // Añade o quita una clase en el body para controlar los iconos
+      body.classList.toggle('no-scroll');
     });
   }
 });
@@ -154,4 +214,63 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+});
+
+/* ==========================================================================
+    COMPONENTES DINÁMICOS
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    /**
+     * Función para calcular la ruta base relativa a la raíz del sitio.
+     * Esto asegura que las rutas a los assets (como imágenes) funcionen
+     * sin importar en qué nivel de profundidad se encuentre la página actual.
+     * @returns {string} La ruta relativa para llegar a la carpeta raíz (ej: './', '../', '../../').
+     */
+    function getBasePath() {
+        // Obtiene la ruta del directorio actual de la URL
+        const path = window.location.pathname;
+        const dirPath = path.substring(0, path.lastIndexOf('/'));
+        
+        // Calcula la profundidad contando las carpetas
+        const depth = dirPath.split('/').filter(Boolean).length;
+        
+        // Si la profundidad es 0, estamos en la raíz
+        if (depth === 0) {
+            return './';
+        }
+        
+        // Construye la ruta relativa para volver a la raíz (ej: ../../)
+        return '../'.repeat(depth);
+    }
+
+    // --- CÓDIGO PARA LOS ICONOS FLOTANTES DE REDES SOCIALES ---
+
+    // 1. Obtener la ruta base correcta
+    const basePath = getBasePath();
+
+    // 2. Define el HTML de los iconos flotantes usando la ruta base calculada
+    const floatingSocialsHTML = `
+        <div class="floating-socials">
+            <a href="https://www.tripadvisor.com/" target="_blank" aria-label="TripAdvisor">
+                <img src="${basePath}assets/img/redesSociales/tripadvisor.png" alt="TripAdvisor">
+            </a>
+            <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+                <img src="${basePath}assets/img/redesSociales/FB.png" alt="Facebook">
+            </a>
+            <a href="https://twitter.com/" target="_blank" aria-label="X (antes Twitter)">
+                <img src="${basePath}assets/img/redesSociales/X.png" alt="X">
+            </a>
+            <a href="https://www.whatsapp.com/" target="_blank" aria-label="WhatsApp">
+                <img src="${basePath}assets/img/redesSociales/ws1.png" alt="WhatsApp">
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+                <img src="${basePath}assets/img/redesSociales/instagram.png" alt="Instagram">
+            </a>
+        </div>
+    `;
+
+    // 3. Inserta el HTML en el cuerpo (body) de la página
+    document.body.insertAdjacentHTML('beforeend', floatingSocialsHTML);
 });
