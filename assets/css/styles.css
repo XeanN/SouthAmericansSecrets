@@ -1117,17 +1117,19 @@ img {
     text-decoration: underline;
 }
 
-/* --- Social Icons Styling --- */
+/* --- Estilos para los Íconos (¡Aquí está la corrección!) --- */
+
+/* 1. Alinea el ícono y el texto perfectamente */
 .social-icons li a {
     display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    align-items: center; /* Centra verticalmente */
+    gap: 0.8rem;         /* Espacio entre imagen y texto */
 }
 
-.social-icons li a i {
-    font-size: 1.3rem;
-    width: 20px;
-    text-align: center;
+/* 2. Define el tamaño de las imágenes de los íconos */
+.social-icons .footer-icon-img {
+    height: 1.3rem;
+    width: 1.3rem;
 }
 
 /* --- Divider and Copyright --- */
@@ -1461,8 +1463,8 @@ img {
     background-color: #1877F2; /* Azul de Facebook */
 }
 
-.floating-socials a[aria-label*="X"] {
-    background-color: #000000; /* Negro de X */
+.floating-socials a[aria-label*="Getyourguide"] {
+    background-color: #ff5500; /* Negro de X */
 }
 
 .floating-socials a[aria-label="WhatsApp"] {
