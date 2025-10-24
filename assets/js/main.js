@@ -250,19 +250,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Nota que ahora la ruta empieza desde la raíz del sitio.
     const floatingSocialsHTML = `
         <div class="floating-socials">
-            <a href="https://www.tripadvisor.com/" target="_blank" aria-label="TripAdvisor">
+            <a href="https://www.tripadvisor.com/Attraction_Review-g445063-d6387633-Reviews-South_Americans_Secrets-Paracas_Ica_Region.html" target="_blank" aria-label="TripAdvisor">
                 <img src="${basePath}assets/img/redesSociales/tripadvisor.png" alt="TripAdvisor">
             </a>
-            <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+            <a href="https://www.facebook.com/SouthAmericansSecrets" target="_blank" aria-label="Facebook">
                 <img src="${basePath}assets/img/redesSociales/FB.png" alt="Facebook">
             </a>
-            <a href="https://twitter.com/" target="_blank" aria-label="X (antes Twitter)">
-                <img src="${basePath}assets/img/redesSociales/X.png" alt="X">
+            <a href="https://www.getyourguide.es/south-americans-secrets-eirl-s353664" target="_blank" aria-label="Getyourguide">
+                <img src="${basePath}assets/img/redesSociales/getvi.png" alt="Getyourguide">
             </a>
-            <a href="https://www.whatsapp.com/" target="_blank" aria-label="WhatsApp">
+            <a href="https://wa.me/51947058508" target="_blank" aria-label="WhatsApp">
                 <img src="${basePath}assets/img/redesSociales/ws1.png" alt="WhatsApp">
             </a>
-            <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+            <a href="https://www.instagram.com/southamericanssecrets/?hl=es" target="_blank" aria-label="Instagram">
                 <img src="${basePath}assets/img/redesSociales/instagram.png" alt="Instagram">
             </a>
         </div>

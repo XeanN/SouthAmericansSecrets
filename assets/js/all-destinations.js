@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
             url: 'PeruPackages/MachuPicchuYTheSecretValleyofIncas/tourMachuPicchu&ValleyIncas.html',
             image: 'assets/img/Paquetes_Peru/Machu_Picchu_Valle/MACHUPICCHU_VALLE_SECRETO_LOS_INCAS_7_días/MachuPicchuValle.jpg'
         },
-
+        
         // MysetrioesOfTheSouthCoast(2Days/1 night) ===
         {
             name: 'Mysteries of The South Coast (2 Days / 1 Night)',
@@ -360,13 +360,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const gridContainer = document.querySelector('.all-destinations-grid');
     if (!gridContainer) return;
 
-    const categoryToDisplay = gridContainer.dataset.category;
+    const categoriesString = gridContainer.dataset.category;
 
     const filteredList = allDestinationsData.filter(city => {
-        if (!categoryToDisplay || categoryToDisplay === 'all') {
+        // Si el data-category no existe o es "all", muestra todo (como antes)
+        if (!categoriesString || categoriesString === 'all') {
             return true; 
         }
-        return city.category === categoryToDisplay;
+
+        // --- LÓGICA INTELIGENTE ---
+        // Si el string de categorías INCLUYE una coma...
+        if (categoriesString.includes(',')) {
+            // ...lo tratamos como una lista.
+            const categoriesToShow = categoriesString.split(',').map(cat => cat.trim());
+            return categoriesToShow.includes(city.category);
+        } else {
+            // ...SI NO, usamos la lógica original de comparación directa.
+            return city.category === categoriesString;
+        }
     });
 
     // ¡AQUÍ ESTÁ LA MAGIA! Usamos la variable `BASE` de tu archivo `main.js`
