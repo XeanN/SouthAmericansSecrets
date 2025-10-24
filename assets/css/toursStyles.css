@@ -102,71 +102,54 @@
 
 /* El estilo para cada tarjeta de ciudad individual */
 .destination-item-card {
-    /* Tus estilos existentes */
     border-radius: var(--border-radius-medium);
     overflow: hidden;
     box-shadow: var(--box-shadow-light);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
-    text-decoration: none; /* Añadido: para quitar el subrayado del enlace */
-    
-    /* --- LA MAGIA ESTÁ AQUÍ --- */
-    display: flex;           /* La convertimos en un contenedor flexible */
-    flex-direction: column;  /* Apila sus hijos (imagen y texto) verticalmente */
-    background-color: #f0f0f0; /* Le damos un color de fondo a toda la tarjeta */
-}
-
-.destination-item-card:hover {
-    transform: translateY(-5px);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0; /* Fondo gris claro de la tarjeta */
 }
 
 .destination-item-card img {
     width: 100%;
-    
-    /* QUITAMOS la altura fija para que la proporción mande */
-    /* height: 180px; */ 
-    
-    /* AÑADIMOS la proporción vertical que quieres */
-    aspect-ratio: 3 / 4; /* Por cada 3 unidades de ancho, tendrá 4 de alto */
-
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     display: block;
 }
 
-/* Contenedor para el nombre de la ciudad */
+/* Contenedor para el nombre del tour */
 .city-name {
-    /* Tus estilos existentes */
     padding: 1rem;
     text-align: center;
-    /* background-color: #f0f0f0; <== YA NO SE NECESITA, el fondo está en la tarjeta padre */
-
-    /* --- LA MAGIA ESTÁ AQUÍ --- */
-    flex-grow: 1;          /* ¡CLAVE! Le dice a esta caja que CREZCA y ocupe todo el espacio vertical sobrante */
-    display: flex;         /* La convertimos en un contenedor flexible también */
-    justify-content: center; /* Centra el texto horizontalmente */
-    align-items: center;   /* Centra el texto verticalmente */
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/* Estilo para el texto del tour */
 .city-name span {
     font-weight: 600;
-    color: var(--color-text-primary);
-}
-    
-
-.destination-item-card span {
-    font-weight: 600;
-    color: var(--color-text-secondary);
+    color: rgb(61, 55, 55); /* Color normal del texto (oscuro) */
+    transition: color 0.3s ease;
 }
 
-/* Un efecto hover para darle interactividad */
+
+/* --- REGLA HOVER CORREGIDA --- */
+
+/* Al pasar el mouse, cambia el fondo de TODA la tarjeta */
 .destination-item-card:hover {
-    background-color: var(--color-primary);
-    color: var(--color-white);
-}
-.destination-item-card:hover span {
-    color: var(--color-white);
+    background-color: var(--color-primary); /* El fondo que quieres, ej. azul oscuro */
+    transform: translateY(-5px);
 }
 
+/* Al pasar el mouse, cambia el color del texto DENTRO de .city-name a blanco */
+.destination-item-card:hover .city-name span {
+    color: var(--color-black); /* O simplemente #FFFFFF */
+}
 /* ==========================================================================
     ESTILOS RESPONSIVE PARA TOURS (MÓVIL)
    ========================================================================== */
