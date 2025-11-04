@@ -266,7 +266,7 @@ const toursData = {
         rating: "4.5 (8 reviews)",
         image: "../assets/img/SIerra/Arequipa/Tour_CañonColca/88.jpg"
     },
-
+    
     // --- Cuzco ---
     "cuzco-city-tour": {
         title: "Cuzco City Tour",
