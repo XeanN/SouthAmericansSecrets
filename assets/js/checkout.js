@@ -56,3 +56,12 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'confirmation.html';
     });
 });
+
+// Toggle animación seleccionar método
+document.querySelectorAll(".payment-option").forEach(option => {
+    option.addEventListener("click", () => {
+        document.querySelectorAll(".payment-option").forEach(o => o.classList.remove("active"));
+        option.classList.add("active");
+        option.querySelector("input").checked = true;
+    });
+});

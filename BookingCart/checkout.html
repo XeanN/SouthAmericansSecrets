@@ -5,73 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirm and Pay</title>
     <link rel="icon" href="../assets/img/logoN.png" type="image/png">
-    
+
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/checkout.css"> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/checkout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div id="header-placeholder"></div>
+<div id="header-placeholder"></div>
 
-    <main class="checkout-page">
-        <div class="checkout-container">
-            <div class="checkout-details">
-                <h1 class="checkout-title">Confirm and pay</h1>
+<main class="checkout-page">
+    <div class="checkout-wrapper">
 
-                <form id="payment-form">
-                    <section>
-                        <h2 class="section-title">Payment method</h2>
+        <!-- Left Column -->
+        <div class="checkout-left">
+            <h1 class="checkout-title">Confirm and pay</h1>
+
+            <section class="payment-method-section">
+                <h2>Select a payment method</h2>
+                <p class="secure-note">🔒 Payments are secure and encrypted</p>
+
+                <div class="payment-option" data-method="paypal">
+                    <label>
+                        <input type="radio" name="payment-method">
+                        <span>PayPal</span>
+                        <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" class="payment-logo">
+                    </label>
+
+                    <div class="payment-content">
+                        <p>We will redirect you to PayPal to complete the payment.</p>
+                        <button class="pay-btn paypal-btn">Pay with PayPal</button>
+                    </div>
+                </div>
+
+                <div class="payment-option" data-method="googlepay">
+                    <label>
+                        <input type="radio" name="payment-method">
+                        <span>Google Pay</span>
+                        <img src="https://cdn.getyourguide.com/tf/assets/static/payment-methods/googlepay.svg" class="payment-logo google">
+                    </label>
+
+                    <div class="payment-content">
+                        <p>We will redirect you to Google Pay to complete the payment.</p>
+                        <button class="pay-btn google-btn">Pay with Google Pay</button>
+                    </div>
+                </div>
+
+                <div class="payment-option" data-method="card">
+                    <label>
+                        <input type="radio" name="payment-method">
+                        <span>Debit or credit card</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" class="payment-logo">
+                    </label>
+
+                    <div class="payment-content">
                         <div class="form-group">
-                            <input type="text" id="card-number" placeholder="Card number" required>
+                            <input type="text" id="card-number" placeholder="Card number">
                         </div>
                         <div class="form-row">
-                            <input type="text" id="expiry-date" placeholder="MM/YY" required>
-                            <input type="text" id="cvc" placeholder="CVC" required>
+                            <input type="text" id="expiry-date" placeholder="MM/AA">
+                            <input type="text" id="cvc" placeholder="CVV">
                         </div>
                         <div class="form-group">
-                            <input type="text" id="name-on-card" placeholder="Name on card" required>
+                            <input type="text" id="card-name" placeholder="Name of the holder">
                         </div>
-                    </section>
-
-                    <section>
-                        <h2 class="section-title">Billing Address</h2>
-                        <div class="form-group">
-                            <input type="text" id="address" placeholder="Address" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="city" placeholder="City" required>
-                        </div>
-                        <div class="form-row">
-                            <input type="text" id="state" placeholder="State" required>
-                            <input type="text" id="zip-code" placeholder="Zip Code" required>
-                        </div>
-                    </section>
-                </form>
-                
-                <section class="trip-summary">
-                    <h2 class="section-title">Your trip</h2>
-                    <div class="trip-details">
-                        <p id="tour-name"></p>
-                        <p id="tour-date-time"></p>
+                        <button class="pay-btn card-btn">Pagar ahora</button>
                     </div>
-                    <div class="trip-total">
-                        <span>Total</span>
-                        <span id="total-price">$55</span>
-                    </div>
-                </section>
+                </div>
+            </section>
 
-                <button type="submit" form="payment-form" class="btn-confirm">Confirm and pay</button>
+        </div>
 
-            </div>
+        <!-- Right Column (Tour Summary) -->
+        <div class="checkout-right">
+            <img id="tour-image" src="" alt="Tour Image" class="tour-image">
 
-            <div class="checkout-image-container">
-                <img id="tour-image" src="" alt="Tour Image">
+            <div class="trip-info">
+                <h2 id="tour-name"></h2>
+                <p id="tour-date-time"></p>
+
+                <div class="trip-total">
+                    <span>Total:</span>
+                    <span id="total-price" class="total-price">$0</span>
+                </div>
             </div>
         </div>
-    </main>
 
-    <div id="footer-placeholder"></div>
+    </div>
+</main>
 
-            <script src="../assets/js/main.js"></script>
-            <script src="../assets/js/checkout.js"></script>      
-    </body>
+<div id="footer-placeholder"></div>
+
+<script src="../assets/js/main.js"></script>
+<script src="../assets/js/checkout.js"></script>
+</body>
 </html>

@@ -146,6 +146,300 @@ input[type="text"]:focus {
 }
 
 
+
+.checkout-page {
+    padding: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.checkout-wrapper {
+    max-width: 1150px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+}
+
+.checkout-title {
+    font-size: 38px;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.payment-method {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.payment-option:hover {
+    border-color: #000;
+}
+
+.payment-option img {
+    height: 24px;
+}
+
+.form-group input,
+.form-row input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c5c5c5;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 14px;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-pay {
+    width: 100%;
+    background: #0d1e4c;
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-pay:hover {
+    background: #132b6a;
+}
+
+/* Right Side */
+.checkout-right {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+}
+
+.tour-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+.trip-info {
+    padding: 20px;
+}
+
+.total-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}
+
+.trip-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+}
+
+@media(max-width:900px){
+    .checkout-wrapper{
+        grid-template-columns: 1fr;
+    }
+}
+.payment-method-section {
+    margin-top: 20px;
+}
+
+.secure-note {
+    color: #247b46;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.payment-option {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: #fff;
+}
+
+.payment-option.active {
+    border-color: #1d4ed8;
+    background: #f6faff;
+}
+
+.payment-option label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.payment-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.payment-logo {
+    height: 26px;
+    margin-left: 8px;
+}
+
+.google {
+    height: 22px;
+}
+
+.payment-content {
+    display: none;
+    margin-top: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+.payment-option.active .payment-content {
+    display: block;
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.paypal-btn {
+    background: #ffc439;
+    color: #111;
+}
+
+.google-btn {
+    background: #000;
+    color: #fff;
+}
+
+.card-btn {
+    background: #1d4ed8;
+    color: #fff;
+}
+
+.form-group input, .form-row input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.payment-option {
+    display: flex;
+    flex-direction: column; /* IMPORTANTE: coloca el texto debajo del título */
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 18px 22px;
+    border: 2px solid #444;
+    border-radius: 10px;
+    
+    cursor: pointer;
+    transition: .25s;
+}
+
+
+.payment-option-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ícono a la derecha */
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.payment-option-header span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.payment-option-details {
+    margin-left: 2px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #d4d4d4;
+    width: 100%;
+}
+
+.payment-option-details button,
+.google-pay-button {
+    width: 80%;
+    margin-top: 12px;
+    border-radius: 8px;
+}
+
+.card-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 15px;
+}
+
+.card-form input {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #666;
+    background: #131a22;
+    color: white;
+    padding: 10px 12px;
+    font-size: 15px;
+}
+
+.card-form-row {
+    display: flex;
+    gap: 12px;
+}
+
+
+
+
 /* ======================================================= */
 /* --- Estilos para Tablet (Checkout con Imagen Arriba) --- */
 /* ======================================================= */
