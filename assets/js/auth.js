@@ -206,21 +206,33 @@ appleBtns.forEach((btn) => {
 // ✅ OBSERVADOR DE SESIÓN
 // =========================
 onAuthStateChanged(auth, (user) => {
-  currentUser = user; // Guardamos el usuario actual
+  currentUser = user;
 
-  // ✅ Si el header ya está cargado, lo actualizamos
-  updateHeaderUI(user);
+  // ✅ Actualizar header si ya fue cargado dinámicamente
+  document.addEventListener("headerLoaded", () => {
+    updateHeaderUI(user);
+  });
 
-  // ✅ Redirecciones inteligentes
+  updateHeaderUI(user); // También lo actualizamos directamente
+
+  // Rutas que requieren estar logeado
+  const protectedRoutes = [
+    "dashboard.html",
+    "tour-booking.html",
+    "checkout.html"
+  ];
+
   const path = window.location.pathname;
+  const requiresAuth = protectedRoutes.some(route => path.includes(route));
 
-  // Si estoy en dashboard y NO hay usuario → login
-  if (path.includes("dashboard.html") && !user) {
+  // ✅ Si intenta acceder a rutas protegidas sin login → redirigir
+  if (requiresAuth && !user) {
     window.location.href = base + "/pages/login.html";
+    return;
   }
 
-  // Si estoy en login o register y YA estoy logueado → dashboard
-  if ((path.includes("login.html") || path.includes("register.html")) && user) {
+  // ✅ Si ya está logeado y visita login/register → dashboard
+  if (user && (path.includes("login.html") || path.includes("register.html"))) {
     window.location.href = base + "/pages/dashboard.html";
   }
 });

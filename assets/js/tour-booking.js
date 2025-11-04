@@ -1,3 +1,6 @@
+import { auth } from "../js/firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     // =======================================================
     // PREGUNTAS FRECUENTES GLOBALES
@@ -25,6 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. LEER EL TOUR ID DE LA URL ---
     const params = new URLSearchParams(window.location.search);
     const tourId = params.get('tour'); 
+    if (typeof toursData === 'undefined') {
+        console.error('❌ toursData no está cargado');
+        document.querySelector('.booking-page').innerHTML = `
+            <h1 style="color: red; text-align: center;">Error: Tours data not loaded</h1>
+            <p style="text-align: center;">Please refresh the page.</p>
+        `;
+        return;
+    }
 
     // --- 2. BUSCAR LOS DATOS DEL TOUR ---
     const currentTour = toursData[tourId];
@@ -198,32 +209,43 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     continueButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (!bookingState.date) {
-        alert('Please select a date before continuing.');
-        return;
-    }
-    
-    // Calcula el total antes de guardar
-    const total = bookingState.persons * bookingState.pricePerPerson;
+        event.preventDefault();
+        if (!bookingState.date) {
+            alert('Please select a date before continuing.');
+            return;
+        }
 
-    // Crea el objeto con todos los detalles de la reserva
-    const bookingDetails = {
-        id: tourId,
-        title: currentTour.title,
-        image: currentTour.image,
-        date: bookingState.date,
-        time: bookingState.time,
-        persons: bookingState.persons,
-        total: total.toFixed(2) // Guardamos el total ya calculado
-    };
+        // ✅ Verificar si está logeado
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                alert("You need to login to continue with the booking.");
+                window.location.href = "../pages/login.html"; // Redirige al login
+                return;
+            }
 
-    // Guarda este único item en sessionStorage
-    sessionStorage.setItem('checkoutItem', JSON.stringify(bookingDetails));
+            // ✅ Si está logeado, continuar con checkout
+            // Calcula el total antes de guardar
+            const total = bookingState.persons * bookingState.pricePerPerson;
 
-    // Redirige a la nueva página de checkout
-    window.location.href = 'checkout.html'; // <-- ¡Cambio importante!
-});
+            // Crea el objeto con todos los detalles de la reserva
+            const bookingDetails = {
+                id: tourId,
+                title: currentTour.title,
+                image: currentTour.image,
+                date: bookingState.date,
+                time: bookingState.time,
+                persons: bookingState.persons,
+                total: total.toFixed(2),
+                userId: user.uid
+            };
+
+            // Guarda este único item en sessionStorage
+            sessionStorage.setItem('checkoutItem', JSON.stringify(bookingDetails));
+
+            // Redirige a la nueva página de checkout
+            window.location.href = 'checkout.html'; // <-- ¡Cambio importante!
+        });
+    });
 
     // --- 8. INICIALIZACIÓN ---
     populatePage();

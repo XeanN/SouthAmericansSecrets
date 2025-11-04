@@ -1,7 +1,7 @@
 
 // Importar Firebase v9 modular
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, browserLocalPersistence, setPersistence } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 import { getDatabase, ref, set, update, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
 const firebaseConfig = {
@@ -15,6 +15,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+
+setPersistence(auth, browserLocalPersistence)
+  .then(() => console.log("✅ Auth persistence enabled"))
+  .catch(console.error);
+
+
+  
 const googleProvider = new GoogleAuthProvider();
 
 export { auth, db, googleProvider, signInWithPopup, ref, set, update, push };
