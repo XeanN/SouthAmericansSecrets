@@ -19,7 +19,7 @@
         <h1 id="dashboard-title">Loading...</h1>
         <p>Welcome to your account. Here you’ll be able to see your reservations, profile, and more soon.</p>
 
-        <!-- Ejemplo de secciones -->
+        <!-- Secciones -->
         <section style="margin-top: 30px;">
             <h2>Your Upcoming Reservations</h2>
             <p>(We will load them from Firebase here)</p>
@@ -36,21 +36,26 @@
     <div id="footer-placeholder"></div>
 
     <script src="../assets/js/main.js"></script>
+
+    <!-- ✅ SCRIPT ACTUALIZADO -->
     <script type="module">
         import { auth } from "../assets/js/firebase.js";
-
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
         onAuthStateChanged(auth, (user) => {
             const title = document.getElementById("dashboard-title");
+
             if (user) {
-                title.textContent = `Hi, ${user.displayName || user.email}!`;
+                const displayName = user.displayName || user.email.split("@")[0];
+                title.textContent = `Hi, ${displayName}! 👋`;
             } else {
-                title.textContent = "Redirecting...";
+                // Si no hay usuario, lo mandamos al login
+                window.location.href = "../pages/login.html";
             }
         });
     </script>
 
     <script type="module" src="../assets/js/auth.js"></script>
+
 </body>
 </html>
