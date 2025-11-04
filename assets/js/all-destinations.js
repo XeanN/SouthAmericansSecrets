@@ -256,25 +256,25 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             name: 'Inca Bike & Jungle Trek',
             category: 'Cuzco',
-            url: 'tour/The Highlands/Cuzco/tourIncaBike&JungleTrek.html',
+            url: 'tour/The-Highlands/Cuzco/tourIncaBike&JungleTrek.html',
             image: 'assets/img/SIerra/Cuzco/IncaBikeJungleTrek/InkaBike.jpg'
         },
         {
             name: 'Camino Inca Clásico',
             category: 'Cuzco',
-            url: 'tour/The Highlands/Cuzco/tourIncaTrailClassicTrek.html',
+            url: 'tour/The-Highlands/Cuzco/tourIncaTrailClassicTrek.html',
             image: 'assets/img/SIerra/Cuzco/Clásico_trekenCamino_Inca/CaminoInka.jpg'
         },
         {
             name: 'Camino Inca: Salkantay Trek',
             category: 'Cuzco',
-            url: 'tour/The Highlands/Cuzco/tourIncaTrailSalkantayTrek.html',
+            url: 'tour/The-Highlands/Cuzco/tourIncaTrailSalkantayTrek.html',
             image: 'assets/img/SIerra/Cuzco/IncaTrailSalkantayTrek/InkaTrailSalkantay.jpg'
         },
         {
             name: 'Tour a Machu Picchu en un Día',
             category: 'Cuzco',
-            url: 'tour/The Highlands/Cuzco/tourMachuPicchuDayTrip.html',
+            url: 'tour/The-Highlands/Cuzco/tourMachuPicchuDayTrip.html',
             image: 'assets/img/SIerra/Cuzco/Machu-Picchu-en-Un-Día/MachuPicchu1Dias.jpg'
         },
         {
