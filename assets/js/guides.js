@@ -1,61 +1,59 @@
-const guides = [
-  {
-    name: "Lucio Hancco",
-    role: "Tour Advisor & Tour Guide",
-    img: "assets/img/guides/lucio.jpg"
-  },
-  {
-    name: "Maria Gutierrez",
-    role: "Senior Tour Guide",
-    img: "assets/img/guides/maria.jpg"
-  },
-  {
-    name: "Pedro Salazar",
-    role: "Cultural Guide",
-    img: "assets/img/guides/pedro.jpg"
-  },
-  {
-    name: "Sofia Ramirez",
-    role: "Nature & Adventure Guide",
-    img: "assets/img/guides/sofia.jpg"
-  },
-  {
-    name: "Carlos Quispe",
-    role: "History Expert Guide",
-    img: "assets/img/guides/carlos.jpg"
-  }
-];
-// assets/js/guides.js
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // 1. LA LISTA DE GUÍAS (Nuestra "Base de Datos" del equipo)
     const tourGuides = [
         {
-            image: 'assets/img/guides/guide-1.jpg',
-            name: 'Lucio Hancco',
-            role: 'Tour Advisor & Tour Guide'
-        },
-        {
-            image: 'assets/img/nazca_p.1.jpg',
-            name: 'Maria Quispe',
-            role: 'Cultural Specialist'
-        },
-        {
-            image: 'assets/img/guides/guide-3.jpg',
-            name: 'Carlos Mendoza',
-            role: 'Adventure Guide'
-        },
-        {
-            image: 'assets/img/guides/guide-4.jpg',
-            name: 'Sofia Reyes',
-            role: 'Lead Tour Coordinator'
-        },
-        {
-            image: 'assets/img/guides/guide-5.jpg',
-            name: 'Javier Flores',
-            role: 'Historical Expert'
-        },
+    image: 'assets/img/Guides/guide-1.jpg',
+    name: 'Lucio Hancco',
+    role: 'Tour advisor & tour guide'
+    },
+    {
+      image: 'assets/img/Guides/guide-2.jpg',
+      name: 'Amarilis Pereda',
+      role: 'Vessel operator'
+    },
+    {
+      image: 'assets/img/Guides/guide-3.jpg',
+      name: 'Alberto Hernández',
+      role: 'Vessel operator 2'
+    },
+    {
+      image: 'assets/img/Guides/guide-4.jpg',
+      name: 'Juan Carlos Oyola',
+      role: 'Yacht keepers'
+    },
+    {
+      image: 'assets/img/Guides/guide-5.jpg',
+      name: 'Ilich Lenin Pereda',
+      role: 'Yacht keepers'
+    },
+    {
+      image: 'assets/img/Guides/guide-6.jpg',
+      name: 'Karl Kevin H.',
+      role: 'Yacht keepers'
+    },
+    {
+      image: 'assets/img/Guides/guide-7.jpg',
+      name: 'Rossmery Albarrán',
+      role: 'Regional Manager'
+    },
+    {
+      image: 'assets/img/Guides/guide-8.jpg',
+      name: 'Karol Hancco',
+      role: 'Product and Costing'
+    },
+    {
+      image: 'assets/img/Guides/guide-9.jpg',
+      name: 'Martin Vega',
+      role: 'Tour guides coordinator'
+    },
+    {
+      image: 'assets/img/Guides/guide-10.jpg',
+      name: 'Abilio Dextre',
+      role: 'French tour guide'
+    }
 
     ];
 
@@ -80,17 +78,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-const guidesGrid = document.getElementById('guidesGrid');
 
-guides.forEach(guide => {
-  const card = document.createElement('div');
-  card.classList.add('guide-card');
-  card.innerHTML = `
-    <img src="${guide.img}" alt="${guide.name}">
-    <div class="guide-info">
-      <h4>${guide.name}</h4>
-      <span>${guide.role}</span>
-    </div>
-  `;
-  guidesGrid.appendChild(card);
-});

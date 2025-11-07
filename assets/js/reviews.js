@@ -7,26 +7,26 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             name: "Borys Ł",
             avatar: "assets/img/reviews/reviews_1.jpg", // Asegúrate de que la ruta sea correcta
-            role: "Viajero • Amigos",
-            text: "Amo a Lucio, el mejor guía turístico de Estados Unidos <3 Las islas son aún más hermosas con un guía tan increíble. 100% volvería."
+            role: "September 2025 • Friends",
+            text: "I love Lucio, the best tour guide in the United States <3 The islands are even more beautiful with such an amazing guide. I would 100% go back."
         },
         {
             name: "柏寧黃",
             avatar: "assets/img/reviews/reviews_2.jpg", // Asegúrate de que la ruta sea correcta
-            role: "Septiembre 2025 • Parejas",
-            text: "¡Tuvimos un viaje increíble en Paracas! Recomiendo encarecidamente elegir un tour aquí — el equipo fue muy atento, atento y hizo todo lo posible para ayudarnos de muchas maneras."
+            role: "September 2025 • Couples",
+            text: "We had an amazing trip to Paracas! I highly recommend choosing a tour here — the team was very attentive, helpful, and went out of their way to assist us in many ways."
         },
         {
             name: "Mira K",
             avatar: "assets/img/reviews/reviews_3.jpg", // Asegúrate de que la ruta sea correcta
-            role: "Agosto 2025 • Parejas",
-            text: "La reserva natural era muy impresionante y nuestro guía Lucio nos mostró y nos contó muchas cosas interesantes. Fue muy amable y explicó todo bien comprensible. ¡Definitivamente recomendaría el tour!"
+            role: "August 2025 • Couples",
+            text: "The nature reserve was truly impressive, and our guide, Lucio, showed us and told us many interesting things. He was very friendly and explained everything clearly. I would definitely recommend the tour!"
         },
         {
             name: "李小姐374",
             avatar: "assets/img/reviews/reviews_4.jpg", // Asegúrate de que la ruta sea correcta
-            role: "Junio 2025 • Amigos",
-            text: "Nuestro guía fue muy amable y profesional. Mostró e introdujo muchos animales. ¡Los pingüinos eran tan lindos! No sabía que había pingüinos en Perú. Recomiendo mucho este viaje"
+            role: "June 2025 • Friends",
+            text: "Our guide was very friendly and professional. He showed us and introduced us to many animals. The penguins were so cute! I didn't know there were penguins in Peru. I highly recommend this trip."
         }
     ];
 
