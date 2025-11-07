@@ -1705,3 +1705,177 @@ img {
     .nav-links-mobile > li > a { font-size: 1.2rem; }
     .nav-links-mobile .dropdown-menu li a, .nav-links-mobile .mega-menu-column li a { font-size: 0.8rem; }
 }
+
+    /* ==========================================================================
+    17. AJUSTES RESPONSIVE ADICIONALES (MÓVILES)
+    ========================================================================== */
+
+    /* --- AJUSTE: Sección "Top Destinations" (Mosaico) --- */
+    @media (max-width: 992px) {
+    
+    /* Hacemos que el contenedor ocupe el 90% del ancho */
+    .destinations > .container {
+        width: 90%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    }
+
+    @media (max-width: 768px) {
+    
+    /* La cuadrícula principal */
+    .destinations .grid {
+        /* Lo convertimos en 2 columnas */
+        grid-template-columns: repeat(2, 1fr); 
+        /* Reseteamos las filas, la altura será automática */
+        grid-template-rows: auto; 
+        gap: 1rem;
+    }
+
+    /* Reseteamos todas las tarjetas */
+    #ica, #islas-ballestas, #huacachina, #lima {
+        grid-column: auto;
+        grid-row: auto;
+        height: auto; /* La altura deja de ser fija */
+    }
+
+    /* La primera tarjeta (Buggy) ocupa 2 columnas */
+    #ica {
+        grid-column: span 2;
+        aspect-ratio: 16 / 10; /* Proporción panorámica */
+    }
+
+    /* Las dos de en medio (Arco y Dunas) ocupan 1 columna */
+    #islas-ballestas, #huacachina {
+        aspect-ratio: 4 / 5;  /* Más altas que anchas */
+    }
+
+    /* La última (Acantilado) también ocupa 2 columnas */
+    #lima {
+        grid-column: span 2;
+        aspect-ratio: 16 / 10;
+    }
+    }
+
+    /* Ajuste para celulares MUY angostos */
+    @media (max-width: 480px) {
+    .destinations .grid {
+        /* Convertimos a 1 sola columna */
+        grid-template-columns: 1fr;
+    }
+    
+    /* Todas las tarjetas ocupan 1 columna */
+    #ica, #islas-ballestas, #huacachina, #lima {
+        grid-column: span 1;
+        aspect-ratio: 16 / 10; /* Proporción estándar */
+    }
+    }
+
+    /* --- AJUSTE: Sección "Featured Tours" (Carrusel) --- */
+
+    @media (max-width: 992px) {
+    .featured {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    /* Hacemos el carrusel más pequeño en tablets/móviles */
+    .carousel-container {
+        height: 300px; 
+        margin-bottom: 2rem;
+    }
+    
+    /* Hacemos que el slide central sea más grande */
+    .carousel-item {
+        width: 75%;
+    }
+    
+    /* Ajustamos la posición de los slides laterales */
+    .carousel-item.prev { transform: translateX(-40%) scale(0.7); }
+    .carousel-item.next { transform: translateX(40%) scale(0.7); }
+    
+    
+    
+    /* Centramos los puntos */
+    .carousel-nav {
+        bottom: -40px; 
+    }
+
+    .destination-info h2 {
+        font-size: 2.5rem;
+    }
+
+    /* ¡ESTA ES LA REGLA CLAVE! 
+        Reseteamos el margen de la cita para que no se salga.
+    */
+    .destination-info blockquote {
+        margin-left: 0; 
+        margin-right: 0;
+        max-width: 100%;
+        text-align: left; /* La alineamos a la izquierda */
+    }
+    }
+
+    /* --- AJUSTE: Sección "Reviews" (Testimonios) --- */
+
+    @media (max-width: 992px) {
+
+    .reviews .overlay {
+        padding: 60px 0;
+    }
+    
+    .reviews .container {
+        max-width: 100%; /* El contenedor puede ocupar todo el ancho */
+        width: 90%;      /* Dejamos un 5% de margen a cada lado */
+    }
+
+    .reviews-content-wrapper {
+        /* ¡La magia! Apilamos los elementos verticalmente */
+        flex-direction: column;
+        align-items: center; /* Centramos el contenido */
+        gap: 2rem;
+    }
+
+    .reviews-text,
+    .testimonial-slider { /* Aplicamos al contenedor del slider */
+        /* Hacemos que ambos ocupen todo el ancho */
+        flex-basis: 100%;
+        max-width: 500px; /* Un ancho máximo para que no se vea raro en tablets */
+    }
+    
+    .reviews-text {
+        text-align: center; /* Centramos el título y párrafo */
+    }
+
+    .testimonial-card {
+        /* ¡CLAVE! Quitamos el margen que lo empujaba hacia abajo en desktop */
+        margin-top: 0; 
+    }
+
+    /* ---Reubicar flechas de testimonios en móvil --- */
+    
+    .slider-arrow.prev,
+    .slider-arrow.next {
+        /* 1. Nos aseguramos de que sean visibles (anulando cualquier display: none) */
+        display: flex; 
+        
+        /* 2. Las centramos verticalmente en la tarjeta */
+        top: 50%; 
+        transform: translateY(-50%);
+        
+        /* 3. Las hacemos un poco más pequeñas para móvil */
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+
+    .slider-arrow.prev {
+        /* 4. La movemos DENTRO del borde izquierdo */
+        left: -15px; /* En lugar de -50px */
+    }
+
+    .slider-arrow.next {
+        /* 5. La movemos DENTRO del borde derecho */
+        right: -15px; /* En lugar de -50px */
+    }
+    }
