@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/checkout.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Mercado Pago SDK -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 
 <body>
@@ -29,12 +32,12 @@
                     <label>
                         <input type="radio" name="payment-method">
                         <span>PayPal</span>
-                        <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" class="payment-logo">
+                        <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-200px.png" class="payment-logo" alt="PayPal">
                     </label>
 
                     <div class="payment-content">
-                        <p>We will redirect you to PayPal to complete the payment.</p>
-                        <button class="pay-btn paypal-btn">Pay with PayPal</button>
+                        <p>Fast and secure payment with PayPal.</p>
+                        <div id="paypal-button-container"></div>
                     </div>
                 </div>
 
@@ -42,11 +45,11 @@
                     <label>
                         <input type="radio" name="payment-method">
                         <span>Google Pay</span>
-                        <img src="https://cdn.getyourguide.com/tf/assets/static/payment-methods/googlepay.svg" class="payment-logo google">
+                        <img src="https://cdn.getyourguide.com/tf/assets/static/payment-methods/googlepay.svg" class="payment-logo google" alt="Google Pay">
                     </label>
 
                     <div class="payment-content">
-                        <p>We will redirect you to Google Pay to complete the payment.</p>
+                        <p>Fast and secure payment with Google Pay.</p>
                         <button class="pay-btn google-btn">Pay with Google Pay</button>
                     </div>
                 </div>
@@ -54,22 +57,12 @@
                 <div class="payment-option" data-method="card">
                     <label>
                         <input type="radio" name="payment-method">
-                        <span>Debit or credit card</span>
-                        <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" class="payment-logo">
+                        <span>Debit or credit card (Mercado Pago)</span>
+                        <img src="https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png" class="payment-logo" alt="Mercado Pago">
                     </label>
 
                     <div class="payment-content">
-                        <div class="form-group">
-                            <input type="text" id="card-number" placeholder="Card number">
-                        </div>
-                        <div class="form-row">
-                            <input type="text" id="expiry-date" placeholder="MM/AA">
-                            <input type="text" id="cvc" placeholder="CVV">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="card-name" placeholder="Name of the holder">
-                        </div>
-                        <button class="pay-btn card-btn">Pagar ahora</button>
+                        <div id="paymentBrick_container"></div>
                     </div>
                 </div>
             </section>
@@ -96,6 +89,7 @@
 
 <div id="footer-placeholder"></div>
 
+<script src="https://www.paypal.com/sdk/js?client-id=AeSow_2-ed9NP9UICI_YLPwkIm47Q1MJtb23FqcAj0FAP75U7lFHxCbdlsQ9bbj-lZkRGxsV5dTagnH&currency=USD&components=buttons"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/checkout.js"></script>
 </body>
