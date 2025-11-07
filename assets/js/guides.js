@@ -5,52 +5,52 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. LA LISTA DE GUÍAS (Nuestra "Base de Datos" del equipo)
     const tourGuides = [
         {
-    image: 'assets/img/guides/guide-1.jpg',
+    image: 'assets/img/Guides/guide-1.jpg',
     name: 'Lucio Hancco',
     role: 'Tour advisor & tour guide'
     },
     {
-      image: 'assets/img/guides/guide-2.jpg',
+      image: 'assets/img/Guides/guide-2.jpg',
       name: 'Amarilis Pereda',
       role: 'Vessel operator'
     },
     {
-      image: 'assets/img/guides/guide-3.jpg',
+      image: 'assets/img/Guides/guide-3.jpg',
       name: 'Alberto Hernández',
       role: 'Vessel operator 2'
     },
     {
-      image: 'assets/img/guides/guide-4.jpg',
+      image: 'assets/img/Guides/guide-4.jpg',
       name: 'Juan Carlos Oyola',
       role: 'Yacht keepers'
     },
     {
-      image: 'assets/img/guides/guide-5.jpg',
+      image: 'assets/img/Guides/guide-5.jpg',
       name: 'Ilich Lenin Pereda',
       role: 'Yacht keepers'
     },
     {
-      image: 'assets/img/guides/guide-6.jpg',
+      image: 'assets/img/Guides/guide-6.jpg',
       name: 'Karl Kevin H.',
       role: 'Yacht keepers'
     },
     {
-      image: 'assets/img/guides/guide-7.jpg',
+      image: 'assets/img/Guides/guide-7.jpg',
       name: 'Rossmery Albarrán',
       role: 'Regional Manager'
     },
     {
-      image: 'assets/img/guides/guide-8.jpg',
+      image: 'assets/img/Guides/guide-8.jpg',
       name: 'Karol Hancco',
       role: 'Product and Costing'
     },
     {
-      image: 'assets/img/guides/guide-9.jpg',
+      image: 'assets/img/Guides/guide-9.jpg',
       name: 'Martin Vega',
       role: 'Tour guides coordinator'
     },
     {
-      image: 'assets/img/guides/guide-10.jpg',
+      image: 'assets/img/Guides/guide-10.jpg',
       name: 'Abilio Dextre',
       role: 'French tour guide'
     }
