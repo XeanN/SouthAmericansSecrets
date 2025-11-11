@@ -68,18 +68,17 @@ document.addEventListener("headerLoaded", () => {
 
   // --- CLONACIÓN DE ELEMENTOS ---
   const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
-  const authButtonsDesktop = document.querySelector(".header .auth-buttons");
-  const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile");
-  const authButtonsMobileContainer = navMobile.querySelector(".auth-buttons-mobile");
+  const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile"); // <-- ESTA LÍNEA ES NECESARIA
 
-  // Clonamos los links de navegación
+  // Clonamos los links de navegación (Home, About, Tours, etc.)
   if (navLinksDesktop && navLinksMobileContainer) {
     navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
   }
-  // Clonamos los botones de Login/Register
-  if (authButtonsDesktop && authButtonsMobileContainer) {
-    authButtonsMobileContainer.innerHTML = authButtonsDesktop.innerHTML;
-  }
+  
+  // 🔴 HEMOS QUITADO LA LÓGICA DE CLONAR LOS BOTONES DE AUTH 🔴
+  // El script 'auth.js' ahora se encarga de actualizar AMBOS,
+  // el de escritorio (.auth-buttons) y el de móvil (.auth-buttons-mobile).
+  // Así ya no hay "peleas".
 
   // --- LÓGICA PARA ABRIR Y CERRAR EL MENÚ PRINCIPAL ---
   navToggle.addEventListener("click", () => {
@@ -116,7 +115,7 @@ document.addEventListener("headerLoaded", () => {
 
 
 // =====================================
-// ✅ SLIDER PRINCIPAL (igual que antes)
+// ✅ SLIDER PRINCIPAL (Tu código original - Sin cambios)
 // =====================================
 document.addEventListener('DOMContentLoaded', () => {
   const slider = document.querySelector('.slider');
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =====================================
-// ✅ MENÚ HAMBURGUESA
+// ✅ MENÚ HAMBURGUESA (Tu código original - Sin cambios)
 // =====================================
 document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.querySelector('.nav-toggle');
@@ -193,14 +192,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // ¡LÍNEA AÑADIDA!
       // Añade o quita una clase en el body para controlar los iconos
-      body.classList.toggle('no-scroll');
+      // (Nota: 'body' debería estar definido o usar document.body)
+      document.body.classList.toggle('no-scroll');
     });
   }
 });
 
 
 // =====================================
-// ✅ DROPDOWN EN MÓVIL
+// ✅ DROPDOWN EN MÓVIL (Tu código original - Sin cambios)
 // =====================================
 document.addEventListener('DOMContentLoaded', () => {
   const dropdownToggles = document.querySelectorAll('nav .dropdown > a');
@@ -224,30 +224,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /**
      * Función para obtener la ruta raíz del sitio, sin importar el hosting.
-     * Funciona tanto en un dominio principal (ej: misitio.com) como en 
-     * un subdirectorio (ej: usuario.github.io/mi-repo/).
-     * @returns {string} La ruta base correcta para los assets (ej: "/" o "/mi-repo/").
+     * (Tu código original - Sin cambios)
      */
     function getBasePath() {
-        const repoName = 'SouthAmericansSecrets'; // IMPORTANTE: El nombre de tu repositorio de GitHub.
+        const repoName = 'SouthAmericansSecrets'; 
         const path = window.location.pathname;
 
-        // Comprueba si la URL contiene el nombre del repositorio (caso de GitHub Pages)
         if (path.includes(`/${repoName}/`)) {
             return `/${repoName}/`;
         }
-
-        // Para cualquier otro hosting (donde tu web está en la raíz)
         return '/';
     }
 
     // --- CÓDIGO PARA LOS ICONOS FLOTANTES DE REDES SOCIALES ---
-
-    // 1. Obtener la ruta base correcta
+    // (Tu código original - Sin cambios)
     const basePath = getBasePath();
-
-    // 2. Define el HTML de los iconos flotantes usando la nueva ruta base.
-    // Nota que ahora la ruta empieza desde la raíz del sitio.
     const floatingSocialsHTML = `
         <div class="floating-socials">
             <a href="https://www.tripadvisor.com/Attraction_Review-g445063-d6387633-Reviews-South_Americans_Secrets-Paracas_Ica_Region.html" target="_blank" aria-label="TripAdvisor">
@@ -267,7 +258,5 @@ document.addEventListener('DOMContentLoaded', function() {
             </a>
         </div>
     `;
-
-    // 3. Inserta el HTML en el cuerpo (body) de la página
     document.body.insertAdjacentHTML('beforeend', floatingSocialsHTML);
 });

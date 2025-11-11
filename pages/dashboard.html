@@ -4,58 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - South Americans Secrets</title>
+    <link rel="icon" href="../assets/img/logoN.png" type="image/png">
+    
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 
-    <!-- Header reutilizable -->
     <div id="header-placeholder"></div>
 
-    <main class="dashboard-container" style="padding: 40px; max-width: 1000px; margin: 0 auto;">
+    <section class="dashboard-welcome">
+        <div class="container">
+            <h1 id="welcome-title">Welcome</h1>
+        </div>
+    </section>
 
-        <h1 id="dashboard-title">Loading...</h1>
-        <p>Welcome to your account. Here you’ll be able to see your reservations, profile, and more soon.</p>
+    <nav class="dashboard-nav">
+        <button class="tab-link active" data-tab="bookings">
+            <i class="fas fa-calendar-alt"></i> My Bookings
+        </button>
+        <button class="tab-link" data-tab="profile">
+            <i class="fas fa-user-circle"></i> My Profile
+        </button>
+        
+        </nav>
 
-        <!-- Secciones -->
-        <section style="margin-top: 30px;">
-            <h2>Your Upcoming Reservations</h2>
-            <p>(We will load them from Firebase here)</p>
-        </section>
+    <main class="dashboard-content-wrapper">
+        <div class="container">
+        
+            <div id="bookings" class="tab-content active">
+                <h2>Your Upcoming Reservations</h2>
+                
+                <div id="booking-list-container">
+                    <p>Loading your reservations...</p>
+                </div>
+            </div>
 
-        <section style="margin-top: 30px;">
-            <h2>Your Profile</h2>
-            <p>(We will add edit profile functionality here)</p>
-        </section>
-
+            <div id="profile" class="tab-content">
+                <h2>Your Profile</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name">Full Name:</label>
+                        <input type="text" id="profile-name" placeholder="Your full name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">Email:</label>
+                        <input type="email" id="profile-email" placeholder="your.email@example.com" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-phone">Phone:</label>
+                        <input type="tel" id="profile-phone" placeholder="+1 234 567 890" readonly>
+                    </div>
+                    
+                    <button type="button" id="edit-profile-btn" class="btn-details">Edit Profile</button>
+                    <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">Save Changes</button>
+                </form>
+            </div>
+            
+        </div>
     </main>
-
-    <!-- Footer reutilizable -->
     <div id="footer-placeholder"></div>
 
     <script src="../assets/js/main.js"></script>
-
-    <!-- ✅ SCRIPT ACTUALIZADO -->
+    <script type="module" src="../assets/js/auth.js"></script>
+    
     <script type="module">
-        import { auth } from "../assets/js/firebase.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    // 1. IMPORTACIONES
+    import { auth, db, signOut } from "../assets/js/firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
+    // =================================================================
+    // Esperamos a que TODO el HTML esté cargado
+    // =================================================================
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // 4. FUNCIÓN PARA CREAR TARJETA (Sin cambios)
+        function createBookingCard(booking) {
+            return `
+            <div class="booking-card">
+                <img src="${booking.tourImage || '../assets/img/logoN.png'}" alt="Tour Image" class="booking-card-img">
+                <div class="booking-card-content">
+                    <span class="booking-status confirmed">${booking.status || 'CONFIRMED'}</span>
+                    <h3>${booking.tourName || 'Tour Name Not Found'}</h3>
+                    <p class="booking-detail">
+                        <i class="fas fa-calendar-alt"></i> 
+                        <strong>Date:</strong> 
+                        <span>${booking.date || 'No date'}</span>
+                    </p>
+                    <p class="booking-detail">
+                        <i class="fas fa-users"></i> 
+                        <strong>Participants:</strong> 
+                        <span>${booking.participants || 'N/A'}</span>
+                    </p>
+                    <p class="booking-price">
+                        <strong>Price:</strong> 
+                        <span>${booking.price || '$0.00'}</span>
+                    </p>
+                    <a href="#" class="btn-details">View Details</a>
+                </div>
+            </div>
+            `;
+        }
+
+        // 2. LÓGICA DE AUTH
         onAuthStateChanged(auth, (user) => {
-            const title = document.getElementById("dashboard-title");
+            
+            const title = document.getElementById("welcome-title"); 
+            const profileName = document.getElementById("profile-name");
+            const profileEmail = document.getElementById("profile-email");
 
             if (user) {
+                // Saludo y perfil
                 const displayName = user.displayName || user.email.split("@")[0];
-                title.textContent = `Hi, ${displayName}! 👋`;
-            } else {
-                // Si no hay usuario, lo mandamos al login
-                window.location.href = "../pages/login.html";
+                title.textContent = `Welcome, ${displayName}! 👋`; 
+                if (profileName) profileName.value = user.displayName || 'Complete your name';
+                if (profileEmail) profileEmail.value = user.email;
+
+                // 3. Lógica para cargar reservas
+                const bookingsContainer = document.getElementById('booking-list-container');
+                const bookingsRef = ref(db, 'users/' + user.uid + '/bookings'); 
+
+                onValue(bookingsRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        bookingsContainer.innerHTML = ''; 
+                        snapshot.forEach((childSnapshot) => {
+                            const booking = childSnapshot.val();
+                            const cardHTML = createBookingCard(booking);
+                            bookingsContainer.innerHTML += cardHTML;
+                        });
+                    } else {
+                        bookingsContainer.innerHTML = '<p>You have no upcoming reservations.</p>';
+                    }
+                }, (error) => {
+                    console.error("Error fetching bookings: ", error);
+                    bookingsContainer.innerHTML = '<p>Error loading reservations.</p>';
+                });
+
+                // =============================================================
+                // 5. ¡CAMBIO REALIZADO! - LÓGICA DE LOGOUT MOVIDA AL HEADER
+                // =============================================================
+                
+                // Damos un pequeño tiempo para que main.js cargue el header
+                setTimeout(() => {
+                    const header = document.getElementById('header-placeholder');
+                    if (!header) {
+                        console.error("No se encontró el placeholder del header");
+                        return;
+                    }
+
+                    // Buscamos el botón de 'Logout' dentro del header.
+                    // (Asumimos que es un <a> o <button> que contiene el texto "Logout")
+                    let headerLogoutBtn = null;
+                    const allLinks = header.querySelectorAll('a, button');
+                    
+                    allLinks.forEach(link => {
+                        // Usamos .trim() para quitar espacios en blanco
+                        if (link.textContent.trim().toLowerCase() === 'logout') {
+                            headerLogoutBtn = link;
+                        }
+                    });
+
+                    if (headerLogoutBtn) {
+                        // 1. ¡Agregamos el icono de la puertita!
+                        headerLogoutBtn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Logout`; 
+                        
+                        // 2. Le asignamos la función de cerrar sesión
+                        headerLogoutBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            console.log("¡Cerrando sesión desde el HEADER!"); 
+                            signOut(auth).catch((error) => console.error('Sign out error', error));
+                        });
+                        
+                        // (Opcional) Damos estilo de botón si no lo tiene
+                        headerLogoutBtn.style.cursor = 'pointer'; 
+
+                    } else {
+                        console.error("No se pudo encontrar el botón de 'Logout' del header.");
+                    }
+                }, 500); // 500ms de espera
+
+                
             }
         });
-    </script>
 
-    <script type="module" src="../assets/js/auth.js"></script>
+    }); // Cierre del 'DOMContentLoaded'
+
+</script>
+    
+    <script src="../assets/js/dashboard.js"></script>
 
 </body>
 </html>
