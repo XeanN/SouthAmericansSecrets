@@ -256,290 +256,134 @@
     // ===========================================
     // INICIALIZAR TODO CUANDO EL DOM ESTÉ LISTO
     // ===========================================
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM Content Loaded');
-        initializeTabs();
-        initializeLogout();
-    });
+    // ===========================================
+// INICIALIZAR TODO CUANDO EL DOM Y EL USUARIO ESTÉN LISTOS
+// ===========================================
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('✅ DOM Loaded - Waiting for Firebase user...');
+    initializeTabs();
+    initializeLogout();
 
-    // ===========================================
-    // OBSERVADOR DE AUTENTICACIÓN
-    // ===========================================
-    onAuthStateChanged(auth, async (user) => {
-        console.log('Auth state changed:', user);
-        
+    // Esperamos que Firebase detecte el usuario
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (!user) {
             window.location.href = '../pages/login.html';
             return;
         }
 
+        console.log('✅ Firebase user detected:', user.email);
         currentUserGlobal = user;
-        
-        const title = document.getElementById("welcome-title"); 
-        const profileName = document.getElementById("profile-name");
-        const profileEmail = document.getElementById("profile-email");
-        const profilePhone = document.getElementById("profile-phone");
+        unsubscribe(); // Detenemos el listener (ya tenemos al usuario)
+        await initializeDashboard(user);
+    });
+});
 
-        const displayName = user.displayName || user.email.split("@")[0];
-        title.textContent = `Welcome, ${displayName}! 👋`; 
+// ===========================================
+// CONFIGURACIÓN PRINCIPAL DEL DASHBOARD
+// ===========================================
+async function initializeDashboard(user) {
+    const title = document.getElementById("welcome-title"); 
+    const profileName = document.getElementById("profile-name");
+    const profileEmail = document.getElementById("profile-email");
+    const profilePhone = document.getElementById("profile-phone");
 
-        // CARGAR DATOS DEL PERFIL
+    title.textContent = `Welcome, ${user.displayName || user.email.split("@")[0]}! 👋`;
+    profileEmail.value = user.email;
+
+    // 🔄 Cargar datos desde Firebase Realtime Database
+    const userRef = ref(db, `users/${user.uid}`);
+    const snapshot = await get(userRef);
+    let userData = snapshot.exists() ? snapshot.val() : {};
+
+    profileName.value = userData.name || user.displayName || "";
+    profilePhone.value = userData.phone || "";
+
+    // ===========================================
+    // HABILITAR BOTONES DE PERFIL
+    // ===========================================
+    const editBtn = document.getElementById('edit-profile-btn');
+    const saveBtn = document.getElementById('save-profile-btn');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    const profileForm = document.getElementById('profile-form');
+
+    if (!editBtn || !saveBtn || !cancelBtn || !profileForm) {
+        console.error("❌ Error: botones del perfil no encontrados en el DOM");
+        return;
+    }
+
+    // Guardar estado inicial
+    let originalProfileData = {
+        name: profileName.value,
+        phone: profilePhone.value
+    };
+
+    // 🟢 Editar
+    editBtn.addEventListener('click', () => {
+        console.log('✏️ Edit Profile clicked');
+        profileName.readOnly = false;
+        profilePhone.readOnly = false;
+        profileName.focus();
+
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-flex';
+        cancelBtn.style.display = 'inline-flex';
+    });
+
+    // 🔴 Cancelar
+    cancelBtn.addEventListener('click', () => {
+        profileName.value = originalProfileData.name;
+        profilePhone.value = originalProfileData.phone;
+
+        profileName.readOnly = true;
+        profilePhone.readOnly = true;
+
+        editBtn.style.display = 'inline-flex';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    });
+
+    // 💾 Guardar
+    profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const newName = profileName.value.trim();
+        const newPhone = profilePhone.value.trim();
+
+        if (!newName) return showMessage("Name cannot be empty", "error");
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
         try {
-            const userRef = ref(db, 'users/' + user.uid);
-            const snapshot = await get(userRef);
-            
-            if (snapshot.exists()) {
-                const userData = snapshot.val();
-                originalProfileData = {
-                    name: userData.name || user.displayName || '',
-                    phone: userData.phone || ''
-                };
-                
-                console.log('User data from Firebase:', userData);
-                
-                profileName.value = originalProfileData.name;
-                profileEmail.value = user.email; // SIEMPRE usar user.email del auth
-                profilePhone.value = originalProfileData.phone;
-            } else {
-                console.log('Creating new user in database');
-                
-                originalProfileData = {
-                    name: user.displayName || '',
-                    phone: ''
-                };
-                
-                await set(userRef, {
-                    name: user.displayName || '',
-                    email: user.email,
-                    phone: '',
-                    photoURL: user.photoURL || null,
-                    provider: user.providerData[0]?.providerId || 'email',
-                    createdAt: new Date().toISOString()
-                });
-                
-                profileName.value = originalProfileData.name;
-                profileEmail.value = user.email;
-                profilePhone.value = '';
-            }
+            // Actualizar Firebase Auth
+            await updateProfile(user, { displayName: newName });
+            // Actualizar Realtime DB
+            await update(userRef, {
+                name: newName,
+                phone: newPhone,
+                updatedAt: new Date().toISOString()
+            });
+
+            showMessage("✅ Profile updated successfully!", "success");
+
+            profileName.readOnly = true;
+            profilePhone.readOnly = true;
+            editBtn.style.display = 'inline-flex';
+            saveBtn.style.display = 'none';
+            cancelBtn.style.display = 'none';
+
+            title.textContent = `Welcome, ${newName}! 👋`;
+
         } catch (error) {
-            console.error("Error loading profile: ", error);
-            showMessage("Error loading profile data", "error");
-        }
-
-        // CARGAR BOOKINGS
-        const bookingsContainer = document.getElementById('booking-list-container');
-        const bookingsRef = ref(db, 'users/' + user.uid + '/bookings'); 
-
-        onValue(bookingsRef, (snapshot) => {
-            if (snapshot.exists()) {
-                bookingsContainer.innerHTML = ''; 
-                snapshot.forEach((childSnapshot) => {
-                    const booking = childSnapshot.val();
-                    const cardHTML = createBookingCard(booking);
-                    bookingsContainer.innerHTML += cardHTML;
-                });
-            } else {
-                bookingsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 3rem;">
-                        <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
-                        <p style="color: #888; font-size: 1.1rem;">You have no upcoming reservations.</p>
-                        <a href="../index.html" class="btn" style="margin-top: 1rem;">Explore Tours</a>
-                    </div>
-                `;
-            }
-        });
-
-        // ===========================================
-        // LÓGICA DE EDICIÓN DE PERFIL
-        // ===========================================
-        const editBtn = document.getElementById('edit-profile-btn');
-        const saveBtn = document.getElementById('save-profile-btn');
-        const cancelBtn = document.getElementById('cancel-edit-btn');
-        const profileForm = document.getElementById('profile-form');
-
-        if (editBtn) {
-            editBtn.addEventListener('click', () => {
-                console.log('Edit button clicked');
-                
-                profileName.readOnly = false;
-                profilePhone.readOnly = false;
-                profileName.style.backgroundColor = '#fff';
-                profilePhone.style.backgroundColor = '#fff';
-                profileName.style.borderColor = '#1c3d82';
-                profilePhone.style.borderColor = '#1c3d82';
-                profileName.focus();
-                
-                editBtn.style.display = 'none';
-                saveBtn.style.display = 'inline-flex';
-                cancelBtn.style.display = 'inline-flex';
-            });
-        }
-
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                profileName.value = originalProfileData.name;
-                profilePhone.value = originalProfileData.phone;
-                
-                profileName.readOnly = true;
-                profilePhone.readOnly = true;
-                profileName.style.backgroundColor = '#eee';
-                profilePhone.style.backgroundColor = '#eee';
-                profileName.style.borderColor = '#ddd';
-                profilePhone.style.borderColor = '#ddd';
-                
-                editBtn.style.display = 'inline-flex';
-                saveBtn.style.display = 'none';
-                cancelBtn.style.display = 'none';
-            });
-        }
-
-        if (profileForm) {
-            profileForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const newName = profileName.value.trim();
-                const newPhone = profilePhone.value.trim();
-
-                if (!newName) {
-                    showMessage("Name cannot be empty", "error");
-                    return;
-                }
-
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
-                try {
-                    const userRef = ref(db, 'users/' + user.uid);
-                    const snapshot = await get(userRef);
-
-                    if (snapshot.exists()) {
-                    // ✅ Si el usuario ya existe, solo actualizamos los campos necesarios
-                    await update(userRef, {
-                        name: newName,
-                        phone: newPhone,
-                        updatedAt: new Date().toISOString()
-                    });
-                    } else {
-                    // 🆕 Si no existe, creamos el registro completo
-                    await set(userRef, {
-                        name: newName,
-                        email: user.email,
-                        phone: newPhone,
-                        provider: user.providerData[0]?.providerId || 'email',
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                    });
-                    }
-
-                    // 🔄 Actualizamos el perfil de autenticación (solo displayName)
-                    await updateProfile(user, { displayName: newName });
-
-                    // 💾 Guardamos en localStorage para persistencia
-                    localStorage.setItem("user", JSON.stringify({
-                    uid: user.uid,
-                    name: newName,
-                    email: user.email
-                    }));
-
-                    // Actualizamos los valores locales
-                    originalProfileData = { name: newName, phone: newPhone };
-
-                    // ✅ Mensaje de éxito
-                    showMessage("Profile updated successfully! ✅", "success");
-
-                    // UI: volver a modo solo lectura
-                    profileName.readOnly = true;
-                    profilePhone.readOnly = true;
-                    profileName.style.backgroundColor = '#eee';
-                    profilePhone.style.backgroundColor = '#eee';
-                    profileName.style.borderColor = '#ddd';
-                    profilePhone.style.borderColor = '#ddd';
-                    
-                    editBtn.style.display = 'inline-flex';
-                    saveBtn.style.display = 'none';
-                    cancelBtn.style.display = 'none';
-
-                    // Actualizar saludo
-                    title.textContent = `Welcome, ${newName}! 👋`;
-
-                    const userGreetings = document.querySelectorAll('.user-greeting');
-                    userGreetings.forEach(greeting => {
-                    greeting.textContent = `Hi, ${newName}`;
-                    });
-
-                } catch (error) {
-                    console.error("Error updating profile:", error);
-                    showMessage("Error updating profile: " + error.message, "error");
-                } finally {
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
-                }
-                });
-
-        }
-
-        // ===========================================
-        // CAMBIAR CONTRASEÑA
-        // ===========================================
-        const changePasswordForm = document.getElementById('change-password-form');
-        
-        if (changePasswordForm) {
-            changePasswordForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const currentPassword = document.getElementById('current-password').value;
-                const newPassword = document.getElementById('new-password').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
-
-                if (!currentPassword || !newPassword || !confirmPassword) {
-                    showMessage("Please fill in all password fields", "error");
-                    return;
-                }
-
-                if (newPassword.length < 6) {
-                    showMessage("New password must be at least 6 characters", "error");
-                    return;
-                }
-
-                if (newPassword !== confirmPassword) {
-                    showMessage("New passwords do not match", "error");
-                    return;
-                }
-
-                const submitBtn = changePasswordForm.querySelector('button[type="submit"]');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-
-                try {
-                    const credential = EmailAuthProvider.credential(
-                        user.email,
-                        currentPassword
-                    );
-                    
-                    await reauthenticateWithCredential(user, credential);
-                    await updatePassword(user, newPassword);
-                    
-                    showMessage("Password updated successfully! 🔒", "success");
-                    changePasswordForm.reset();
-                    
-                } catch (error) {
-                    console.error("Error changing password: ", error);
-                    
-                    let errorMessage = "Error updating password";
-                    if (error.code === 'auth/wrong-password') {
-                        errorMessage = "Current password is incorrect";
-                    } else if (error.code === 'auth/requires-recent-login') {
-                        errorMessage = "Please log out and log in again to change your password";
-                    }
-                    
-                    showMessage(errorMessage, "error");
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Update Password';
-                }
-            });
+            console.error("Error updating profile:", error);
+            showMessage("Error updating profile: " + error.message, "error");
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
         }
     });
+}
+
 
     </script>
 
