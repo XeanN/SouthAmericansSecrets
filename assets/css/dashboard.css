@@ -1,0 +1,316 @@
+
+/* Estilos para el Dashboard */
+.dashboard-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-container h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--title-color); /* Usando variables de tu styles.css */
+    margin-bottom: 20px;
+}
+
+/* Estilos de Navegación de Pestañas */
+.dashboard-nav {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 30px;
+}
+
+.tab-link {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color); /* Usando variables de tu styles.css */
+    background-color: transparent;
+    border: none;
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px; 
+}
+
+.tab-link i {
+    margin-right: 8px;
+    color: var(--first-color-alt); /* Usando variables de tu styles.css */
+}
+
+.tab-link:hover {
+    color: var(--first-color); /* Usando variables de tu styles.css */
+}
+
+.tab-link.active {
+    color: var(--first-color);
+    border-bottom-color: var(--first-color);
+}
+
+/* Estilos de Contenido de Pestañas */
+.tab-content {
+    display: none; /* Oculto por defecto */
+}
+
+.tab-content.active {
+    display: block; /* Visible si está activo */
+}
+
+.tab-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-bottom: 20px;
+}
+
+/* Estilos de la Tarjeta de Reserva (Booking Card) */
+.booking-card {
+    display: flex;
+    flex-wrap: wrap; 
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 20px;
+    transition: box-shadow 0.3s ease;
+}
+
+.booking-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.booking-card-img {
+    width: 300px;
+    object-fit: cover;
+}
+
+.booking-card-content {
+    padding: 25px;
+    position: relative;
+    flex: 1; 
+}
+
+.booking-status {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.booking-status.confirmed {
+    background-color: #d4edda; 
+    color: #155724; 
+}
+
+.booking-status.pending {
+    background-color: #fff3cd; 
+    color: #856404; 
+}
+
+.booking-card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--title-color);
+    margin: 0 0 15px 0;
+    padding-right: 120px; 
+}
+
+.booking-detail {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.booking-detail i {
+    width: 20px;
+    text-align: center;
+    margin-right: 5px;
+    color: var(--first-color-alt);
+}
+
+.booking-price {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--title-color);
+    margin-top: 15px;
+}
+
+.btn-details {
+    /* Usando un estilo similar a tus botones .btn */
+    display: inline-block;
+    background-color: var(--first-color);
+    color: #FFF;
+    padding: 10px 20px;
+    border-radius: .5rem;
+    font-weight: 600; 
+    transition: .3s;
+    text-decoration: none;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-details:hover {
+    background-color: var(--first-color-alt);
+}
+
+/* Estilos del Formulario de Perfil */
+#profile-form .form-group {
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+
+#profile-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+#profile-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #eee; 
+}
+
+/* Media Query para móvil */
+@media screen and (max-width: 767px) {
+    .booking-card {
+        flex-direction: column;
+    }
+    .booking-card-img {
+        width: 100%;
+        height: 200px;
+    }
+    .booking-card-content h3 {
+        padding-right: 0;
+    }
+    .booking-status {
+        position: static;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    .dashboard-nav {
+        flex-direction: column;
+    }
+    .tab-link {
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    .tab-link.active {
+        border-bottom-color: var(--first-color);
+    }
+}
+/* =====================================
+   NUEVOS ESTILOS DASHBOARD (MAQUETA)
+   ===================================== */
+
+/* 1. Banner de Bienvenida */
+.dashboard-welcome {
+    background-color: #f0f4fa; /* Un color de fondo suave */
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard-welcome h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* 2. Pestañas de Navegación */
+.dashboard-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Para que se vea bien en móviles */
+    padding: 0 1rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-nav .tab-link {
+    background-color: #fff;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px; /* Estilo Píldora */
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboard-nav .tab-link:hover {
+    background-color: #f0f4fa; /* Fondo suave al pasar el mouse */
+    transform: translateY(-2px);
+}
+
+.dashboard-nav .tab-link.active {
+    background-color: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+}
+
+/* 3. Contenedor de Contenido */
+.dashboard-content-wrapper {
+    background-color: var(--color-background-light); /* Fondo gris claro */
+    padding: 3rem 1rem;
+    min-height: 50vh;
+}
+
+/* 4. Estilos del Contenido de las Pestañas */
+.tab-content h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--color-text-primary);
+    margin-bottom: 2rem;
+}
+
+/* 5. Centrar las tarjetas y el formulario */
+#booking-list-container,
+#profile-form {
+    max-width: 800px;
+    margin: 0 auto; /* Centra el contenedor */
+}
+
+/* Asegurar que las tarjetas de reserva se apilen verticalmente */
+#booking-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Estilos de la tarjeta de reserva (puedes ajustar) */
+.booking-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-light);
+    overflow: hidden; /* Asegura que la imagen no se salga */
+}
+
+/* Hacemos el formulario de perfil más legible */
+#profile-form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow-light);
+}
