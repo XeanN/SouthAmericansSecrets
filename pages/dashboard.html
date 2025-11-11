@@ -150,7 +150,9 @@
         updatePassword,
         EmailAuthProvider,
         reauthenticateWithCredential,
-        signOut
+        signOut,
+        setPersistence,
+        browserLocalPersistence
     } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
     import { ref, onValue, update, get, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
@@ -267,6 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Esperamos que Firebase detecte el usuario
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (!user) {
+            localStorage.clear();
             window.location.href = '../pages/login.html';
             return;
         }
@@ -382,7 +385,51 @@ async function initializeDashboard(user) {
             saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
         }
     });
+    await loadUserBookings(user);
 }
+
+async function loadUserBookings(user) {
+    const bookingsContainer = document.getElementById("booking-list-container");
+    const bookingsRef = ref(db, `reservations/${user.uid}`);
+
+    // Mostramos mensaje de carga
+    bookingsContainer.innerHTML = `
+        <p style="text-align: center; color: #888;">
+            <i class="fas fa-spinner fa-spin"></i> Loading your reservations...
+        </p>
+    `;
+
+    try {
+        const snapshot = await get(bookingsRef);
+
+        if (snapshot.exists()) {
+            const bookingsData = snapshot.val();
+            const bookingCards = Object.values(bookingsData)
+                .map(b => createBookingCard(b))
+                .join("");
+            bookingsContainer.innerHTML = bookingCards;
+        } else {
+            // 🟢 Aquí colocamos el mensaje de “no upcoming reservations”
+            bookingsContainer.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
+                    <p style="color: #888; font-size: 1.1rem;">
+                        You have no upcoming reservations.
+                    </p>
+                    <a href="../index.html" class="btn" style="margin-top: 1rem;">
+                        Explore Tours
+                    </a>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error("Error loading bookings:", error);
+        bookingsContainer.innerHTML = `
+            <p style="color: red; text-align: center;">Error loading your reservations. Please try again later.</p>
+        `;
+    }
+}
+
 
 
     </script>
