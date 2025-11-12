@@ -6,6 +6,9 @@
     <title>Dashboard - South Americans Secrets</title>
     <link rel="icon" href="../assets/img/logoN.png" type="image/png">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+    
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
     
@@ -39,7 +42,6 @@
     <main class="dashboard-content-wrapper">
         <div class="container">
         
-            <!-- PESTAÑA DE BOOKINGS -->
             <div id="bookings" class="tab-content active">
                 <h2>Your Upcoming Reservations</h2>
                 
@@ -50,11 +52,9 @@
                 </div>
             </div>
 
-            <!-- PESTAÑA DE PERFIL -->
             <div id="profile" class="tab-content">
                 <h2>Your Profile</h2>
                 
-                <!-- FORMULARIO DE DATOS PERSONALES -->
                 <form id="profile-form">
                     <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
                         <i class="fas fa-user"></i> Personal Information
@@ -85,7 +85,7 @@
                     </div>
                     
                     <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                        <button type="button" id="edit-profile-btn" class="btn-details">
+                        <button type="button" id="edit-profile-btn" class="btn-details" style="background-color: #007bff;">
                             <i class="fas fa-edit"></i> Edit Profile
                         </button>
                         <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">
@@ -97,10 +97,8 @@
                     </div>
                 </form>
 
-                <!-- SEPARADOR -->
                 <hr style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0;">
 
-                <!-- FORMULARIO DE CAMBIO DE CONTRASEÑA -->
                 <div id="change-password-section">
                     <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
                         <i class="fas fa-lock"></i> Change Password
@@ -158,6 +156,7 @@
 
     let originalProfileData = {};
     let currentUserGlobal = null;
+    let phoneInputPlugin = null; // Variable para la librería de teléfono
 
     // ===========================================
     // LÓGICA DE PESTAÑAS (TABS)
@@ -256,185 +255,205 @@
     }
 
     // ===========================================
-    // INICIALIZAR TODO CUANDO EL DOM ESTÉ LISTO
+    // INICIALIZAR TODO CUANDO EL DOM Y EL USUARIO ESTÉN LISTOS
     // ===========================================
-    // ===========================================
-// INICIALIZAR TODO CUANDO EL DOM Y EL USUARIO ESTÉN LISTOS
-// ===========================================
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('✅ DOM Loaded - Waiting for Firebase user...');
-    initializeTabs();
-    initializeLogout();
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('✅ DOM Loaded - Waiting for Firebase user...');
+        initializeTabs();
+        initializeLogout();
 
-    // Esperamos que Firebase detecte el usuario
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            localStorage.clear();
-            window.location.href = '../pages/login.html';
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                localStorage.clear();
+                window.location.href = '../pages/login.html';
+                return;
+            }
+
+            console.log('✅ Firebase user detected:', user.email);
+            currentUserGlobal = user;
+            unsubscribe(); 
+            await initializeDashboard(user);
+        });
+    });
+
+    // ===========================================
+    // CONFIGURACIÓN PRINCIPAL DEL DASHBOARD
+    // ===========================================
+    async function initializeDashboard(user) {
+        const title = document.getElementById("welcome-title"); 
+        const profileName = document.getElementById("profile-name");
+        const profileEmail = document.getElementById("profile-email");
+        const profilePhone = document.getElementById("profile-phone");
+
+        // --- INICIALIZAR LIBRERÍA DE TELÉFONO ---
+        phoneInputPlugin = window.intlTelInput(profilePhone, {
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+            initialCountry: "auto",
+            geoIpLookup: callback => {
+                fetch("https://ipapi.co/json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country_code))
+                    .catch(() => callback("us")); // 'us' como fallback
+            }
+        });
+        // ------------------------------------------
+
+        title.textContent = `Welcome, ${user.displayName || user.email.split("@")[0]}! 👋`;
+        profileEmail.value = user.email;
+
+        // 🔄 Cargar datos desde Firebase Realtime Database
+        const userRef = ref(db, `users/${user.uid}`);
+        const snapshot = await get(userRef);
+        let userData = snapshot.exists() ? snapshot.val() : {};
+
+        profileName.value = userData.name || user.displayName || "";
+        
+        // Cargar el número guardado en la librería
+        phoneInputPlugin.setNumber(userData.phone || "");
+
+        // ===========================================
+        // HABILITAR BOTONES DE PERFIL
+        // ===========================================
+        const editBtn = document.getElementById('edit-profile-btn');
+        const saveBtn = document.getElementById('save-profile-btn');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        const profileForm = document.getElementById('profile-form');
+
+        if (!editBtn || !saveBtn || !cancelBtn || !profileForm) {
+            console.error("❌ Error: botones del perfil no encontrados en el DOM");
             return;
         }
 
-        console.log('✅ Firebase user detected:', user.email);
-        currentUserGlobal = user;
-        unsubscribe(); // Detenemos el listener (ya tenemos al usuario)
-        await initializeDashboard(user);
-    });
-});
+        // Guardar estado inicial (obteniendo el número desde la librería)
+        originalProfileData = {
+            name: profileName.value,
+            phone: phoneInputPlugin.getNumber()
+        };
 
-// ===========================================
-// CONFIGURACIÓN PRINCIPAL DEL DASHBOARD
-// ===========================================
-async function initializeDashboard(user) {
-    const title = document.getElementById("welcome-title"); 
-    const profileName = document.getElementById("profile-name");
-    const profileEmail = document.getElementById("profile-email");
-    const profilePhone = document.getElementById("profile-phone");
+        // 🟢 Editar
+        editBtn.addEventListener('click', () => {
+            console.log('✏️ Edit Profile clicked');
+            profileName.readOnly = false;
+            profilePhone.readOnly = false; // El plugin maneja esto internamente
+            profileName.focus();
 
-    title.textContent = `Welcome, ${user.displayName || user.email.split("@")[0]}! 👋`;
-    profileEmail.value = user.email;
+            editBtn.style.display = 'none';
+            saveBtn.style.display = 'inline-flex';
+            cancelBtn.style.display = 'inline-flex';
+        });
 
-    // 🔄 Cargar datos desde Firebase Realtime Database
-    const userRef = ref(db, `users/${user.uid}`);
-    const snapshot = await get(userRef);
-    let userData = snapshot.exists() ? snapshot.val() : {};
-
-    profileName.value = userData.name || user.displayName || "";
-    profilePhone.value = userData.phone || "";
-
-    // ===========================================
-    // HABILITAR BOTONES DE PERFIL
-    // ===========================================
-    const editBtn = document.getElementById('edit-profile-btn');
-    const saveBtn = document.getElementById('save-profile-btn');
-    const cancelBtn = document.getElementById('cancel-edit-btn');
-    const profileForm = document.getElementById('profile-form');
-
-    if (!editBtn || !saveBtn || !cancelBtn || !profileForm) {
-        console.error("❌ Error: botones del perfil no encontrados en el DOM");
-        return;
-    }
-
-    // Guardar estado inicial
-    let originalProfileData = {
-        name: profileName.value,
-        phone: profilePhone.value
-    };
-
-    // 🟢 Editar
-    editBtn.addEventListener('click', () => {
-        console.log('✏️ Edit Profile clicked');
-        profileName.readOnly = false;
-        profilePhone.readOnly = false;
-        profileName.focus();
-
-        editBtn.style.display = 'none';
-        saveBtn.style.display = 'inline-flex';
-        cancelBtn.style.display = 'inline-flex';
-    });
-
-    // 🔴 Cancelar
-    cancelBtn.addEventListener('click', () => {
-        profileName.value = originalProfileData.name;
-        profilePhone.value = originalProfileData.phone;
-
-        profileName.readOnly = true;
-        profilePhone.readOnly = true;
-
-        editBtn.style.display = 'inline-flex';
-        saveBtn.style.display = 'none';
-        cancelBtn.style.display = 'none';
-    });
-
-    // 💾 Guardar
-    profileForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const newName = profileName.value.trim();
-        const newPhone = profilePhone.value.trim();
-
-        if (!newName) return showMessage("Name cannot be empty", "error");
-
-        saveBtn.disabled = true;
-        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-
-        try {
-            // Actualizar Firebase Auth
-            await updateProfile(user, { displayName: newName });
-            // Actualizar Realtime DB
-            await update(userRef, {
-                name: newName,
-                phone: newPhone,
-                updatedAt: new Date().toISOString()
-            });
-
-            showMessage("✅ Profile updated successfully!", "success");
+        // 🔴 Cancelar
+        cancelBtn.addEventListener('click', () => {
+            profileName.value = originalProfileData.name;
+            // Resetear el número usando la librería
+            phoneInputPlugin.setNumber(originalProfileData.phone);
 
             profileName.readOnly = true;
             profilePhone.readOnly = true;
+
             editBtn.style.display = 'inline-flex';
             saveBtn.style.display = 'none';
             cancelBtn.style.display = 'none';
+        });
 
-            title.textContent = `Welcome, ${newName}! 👋`;
+        // 💾 Guardar
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
+            const newName = profileName.value.trim();
+            
+            // --- VALIDAR Y OBTENER TELÉFONO ---
+            if (profilePhone.value.trim() && !phoneInputPlugin.isValidNumber()) {
+                // Solo validar si el usuario escribió algo
+                showMessage("Please enter a valid phone number", "error");
+                return;
+            }
+            // Obtener el número en formato internacional (ej. "+12025550123")
+            const newPhone = phoneInputPlugin.getNumber();
+            // -----------------------------------
+
+            if (!newName) return showMessage("Name cannot be empty", "error");
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                // Actualizar Firebase Auth
+                await updateProfile(user, { displayName: newName });
+                // Actualizar Realtime DB
+                await update(userRef, {
+                    name: newName,
+                    phone: newPhone, // Guardar el número formateado
+                    updatedAt: new Date().toISOString()
+                });
+
+                showMessage("✅ Profile updated successfully!", "success");
+
+                profileName.readOnly = true;
+                profilePhone.readOnly = true;
+                editBtn.style.display = 'inline-flex';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+
+                title.textContent = `Welcome, ${newName}! 👋`;
+
+                // Actualizar los datos originales guardados
+                originalProfileData = { name: newName, phone: newPhone };
+
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                showMessage("Error updating profile: " + error.message, "error");
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            }
+        });
+        await loadUserBookings(user);
+    }
+
+    async function loadUserBookings(user) {
+        const bookingsContainer = document.getElementById("booking-list-container");
+        const bookingsRef = ref(db, `reservations/${user.uid}`);
+
+        bookingsContainer.innerHTML = `
+            <p style="text-align: center; color: #888;">
+                <i class="fas fa-spinner fa-spin"></i> Loading your reservations...
+            </p>
+        `;
+
+        try {
+            const snapshot = await get(bookingsRef);
+
+            if (snapshot.exists()) {
+                const bookingsData = snapshot.val();
+                const bookingCards = Object.values(bookingsData)
+                    .map(b => createBookingCard(b))
+                    .join("");
+                bookingsContainer.innerHTML = bookingCards;
+            } else {
+                bookingsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
+                        <p style="color: #888; font-size: 1.1rem;">
+                            You have no upcoming reservations.
+                        </p>
+                        <a href="../index.html" class="btn" style="margin-top: 1rem;">
+                            Explore Tours
+                        </a>
+                    </div>
+                `;
+            }
         } catch (error) {
-            console.error("Error updating profile:", error);
-            showMessage("Error updating profile: " + error.message, "error");
-        } finally {
-            saveBtn.disabled = false;
-            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
-        }
-    });
-    await loadUserBookings(user);
-}
-
-async function loadUserBookings(user) {
-    const bookingsContainer = document.getElementById("booking-list-container");
-    const bookingsRef = ref(db, `reservations/${user.uid}`);
-
-    // Mostramos mensaje de carga
-    bookingsContainer.innerHTML = `
-        <p style="text-align: center; color: #888;">
-            <i class="fas fa-spinner fa-spin"></i> Loading your reservations...
-        </p>
-    `;
-
-    try {
-        const snapshot = await get(bookingsRef);
-
-        if (snapshot.exists()) {
-            const bookingsData = snapshot.val();
-            const bookingCards = Object.values(bookingsData)
-                .map(b => createBookingCard(b))
-                .join("");
-            bookingsContainer.innerHTML = bookingCards;
-        } else {
-            // 🟢 Aquí colocamos el mensaje de “no upcoming reservations”
+            console.error("Error loading bookings:", error);
             bookingsContainer.innerHTML = `
-                <div style="text-align: center; padding: 3rem;">
-                    <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
-                    <p style="color: #888; font-size: 1.1rem;">
-                        You have no upcoming reservations.
-                    </p>
-                    <a href="../index.html" class="btn" style="margin-top: 1rem;">
-                        Explore Tours
-                    </a>
-                </div>
+                <p style="color: red; text-align: center;">Error loading your reservations. Please try again later.</p>
             `;
         }
-    } catch (error) {
-        console.error("Error loading bookings:", error);
-        bookingsContainer.innerHTML = `
-            <p style="color: red; text-align: center;">Error loading your reservations. Please try again later.</p>
-        `;
     }
-}
-
-
-
     </script>
 
 <style>
+/* Estilos para los mensajes de dashboard */
 .dashboard-message {
     position: fixed;
     top: 100px;
@@ -479,7 +498,22 @@ async function loadUserBookings(user) {
         top: 80px;
     }
 }
+
+/* Estilos para la librería de teléfono */
+.iti {
+    /* Hace que el input ocupe todo el ancho del contenedor */
+    width: 100%;
+}
+.iti__country-list {
+    /* Asegura que el dropdown aparezca por encima de otros elementos */
+    z-index: 1001;
+}
+#profile.tab-content .form-group input#profile-phone {
+    
+    padding-left: 92px;
+}
 </style>
 
+    <script type="module" src="../assets/js/auth.js"></script>
 </body>
 </html>
