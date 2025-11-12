@@ -31,173 +31,455 @@
         <button class="tab-link" data-tab="profile">
             <i class="fas fa-user-circle"></i> My Profile
         </button>
-        
-        </nav>
+        <button class="tab-link" id="logout-btn-dashboard" style="background-color: #dc3545; color: white; margin-left: auto;">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+        </button>
+    </nav>
 
     <main class="dashboard-content-wrapper">
         <div class="container">
         
+            <!-- PESTAÑA DE BOOKINGS -->
             <div id="bookings" class="tab-content active">
                 <h2>Your Upcoming Reservations</h2>
                 
                 <div id="booking-list-container">
-                    <p>Loading your reservations...</p>
+                    <p style="text-align: center; color: #888;">
+                        <i class="fas fa-spinner fa-spin"></i> Loading your reservations...
+                    </p>
                 </div>
             </div>
 
+            <!-- PESTAÑA DE PERFIL -->
             <div id="profile" class="tab-content">
                 <h2>Your Profile</h2>
+                
+                <!-- FORMULARIO DE DATOS PERSONALES -->
                 <form id="profile-form">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
+                        <i class="fas fa-user"></i> Personal Information
+                    </h3>
+                    
                     <div class="form-group">
-                        <label for="profile-name">Full Name:</label>
+                        <label for="profile-name">
+                            <i class="fas fa-user"></i> Full Name:
+                        </label>
                         <input type="text" id="profile-name" placeholder="Your full name" readonly>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="profile-email">Email:</label>
+                        <label for="profile-email">
+                            <i class="fas fa-envelope"></i> Email:
+                        </label>
                         <input type="email" id="profile-email" placeholder="your.email@example.com" readonly>
+                        <small style="color: #888; display: block; margin-top: 5px;">
+                            Email cannot be changed
+                        </small>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="profile-phone">Phone:</label>
+                        <label for="profile-phone">
+                            <i class="fas fa-phone"></i> Phone:
+                        </label>
                         <input type="tel" id="profile-phone" placeholder="+1 234 567 890" readonly>
                     </div>
                     
-                    <button type="button" id="edit-profile-btn" class="btn-details">Edit Profile</button>
-                    <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">Save Changes</button>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <button type="button" id="edit-profile-btn" class="btn-details">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" id="cancel-edit-btn" class="btn-details" style="display: none; background-color: #6c757d;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
                 </form>
+
+                <!-- SEPARADOR -->
+                <hr style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0;">
+
+                <!-- FORMULARIO DE CAMBIO DE CONTRASEÑA -->
+                <div id="change-password-section">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
+                        <i class="fas fa-lock"></i> Change Password
+                    </h3>
+                    
+                    <form id="change-password-form">
+                        <div class="form-group">
+                            <label for="current-password">
+                                <i class="fas fa-key"></i> Current Password:
+                            </label>
+                            <input type="password" id="current-password" placeholder="Enter your current password" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="new-password">
+                                <i class="fas fa-lock"></i> New Password:
+                            </label>
+                            <input type="password" id="new-password" placeholder="Enter new password (min. 6 characters)" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm-password">
+                                <i class="fas fa-lock"></i> Confirm New Password:
+                            </label>
+                            <input type="password" id="confirm-password" placeholder="Confirm new password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-details" style="background-color: #007bff; margin-top: 1rem;">
+                            <i class="fas fa-shield-alt"></i> Update Password
+                        </button>
+                    </form>
+                </div>
             </div>
             
         </div>
     </main>
+    
     <div id="footer-placeholder"></div>
 
     <script src="../assets/js/main.js"></script>
-    <script type="module" src="../assets/js/auth.js"></script>
     
     <script type="module">
-    // 1. IMPORTACIONES
-    import { auth, db, signOut } from "../assets/js/firebase.js";
-    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+    import { auth, db } from "../assets/js/firebase.js";
+    import { 
+        onAuthStateChanged, 
+        updateProfile,
+        updatePassword,
+        EmailAuthProvider,
+        reauthenticateWithCredential,
+        signOut,
+        setPersistence,
+        browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { ref, onValue, update, get, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-    // =================================================================
-    // Esperamos a que TODO el HTML esté cargado
-    // =================================================================
-    document.addEventListener('DOMContentLoaded', () => {
+    let originalProfileData = {};
+    let currentUserGlobal = null;
 
-        // 4. FUNCIÓN PARA CREAR TARJETA (Sin cambios)
-        function createBookingCard(booking) {
-            return `
-            <div class="booking-card">
-                <img src="${booking.tourImage || '../assets/img/logoN.png'}" alt="Tour Image" class="booking-card-img">
-                <div class="booking-card-content">
-                    <span class="booking-status confirmed">${booking.status || 'CONFIRMED'}</span>
-                    <h3>${booking.tourName || 'Tour Name Not Found'}</h3>
-                    <p class="booking-detail">
-                        <i class="fas fa-calendar-alt"></i> 
-                        <strong>Date:</strong> 
-                        <span>${booking.date || 'No date'}</span>
-                    </p>
-                    <p class="booking-detail">
-                        <i class="fas fa-users"></i> 
-                        <strong>Participants:</strong> 
-                        <span>${booking.participants || 'N/A'}</span>
-                    </p>
-                    <p class="booking-price">
-                        <strong>Price:</strong> 
-                        <span>${booking.price || '$0.00'}</span>
-                    </p>
-                    <a href="#" class="btn-details">View Details</a>
-                </div>
+    // ===========================================
+    // LÓGICA DE PESTAÑAS (TABS)
+    // ===========================================
+    function initializeTabs() {
+        const tabs = document.querySelectorAll('.tab-link[data-tab]');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(item => item.classList.remove('active'));
+                contents.forEach(content => content.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const targetId = tab.getAttribute('data-tab');
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+    }
+
+    // ===========================================
+    // FUNCIÓN PARA CREAR TARJETAS DE BOOKING
+    // ===========================================
+    function createBookingCard(booking) {
+        return `
+        <div class="booking-card">
+            <img src="${booking.tourImage || '../assets/img/logoN.png'}" alt="Tour Image" class="booking-card-img">
+            <div class="booking-card-content">
+                <span class="booking-status ${booking.status === 'CONFIRMED' ? 'confirmed' : 'pending'}">
+                    ${booking.status || 'CONFIRMED'}
+                </span>
+                <h3>${booking.tourName || 'Tour Name Not Found'}</h3>
+                <p class="booking-detail">
+                    <i class="fas fa-calendar-alt"></i> 
+                    <strong>Date:</strong> 
+                    <span>${booking.date || 'No date'}</span>
+                </p>
+                <p class="booking-detail">
+                    <i class="fas fa-users"></i> 
+                    <strong>Participants:</strong> 
+                    <span>${booking.participants || 'N/A'}</span>
+                </p>
+                <p class="booking-price">
+                    <strong>Price:</strong> 
+                    <span>${booking.price || '$0.00'}</span>
+                </p>
+                <a href="#" class="btn-details">View Details</a>
             </div>
-            `;
+        </div>
+        `;
+    }
+
+    // ===========================================
+    // FUNCIÓN PARA MOSTRAR MENSAJES
+    // ===========================================
+    function showMessage(message, type) {
+        const existingMessage = document.querySelector('.dashboard-message');
+        if (existingMessage) existingMessage.remove();
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `dashboard-message ${type}`;
+        messageDiv.innerHTML = `
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(messageDiv);
+        
+        setTimeout(() => {
+            messageDiv.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => messageDiv.remove(), 300);
+        }, 4000);
+    }
+
+    // ===========================================
+    // LISTENER DE LOGOUT
+    // ===========================================
+    function initializeLogout() {
+        const logoutBtn = document.getElementById('logout-btn-dashboard');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                if (confirm('Are you sure you want to log out?')) {
+                    try {
+                        await signOut(auth);
+                        localStorage.removeItem('user');
+                        window.location.href = '../index.html';
+                    } catch (error) {
+                        console.error('Logout error:', error);
+                    }
+                }
+            });
+        }
+    }
+
+    // ===========================================
+    // INICIALIZAR TODO CUANDO EL DOM ESTÉ LISTO
+    // ===========================================
+    // ===========================================
+// INICIALIZAR TODO CUANDO EL DOM Y EL USUARIO ESTÉN LISTOS
+// ===========================================
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('✅ DOM Loaded - Waiting for Firebase user...');
+    initializeTabs();
+    initializeLogout();
+
+    // Esperamos que Firebase detecte el usuario
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            localStorage.clear();
+            window.location.href = '../pages/login.html';
+            return;
         }
 
-        // 2. LÓGICA DE AUTH
-        onAuthStateChanged(auth, (user) => {
-            
-            const title = document.getElementById("welcome-title"); 
-            const profileName = document.getElementById("profile-name");
-            const profileEmail = document.getElementById("profile-email");
+        console.log('✅ Firebase user detected:', user.email);
+        currentUserGlobal = user;
+        unsubscribe(); // Detenemos el listener (ya tenemos al usuario)
+        await initializeDashboard(user);
+    });
+});
 
-            if (user) {
-                // Saludo y perfil
-                const displayName = user.displayName || user.email.split("@")[0];
-                title.textContent = `Welcome, ${displayName}! 👋`; 
-                if (profileName) profileName.value = user.displayName || 'Complete your name';
-                if (profileEmail) profileEmail.value = user.email;
+// ===========================================
+// CONFIGURACIÓN PRINCIPAL DEL DASHBOARD
+// ===========================================
+async function initializeDashboard(user) {
+    const title = document.getElementById("welcome-title"); 
+    const profileName = document.getElementById("profile-name");
+    const profileEmail = document.getElementById("profile-email");
+    const profilePhone = document.getElementById("profile-phone");
 
-                // 3. Lógica para cargar reservas
-                const bookingsContainer = document.getElementById('booking-list-container');
-                const bookingsRef = ref(db, 'users/' + user.uid + '/bookings'); 
+    title.textContent = `Welcome, ${user.displayName || user.email.split("@")[0]}! 👋`;
+    profileEmail.value = user.email;
 
-                onValue(bookingsRef, (snapshot) => {
-                    if (snapshot.exists()) {
-                        bookingsContainer.innerHTML = ''; 
-                        snapshot.forEach((childSnapshot) => {
-                            const booking = childSnapshot.val();
-                            const cardHTML = createBookingCard(booking);
-                            bookingsContainer.innerHTML += cardHTML;
-                        });
-                    } else {
-                        bookingsContainer.innerHTML = '<p>You have no upcoming reservations.</p>';
-                    }
-                }, (error) => {
-                    console.error("Error fetching bookings: ", error);
-                    bookingsContainer.innerHTML = '<p>Error loading reservations.</p>';
-                });
+    // 🔄 Cargar datos desde Firebase Realtime Database
+    const userRef = ref(db, `users/${user.uid}`);
+    const snapshot = await get(userRef);
+    let userData = snapshot.exists() ? snapshot.val() : {};
 
-                // =============================================================
-                // 5. ¡CAMBIO REALIZADO! - LÓGICA DE LOGOUT MOVIDA AL HEADER
-                // =============================================================
-                
-                // Damos un pequeño tiempo para que main.js cargue el header
-                setTimeout(() => {
-                    const header = document.getElementById('header-placeholder');
-                    if (!header) {
-                        console.error("No se encontró el placeholder del header");
-                        return;
-                    }
+    profileName.value = userData.name || user.displayName || "";
+    profilePhone.value = userData.phone || "";
 
-                    // Buscamos el botón de 'Logout' dentro del header.
-                    // (Asumimos que es un <a> o <button> que contiene el texto "Logout")
-                    let headerLogoutBtn = null;
-                    const allLinks = header.querySelectorAll('a, button');
-                    
-                    allLinks.forEach(link => {
-                        // Usamos .trim() para quitar espacios en blanco
-                        if (link.textContent.trim().toLowerCase() === 'logout') {
-                            headerLogoutBtn = link;
-                        }
-                    });
+    // ===========================================
+    // HABILITAR BOTONES DE PERFIL
+    // ===========================================
+    const editBtn = document.getElementById('edit-profile-btn');
+    const saveBtn = document.getElementById('save-profile-btn');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    const profileForm = document.getElementById('profile-form');
 
-                    if (headerLogoutBtn) {
-                        // 1. ¡Agregamos el icono de la puertita!
-                        headerLogoutBtn.innerHTML = `<i class="fas fa-sign-out-alt"></i> Logout`; 
-                        
-                        // 2. Le asignamos la función de cerrar sesión
-                        headerLogoutBtn.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            console.log("¡Cerrando sesión desde el HEADER!"); 
-                            signOut(auth).catch((error) => console.error('Sign out error', error));
-                        });
-                        
-                        // (Opcional) Damos estilo de botón si no lo tiene
-                        headerLogoutBtn.style.cursor = 'pointer'; 
+    if (!editBtn || !saveBtn || !cancelBtn || !profileForm) {
+        console.error("❌ Error: botones del perfil no encontrados en el DOM");
+        return;
+    }
 
-                    } else {
-                        console.error("No se pudo encontrar el botón de 'Logout' del header.");
-                    }
-                }, 500); // 500ms de espera
+    // Guardar estado inicial
+    let originalProfileData = {
+        name: profileName.value,
+        phone: profilePhone.value
+    };
 
-                
-            }
-        });
+    // 🟢 Editar
+    editBtn.addEventListener('click', () => {
+        console.log('✏️ Edit Profile clicked');
+        profileName.readOnly = false;
+        profilePhone.readOnly = false;
+        profileName.focus();
 
-    }); // Cierre del 'DOMContentLoaded'
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'inline-flex';
+        cancelBtn.style.display = 'inline-flex';
+    });
 
-</script>
-    
-    <script src="../assets/js/dashboard.js"></script>
+    // 🔴 Cancelar
+    cancelBtn.addEventListener('click', () => {
+        profileName.value = originalProfileData.name;
+        profilePhone.value = originalProfileData.phone;
+
+        profileName.readOnly = true;
+        profilePhone.readOnly = true;
+
+        editBtn.style.display = 'inline-flex';
+        saveBtn.style.display = 'none';
+        cancelBtn.style.display = 'none';
+    });
+
+    // 💾 Guardar
+    profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const newName = profileName.value.trim();
+        const newPhone = profilePhone.value.trim();
+
+        if (!newName) return showMessage("Name cannot be empty", "error");
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+        try {
+            // Actualizar Firebase Auth
+            await updateProfile(user, { displayName: newName });
+            // Actualizar Realtime DB
+            await update(userRef, {
+                name: newName,
+                phone: newPhone,
+                updatedAt: new Date().toISOString()
+            });
+
+            showMessage("✅ Profile updated successfully!", "success");
+
+            profileName.readOnly = true;
+            profilePhone.readOnly = true;
+            editBtn.style.display = 'inline-flex';
+            saveBtn.style.display = 'none';
+            cancelBtn.style.display = 'none';
+
+            title.textContent = `Welcome, ${newName}! 👋`;
+
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            showMessage("Error updating profile: " + error.message, "error");
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+        }
+    });
+    await loadUserBookings(user);
+}
+
+async function loadUserBookings(user) {
+    const bookingsContainer = document.getElementById("booking-list-container");
+    const bookingsRef = ref(db, `reservations/${user.uid}`);
+
+    // Mostramos mensaje de carga
+    bookingsContainer.innerHTML = `
+        <p style="text-align: center; color: #888;">
+            <i class="fas fa-spinner fa-spin"></i> Loading your reservations...
+        </p>
+    `;
+
+    try {
+        const snapshot = await get(bookingsRef);
+
+        if (snapshot.exists()) {
+            const bookingsData = snapshot.val();
+            const bookingCards = Object.values(bookingsData)
+                .map(b => createBookingCard(b))
+                .join("");
+            bookingsContainer.innerHTML = bookingCards;
+        } else {
+            // 🟢 Aquí colocamos el mensaje de “no upcoming reservations”
+            bookingsContainer.innerHTML = `
+                <div style="text-align: center; padding: 3rem;">
+                    <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
+                    <p style="color: #888; font-size: 1.1rem;">
+                        You have no upcoming reservations.
+                    </p>
+                    <a href="../index.html" class="btn" style="margin-top: 1rem;">
+                        Explore Tours
+                    </a>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error("Error loading bookings:", error);
+        bookingsContainer.innerHTML = `
+            <p style="color: red; text-align: center;">Error loading your reservations. Please try again later.</p>
+        `;
+    }
+}
+
+
+
+    </script>
+
+<style>
+.dashboard-message {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.dashboard-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.dashboard-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(400px); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .dashboard-message {
+        right: 10px;
+        left: 10px;
+        top: 80px;
+    }
+}
+</style>
 
 </body>
 </html>
