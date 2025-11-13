@@ -131,7 +131,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn-details modern-submit-btn">
+                        <button type="submit" class="btn-details modern-submit-btn"style="background-color: #007bff;">
                             <i class="fas fa-shield-alt"></i> Update Password
                         </button>
                     </form>
@@ -167,7 +167,7 @@
     function initializeTabs() {
         const tabs = document.querySelectorAll('.tab-link[data-tab]');
         const contents = document.querySelectorAll('.tab-content');
-
+        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(item => item.classList.remove('active'));
