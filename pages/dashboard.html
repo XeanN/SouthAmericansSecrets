@@ -167,7 +167,7 @@
     function initializeTabs() {
         const tabs = document.querySelectorAll('.tab-link[data-tab]');
         const contents = document.querySelectorAll('.tab-content');
-
+        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(item => item.classList.remove('active'));
