@@ -34,9 +34,9 @@
         <button class="tab-link" data-tab="profile">
             <i class="fas fa-user-circle"></i> My Profile
         </button>
-        <button class="tab-link" id="logout-btn-dashboard" style="background-color: #dc3545; color: white; margin-left: auto;">
+        <!--<button class="tab-link" id="logout-btn-dashboard" style="background-color: #dc3545; color: white; margin-left: auto;">
             <i class="fas fa-sign-out-alt"></i> Log Out
-        </button>
+        </button>-->
     </nav>
 
     <main class="dashboard-content-wrapper">
@@ -53,87 +53,90 @@
             </div>
 
             <div id="profile" class="tab-content">
-                <h2>Your Profile</h2>
-                
-                <form id="profile-form">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
-                        <i class="fas fa-user"></i> Personal Information
-                    </h3>
-                    
-                    <div class="form-group">
-                        <label for="profile-name">
-                            <i class="fas fa-user"></i> Full Name:
-                        </label>
-                        <input type="text" id="profile-name" placeholder="Your full name" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-email">
-                            <i class="fas fa-envelope"></i> Email:
-                        </label>
-                        <input type="email" id="profile-email" placeholder="your.email@example.com" readonly>
-                        <small style="color: #888; display: block; margin-top: 5px;">
-                            Email cannot be changed
-                        </small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-phone">
-                            <i class="fas fa-phone"></i> Phone:
-                        </label>
-                        <input type="tel" id="profile-phone" placeholder="+1 234 567 890" readonly>
-                    </div>
-                    
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                        <button type="button" id="edit-profile-btn" class="btn-details" style="background-color: #007bff;">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </button>
-                        <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">
-                            <i class="fas fa-save"></i> Save Changes
-                        </button>
-                        <button type="button" id="cancel-edit-btn" class="btn-details" style="display: none; background-color: #6c757d;">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                    </div>
-                </form>
+                <h2>Your Profile</h2>
+                
+                <form id="profile-form">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
+                        <i class="fas fa-user"></i> Personal Information
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="profile-name">
+                            <i class="fas fa-user"></i> Full Name:
+                        </label>
+                        <input type="text" id="profile-name" placeholder="Your full name" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">
+                            <i class="fas fa-envelope"></i> Email:
+                        </label>
+                        <input type="email" id="profile-email" placeholder="your.email@example.com" readonly>
+                        <small style="color: #888; display: block; margin-top: 5px;">
+                            Email cannot be changed
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-phone">
+                            <i class="fas fa-phone"></i> Phone:
+                        </label>
+                        <input type="tel" id="profile-phone" placeholder="+1 234 567 890" readonly>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <button type="button" id="edit-profile-btn" class="btn-details" style="background-color: #007bff;">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" id="cancel-edit-btn" class="btn-details" style="display: none; background-color: #6c757d;">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
 
-                <hr style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0;">
+                <hr style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0;">
 
-                <div id="change-password-section">
-                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
-                        <i class="fas fa-lock"></i> Change Password
+                <div id="change-password-section">
+
+                    <h3 class="modern-form-title">
+                        <i class="fas fa-shield-alt"></i> Change Password
                     </h3>
-                    
+
                     <form id="change-password-form">
-                        <div class="form-group">
-                            <label for="current-password">
-                                <i class="fas fa-key"></i> Current Password:
-                            </label>
-                            <input type="password" id="current-password" placeholder="Enter your current password" required>
+
+                        <div class="form-input-group">
+                            <i class="fas fa-key input-icon"></i>
+                            <div class="input-stack">
+                                <label for="current-password">Current Password:</label>
+                                <input type="password" id="current-password" class="modern-input" placeholder="Enter your current password" required>
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="new-password">
-                                <i class="fas fa-lock"></i> New Password:
-                            </label>
-                            <input type="password" id="new-password" placeholder="Enter new password (min. 6 characters)" required>
+
+                        <div class="form-input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="input-stack">
+                                <label for="new-password">New Password:</label>
+                                <input type="password" id="new-password" class="modern-input" placeholder="Enter new password (min. 6 characters)" required>
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="confirm-password">
-                                <i class="fas fa-lock"></i> Confirm New Password:
-                            </label>
-                            <input type="password" id="confirm-password" placeholder="Confirm new password" required>
+
+                        <div class="form-input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="input-stack">
+                                <label for="confirm-password">Confirm New Password:</label>
+                                <input type="password" id="confirm-password" class="modern-input" placeholder="Confirm new password" required>
+                            </div>
                         </div>
-                        
-                        <button type="submit" class="btn-details" style="background-color: #007bff; margin-top: 1rem;">
+
+                        <button type="submit" class="btn-details modern-submit-btn">
                             <i class="fas fa-shield-alt"></i> Update Password
                         </button>
                     </form>
                 </div>
             </div>
-            
-        </div>
     </main>
     
     <div id="footer-placeholder"></div>
@@ -408,6 +411,74 @@
                 saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
             }
         });
+        // ===========================================
+        // LÓGICA PARA CAMBIAR CONTRASEÑA
+        // ===========================================
+        const passwordForm = document.getElementById('change-password-form');
+        
+        // Comprobar si el formulario existe antes de añadir el listener
+        if (passwordForm) {
+            const currentPassInput = document.getElementById('current-password');
+            const newPassInput = document.getElementById('new-password');
+            const confirmPassInput = document.getElementById('confirm-password');
+            const passSubmitBtn = passwordForm.querySelector('button[type="submit"]');
+
+            passwordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Usamos la variable global del usuario que ya tienes
+                if (!currentUserGlobal) {
+                    showMessage("User not found. Please log in again.", "error");
+                    return;
+                }
+
+                const currentPassword = currentPassInput.value;
+                const newPassword = newPassInput.value;
+                const confirmPassword = confirmPassInput.value;
+
+                if (newPassword !== confirmPassword) {
+                    showMessage("New passwords do not match.", "error");
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    showMessage("New password must be at least 6 characters.", "error");
+                    return;
+                }
+
+                const originalBtnHtml = passSubmitBtn.innerHTML;
+                passSubmitBtn.disabled = true;
+                passSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+
+                try {
+                    // 1. Crear la credencial para re-autenticar
+                    const credential = EmailAuthProvider.credential(currentUserGlobal.email, currentPassword);
+                    
+                    // 2. Re-autenticar al usuario (MUY IMPORTANTE para cambiar contraseña)
+                    await reauthenticateWithCredential(currentUserGlobal, credential);
+                    
+                    // 3. Si la re-autenticación es exitosa, actualizar la contraseña
+                    await updatePassword(currentUserGlobal, newPassword);
+
+                    showMessage("✅ Password updated successfully!", "success");
+                    passwordForm.reset(); // Limpiar el formulario
+
+                } catch (error) {
+                    console.error("Error updating password:", error);
+                    let errorMsg = "Error updating password. Please try again.";
+                    
+                    if (error.code === 'auth/wrong-password') {
+                        errorMsg = "Your current password is incorrect.";
+                    } else if (error.code === 'auth/too-many-requests') {
+                        errorMsg = "Too many attempts. Please try again later.";
+                    }
+                    showMessage(errorMsg, "error");
+                } finally {
+                    passSubmitBtn.disabled = false;
+                    passSubmitBtn.innerHTML = originalBtnHtml;
+                }
+            });
+        }
         await loadUserBookings(user);
     }
 
@@ -468,29 +539,24 @@
     align-items: center;
     gap: 10px;
 }
-
 .dashboard-message.success {
     background-color: #d4edda;
     color: #155724;
     border-left: 4px solid #28a745;
 }
-
 .dashboard-message.error {
     background-color: #f8d7da;
     color: #721c24;
     border-left: 4px solid #dc3545;
 }
-
 @keyframes slideIn {
     from { transform: translateX(400px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
-
 @keyframes slideOut {
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(400px); opacity: 0; }
 }
-
 @media (max-width: 768px) {
     .dashboard-message {
         right: 10px;
@@ -501,16 +567,155 @@
 
 /* Estilos para la librería de teléfono */
 .iti {
-    /* Hace que el input ocupe todo el ancho del contenedor */
     width: 100%;
 }
 .iti__country-list {
-    /* Asegura que el dropdown aparezca por encima de otros elementos */
     z-index: 1001;
 }
-#profile.tab-content .form-group input#profile-phone {
-    
+
+/* ===========================================
+ * ESTILOS PARA FORMULARIO "YOUR PROFILE"
+ * ===========================================
+*/
+#profile-form .form-group {
+    margin-bottom: 1.5rem; 
+}
+#profile-form .form-group label {
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    color: #333;
+    font-size: 0.95rem;
+}
+#profile-form .form-group label i {
+    margin-right: 8px; 
+    color: var(--color-primary, #0056b3);
+}
+#profile-form .form-group input {
+    width: 100%; 
+    padding: 12px 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif; 
+    box-sizing: border-box; 
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#profile-form .form-group input:focus {
+    border-color: var(--color-primary, #0056b3);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25); 
+    outline: none;
+}
+#profile-form .form-group input[readonly] {
+    background-color: #f1f1f1; 
+    cursor: not-allowed;
+}
+#profile-form .form-group input#profile-phone {
     padding-left: 92px;
+}
+#profile-form {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ===========================================
+ * ¡NUEVOS ESTILOS PARA "CHANGE PASSWORD"!
+ * ===========================================
+*/
+#change-password-section {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2.5rem; /* Relleno interno */
+    background: #ffffff; /* Fondo blanco */
+    border-radius: 12px; /* Esquinas redondeadas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07); /* Sombra suave */
+    border: 1px solid #e9e9e9;
+}
+
+.modern-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.75rem; /* Tamaño de fuente grande */
+    color: var(--color-primary, #0056b3); /* Color oscuro */
+    margin-bottom: 2rem; /* Espacio debajo del título */
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espacio entre ícono y texto */
+}
+
+/* El contenedor de la "caja" de input */
+.form-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1.5rem; /* Espacio entre cajas */
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input-group:focus-within {
+    border-color: var(--color-primary, #0056b3);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+}
+
+/* El ícono dentro de la caja */
+.form-input-group .input-icon {
+    padding: 18px 15px;
+    color: #888;
+    font-size: 1.1rem;
+    border-right: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    display: flex;
+    align-items: center;
+}
+
+/* El contenedor para la etiqueta y el input */
+.input-stack {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    padding: 8px 15px; /* Relleno interno */
+}
+
+.input-stack label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #333;
+    margin: 0;
+}
+
+/* El input de texto */
+.modern-input,
+.modern-input:focus {
+    border: none !important; /* Quita todos los bordes */
+    outline: none !important; /* Quita el contorno azul */
+    box-shadow: none !important; /* Quita cualquier sombra */
+    padding: 2px 0 0 0 !important; /* Ajuste de padding fino */
+    font-size: 0.95rem;
+    background: transparent;
+    width: 100%;
+}
+.modern-input::placeholder {
+    color: #999;
+}
+
+/* El nuevo botón */
+.modern-submit-btn {
+    width: 100%; /* Ancho completo */
+    text-align: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin-top: 1rem;
+    border-radius: 8px;
+    background-color: var(--color-primary, #007bff);
 }
 </style>
 
