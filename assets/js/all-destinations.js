@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA INTELIGENTE AUTO-CONTENIDA ---
     // Esta función detecta la ubicación del archivo HTML y calcula la ruta correcta a la raíz.
     // Es la única parte nueva y hace que este script funcione por sí solo.
-    const getBasePath = () => {
+    /*const getBasePath = () => {
         const path = window.location.pathname;
         const pageName = path.substring(path.lastIndexOf('/') + 1);
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculamos la ruta base correcta para la página actual.
     const basePath = getBasePath();
-    // --- FIN DE LA LÓGICA ---
+    // --- FIN DE LA LÓGICA ---*/
     
     
     // Aquí está tu lista completa con todos los tours y paquetes unidos.

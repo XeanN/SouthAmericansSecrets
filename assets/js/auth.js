@@ -106,7 +106,8 @@ if (registerForm) {
       await updateProfile(user, { displayName: name });
       
       // Guardar en Realtime Database
-      await set(ref(db, "users/" + user.uid), {
+      // ✅ AHORA (CORRECTO):
+      await update(ref(db, "users/" + user.uid), {
         name,
         email,
         phone: "",
@@ -334,7 +335,8 @@ googleBtns.forEach((btn) => {
       
       if (!snapshot.exists()) {
         // Solo crear si no existe
-        await set(userRef, {
+        // ✅ AHORA (CORRECTO):
+        await update(userRef, {
           name: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
@@ -375,7 +377,8 @@ appleBtns.forEach((btn) => {
       const snapshot = await get(userRef);
       
       if (!snapshot.exists()) {
-        await set(userRef, {
+        // ✅ AHORA (CORRECTO):
+        await update(userRef, {
           name: user.displayName || "Apple User",
           email: user.email || "No email",
           photoURL: user.photoURL || null,
