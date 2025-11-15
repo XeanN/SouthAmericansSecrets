@@ -1,0 +1,22 @@
+# Backend Framework
+Flask==3.0.3
+Flask-CORS==4.0.1
+Flask-JWT-Extended==4.6.0
+
+# Security
+Werkzeug==3.0.1
+
+# Machine Learning & Data Science (compatibles con Python 3.13)
+numpy==2.0.0
+pandas==2.2.2
+scikit-learn==1.4.2
+
+# PDF Generation
+reportlab==4.2.0
+
+# Utilities
+python-dotenv==1.0.1
+
+# Optional for production
+gunicorn==22.0.0
+waitress==3.0.0
