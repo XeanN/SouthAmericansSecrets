@@ -1,374 +1,317 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from firebase_admin import auth as firebase_auth
 from models.recommender import RecommendationEngine
 from database.db import (
-    execute_query, 
-    get_all_destinations, 
+    execute_query,
+    get_all_destinations,
     insert_user_interaction,
     get_user_interactions
 )
 import json
-from datetime import datetime
 
-recommendations_bp = Blueprint('recommendations', __name__)
+recommendations_bp = Blueprint("recommendations", __name__)
 
-# Inicializar el motor de recomendación
+# ============================================================
+#  UTILIDAD — OBTENER UID DE FIREBASE DESDE EL TOKEN
+# ============================================================
+
+def current_user_firebase_uid():
+    """Obtiene el UID verificando el Bearer Token con Firebase."""
+    auth_header = request.headers.get("Authorization")
+
+    if not auth_header:
+        raise Exception("No se envió token Authorization")
+
+    token = auth_header.replace("Bearer ", "").strip()
+
+    decoded = firebase_auth.verify_id_token(token)
+    return decoded["uid"]
+
+
+# ============================================================
+#  INICIALIZAR MOTOR IA
+# ============================================================
+
 recommender = RecommendationEngine()
 
 def initialize_recommender():
-    """Inicializar el motor con datos de destinos"""
-    global recommender
     try:
         destinations = get_all_destinations()
         if destinations:
             recommender.load_destinations(destinations)
             print(f"Motor de IA cargado con {len(destinations)} destinos")
+        else:
+            print("⚠ No se encontraron destinos")
     except Exception as e:
-        print(f"Error al inicializar recomendador: {e}")
+        print("Error al inicializar recomendador:", e)
 
-# Inicializar al cargar el blueprint
 initialize_recommender()
 
-@recommendations_bp.route('/personalized', methods=['GET'])
-@jwt_required()
+# ============================================================
+#  RECOMENDACIONES PERSONALIZADAS
+# ============================================================
+
+@recommendations_bp.route("/personalized", methods=["GET"])
 def get_personalized_recommendations():
-    """Obtener recomendaciones personalizadas basadas en IA"""
+    """Recomendaciones personalizadas usando IA + interacciones del usuario."""
     try:
-        user_id = get_jwt_identity()
-        n_recommendations = int(request.args.get('limit', 10))
-        
-        # Obtener interacciones del usuario
-        interactions = get_user_interactions(user_id)
-        
-        # Obtener preferencias del usuario
+        uid = current_user_firebase_uid()
+        limit = int(request.args.get("limit", 10))
+
+        # Interacciones
+        interactions = get_user_interactions(uid)
+
+        # Preferencias (si las guardas en SQLite o Firebase)
         user = execute_query(
-            'SELECT preferencias FROM users WHERE id = ?',
-            (user_id,),
-            fetch='one'
+            "SELECT preferencias FROM users WHERE id = ?",
+            (uid,),
+            fetch="one"
         )
-        
-        preferences = json.loads(user['preferencias']) if user and user['preferencias'] else None
-        
-        # Generar recomendaciones con IA
+
+        preferences = json.loads(user["preferencias"]) if user and user["preferencias"] else {}
+
+        # IA híbrida
         recommendations = recommender.get_personalized_recommendations(
-            user_id=user_id,
+            user_id=uid,
             user_interactions=interactions,
             user_preferences=preferences,
-            n_recommendations=n_recommendations
+            n_recommendations=limit
         )
-        
-        # Enriquecer con información completa del destino
-        enriched_recommendations = []
-        for rec in recommendations:
-            dest = execute_query(
-                'SELECT * FROM destinations WHERE id = ?',
-                (rec['destination_id'],),
-                fetch='one'
-            )
-            if dest:
-                enriched_recommendations.append({
-                    **rec,
-                    'descripcion': dest['descripcion'],
-                    'precio_promedio': dest['precio_promedio'],
-                    'actividades': dest['actividades'],
-                    'clima': dest['clima'],
-                    'mejor_epoca': dest['mejor_epoca'],
-                    'duracion_sugerida': dest['duracion_sugerida'],
-                    'imagen_url': dest['imagen_url'],
-                    'rating': dest['rating']
-                })
-        
-        # Guardar recomendaciones generadas
-        for rec in recommendations:
-            execute_query(
-                '''INSERT INTO recommendations 
-                   (user_id, destination_id, score, algorithm)
-                   VALUES (?, ?, ?, ?)''',
-                (user_id, rec['destination_id'], rec['score'], rec['algorithm']),
-                fetch=None
-            )
-        
-        return jsonify({
-            'recommendations': enriched_recommendations,
-            'total': len(enriched_recommendations),
-            'algorithms_used': list(set([r['algorithm'] for r in recommendations]))
-        }), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/similar/<int:destination_id>', methods=['GET'])
-def get_similar_destinations(destination_id):
-    """Obtener destinos similares (content-based filtering)"""
-    try:
-        n_recommendations = int(request.args.get('limit', 5))
-        
-        # Verificar que el destino existe
-        destination = execute_query(
-            'SELECT * FROM destinations WHERE id = ?',
-            (destination_id,),
-            fetch='one'
-        )
-        
-        if not destination:
-            return jsonify({'error': 'Destino no encontrado'}), 404
-        
-        # Obtener recomendaciones similares
-        recommendations = recommender.content_based_filtering(
-            destination_id,
-            n_recommendations=n_recommendations
-        )
-        
-        # Enriquecer con información completa
+        # Enriquecer datos
         enriched = []
         for rec in recommendations:
             dest = execute_query(
-                'SELECT * FROM destinations WHERE id = ?',
-                (rec['destination_id'],),
-                fetch='one'
+                "SELECT * FROM destinations WHERE id = ?",
+                (rec["destination_id"],),
+                fetch="one"
             )
             if dest:
                 enriched.append({
                     **rec,
-                    'descripcion': dest['descripcion'],
-                    'precio_promedio': dest['precio_promedio'],
-                    'imagen_url': dest['imagen_url'],
-                    'rating': dest['rating']
+                    **dest
                 })
-        
+
         return jsonify({
-            'current_destination': {
-                'id': destination['id'],
-                'nombre': destination['nombre'],
-                'pais': destination['pais']
+            "recommendations": enriched,
+            "total": len(enriched)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  DESTINOS SIMILARES (CONTENT BASED IA)
+# ============================================================
+
+@recommendations_bp.route("/similar/<int:destination_id>", methods=["GET"])
+def get_similar_destinations(destination_id):
+    try:
+        limit = int(request.args.get("limit", 5))
+
+        # Confirmar que existe
+        destination = execute_query(
+            "SELECT * FROM destinations WHERE id = ?",
+            (destination_id,),
+            fetch="one"
+        )
+
+        if not destination:
+            return jsonify({"error": "Destino no encontrado"}), 404
+
+        # IA contenido
+        sims = recommender.content_based_filtering(destination_id, n_recommendations=limit)
+
+        enriched = []
+        for rec in sims:
+            dest = execute_query(
+                "SELECT * FROM destinations WHERE id = ?",
+                (rec["destination_id"],),
+                fetch="one"
+            )
+            if dest:
+                enriched.append({**rec, **dest})
+
+        return jsonify({
+            "current_destination": {
+                "id": destination["id"],
+                "nombre": destination["nombre"],
+                "pais": destination["pais"]
             },
-            'similar_destinations': enriched,
-            'total': len(enriched)
+            "similar_destinations": enriched,
+            "total": len(enriched)
         }), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/by-preferences', methods=['POST'])
-@jwt_required()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  RECOMENDACIONES POR PREFERENCIAS MANUALES
+# ============================================================
+
+@recommendations_bp.route("/by-preferences", methods=["POST"])
 def get_by_preferences():
-    """Obtener recomendaciones basadas en preferencias específicas"""
     try:
-        user_id = get_jwt_identity()
+        uid = current_user_firebase_uid()
         data = request.get_json()
-        
-        n_recommendations = data.get('limit', 5)
-        
-        # Obtener recomendaciones basadas en preferencias
-        recommendations = recommender.get_similar_destinations(
+
+        limit = data.get("limit", 5)
+
+        results = recommender.get_similar_destinations(
             preferences=data,
-            n_recommendations=n_recommendations
+            n_recommendations=limit
         )
-        
+
         return jsonify({
-            'recommendations': recommendations,
-            'total': len(recommendations),
-            'preferences_used': data
+            "recommendations": results,
+            "total": len(results),
+            "preferences_used": data
         }), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/track-interaction', methods=['POST'])
-@jwt_required()
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  REGISTRAR INTERACCIÓN DEL USUARIO
+# ============================================================
+
+@recommendations_bp.route("/track-interaction", methods=["POST"])
 def track_interaction():
-    """Registrar interacción del usuario con un destino"""
     try:
-        user_id = get_jwt_identity()
+        uid = current_user_firebase_uid()
         data = request.get_json()
-        
-        if not data or not data.get('destination_id') or not data.get('interaction_type'):
-            return jsonify({'error': 'destination_id e interaction_type son requeridos'}), 400
-        
-        # Registrar interacción
-        interaction_id = insert_user_interaction(
-            user_id=user_id,
-            destination_id=data['destination_id'],
-            interaction_type=data['interaction_type'],
-            rating=data.get('rating'),
-            tiempo_visualizacion=data.get('tiempo_visualizacion'),
-            clicked=data.get('clicked', 0),
-            favorito=data.get('favorito', 0)
-        )
-        
-        return jsonify({
-            'message': 'Interacción registrada',
-            'interaction_id': interaction_id
-        }), 201
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/favorites', methods=['GET'])
-@jwt_required()
+        if not data.get("destination_id") or not data.get("interaction_type"):
+            return jsonify({"error": "destination_id e interaction_type son requeridos"}), 400
+
+        interaction_id = insert_user_interaction(
+            user_id=uid,
+            destination_id=data["destination_id"],
+            interaction_type=data["interaction_type"],
+            rating=data.get("rating"),
+            tiempo_visualizacion=data.get("tiempo_visualizacion"),
+            clicked=data.get("clicked", 0),
+            favorito=data.get("favorito", 0)
+        )
+
+        return jsonify({"message": "Interacción registrada", "id": interaction_id}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  FAVORITOS
+# ============================================================
+
+@recommendations_bp.route("/favorites", methods=["GET"])
 def get_favorites():
-    """Obtener destinos favoritos del usuario"""
     try:
-        user_id = get_jwt_identity()
-        
+        uid = current_user_firebase_uid()
+
         favorites = execute_query(
-            '''SELECT d.*, ui.timestamp as added_at
+            """SELECT d.*, ui.timestamp AS added_at
                FROM user_interactions ui
                JOIN destinations d ON ui.destination_id = d.id
                WHERE ui.user_id = ? AND ui.favorito = 1
-               ORDER BY ui.timestamp DESC''',
-            (user_id,)
+               ORDER BY ui.timestamp DESC""",
+            (uid,)
         )
-        
-        return jsonify({
-            'favorites': favorites,
-            'total': len(favorites)
-        }), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/favorites/<int:destination_id>', methods=['POST', 'DELETE'])
-@jwt_required()
+        return jsonify({
+            "favorites": favorites,
+            "total": len(favorites)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@recommendations_bp.route("/favorites/<int:destination_id>", methods=["POST", "DELETE"])
 def manage_favorite(destination_id):
-    """Agregar o quitar de favoritos"""
     try:
-        user_id = get_jwt_identity()
-        
-        if request.method == 'POST':
-            # Agregar a favoritos
+        uid = current_user_firebase_uid()
+
+        if request.method == "POST":
             insert_user_interaction(
-                user_id=user_id,
+                user_id=uid,
                 destination_id=destination_id,
-                interaction_type='favorite',
+                interaction_type="favorite",
                 favorito=1
             )
-            message = 'Agregado a favoritos'
+            msg = "Agregado a favoritos"
         else:
-            # Quitar de favoritos
             execute_query(
-                '''UPDATE user_interactions 
-                   SET favorito = 0 
-                   WHERE user_id = ? AND destination_id = ?''',
-                (user_id, destination_id),
+                """UPDATE user_interactions
+                   SET favorito = 0
+                   WHERE user_id = ? AND destination_id = ?""",
+                (uid, destination_id),
                 fetch=None
             )
-            message = 'Quitado de favoritos'
-        
-        return jsonify({'message': message}), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+            msg = "Quitado de favoritos"
 
-@recommendations_bp.route('/destinations', methods=['GET'])
+        return jsonify({"message": msg}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  LISTAR TODOS LOS DESTINOS
+# ============================================================
+
+@recommendations_bp.route("/destinations", methods=["GET"])
 def get_destinations():
-    """Obtener todos los destinos disponibles"""
     try:
-        categoria = request.args.get('categoria')
-        pais = request.args.get('pais')
-        precio_max = request.args.get('precio_max')
-        
-        query = 'SELECT * FROM destinations WHERE 1=1'
+        categoria = request.args.get("categoria")
+        pais = request.args.get("pais")
+        precio_max = request.args.get("precio_max")
+
+        query = "SELECT * FROM destinations WHERE 1=1"
         params = []
-        
+
         if categoria:
-            query += ' AND categoria = ?'
+            query += " AND categoria = ?"
             params.append(categoria)
-        
+
         if pais:
-            query += ' AND pais = ?'
+            query += " AND pais = ?"
             params.append(pais)
-        
+
         if precio_max:
-            query += ' AND precio_promedio <= ?'
+            query += " AND precio_promedio <= ?"
             params.append(float(precio_max))
-        
-        query += ' ORDER BY rating DESC'
-        
+
+        query += " ORDER BY rating DESC"
+
         destinations = execute_query(query, tuple(params) if params else None)
-        
-        return jsonify({
-            'destinations': destinations,
-            'total': len(destinations)
-        }), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-@recommendations_bp.route('/tours/all', methods=['GET'])
-def get_all_tours_simple():
-    # Asegúrate de que esta línea (y todas las de abajo) tengan 4 espacios de indentación.
-    """Obtener todos los tours con información simple para cargar en el buscador del frontend (main.js)""" 
-    try:
-        # Usamos la función existente de la base de datos
-        all_tours_raw = get_all_destinations()
 
-        if not all_tours_raw:
-            # CORRECCIÓN: Usamos un solo diccionario en jsonify
-            return jsonify({'message': 'No se encontraron tours', 'tours': []}), 200
-
-        # Filtramos los datos para enviar solo lo necesario al frontend (JS)
-        simple_tours = []
-        for tour in all_tours_raw:
-            simple_tours.append({
-                'id': tour.get('id'), # CLAVE
-                'name': tour.get('nombre'), # CLAVE
-                'region': tour.get('region', 'General'), # Usamos 'region' para el filtro de recomendación
-                'url': f"/tours/{tour.get('id')}" # URL sugerida
-            })
-
-        return jsonify(simple_tours), 200
+        return jsonify({"destinations": destinations, "total": len(destinations)}), 200
 
     except Exception as e:
-        # CORRECCIÓN: El bloque except también necesita estar indentado una vez
-        return jsonify({'error': f'Error al obtener tours simples: {str(e)}'}), 500
+        return jsonify({"error": str(e)}), 500
 
-@recommendations_bp.route('/destinations/<int:destination_id>', methods=['GET'])
+
+# ============================================================
+#  DETALLES DE DESTINO
+# ============================================================
+
+@recommendations_bp.route("/destinations/<int:destination_id>", methods=["GET"])
 def get_destination_detail(destination_id):
-    """Obtener detalles de un destino específico"""
     try:
         destination = execute_query(
-            'SELECT * FROM destinations WHERE id = ?',
+            "SELECT * FROM destinations WHERE id = ?",
             (destination_id,),
-            fetch='one'
+            fetch="one"
         )
-        
-        if not destination:
-            return jsonify({'error': 'Destino no encontrado'}), 404
-        
-        return jsonify(destination), 200
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
 
-@recommendations_bp.route('/popular', methods=['GET'])
-def get_popular_destinations():
-    """Obtener destinos más populares"""
-    try:
-        n_results = int(request.args.get('limit', 10))
-        
-        recommendations = recommender.popularity_based(n_recommendations=n_results)
-        
-        # Enriquecer con información completa
-        enriched = []
-        for rec in recommendations:
-            dest = execute_query(
-                'SELECT * FROM destinations WHERE id = ?',
-                (rec['destination_id'],),
-                fetch='one'
-            )
-            if dest:
-                enriched.append({
-                    **rec,
-                    'descripcion': dest['descripcion'],
-                    'precio_promedio': dest['precio_promedio'],
-                    'imagen_url': dest['imagen_url']
-                })
-        
-        return jsonify({
-            'popular_destinations': enriched,
-            'total': len(enriched)
-        }), 200
-        
+        if not destination:
+            return jsonify({"error": "Destino no encontrado"}), 404
+
+        return jsonify(destination), 200
+
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
