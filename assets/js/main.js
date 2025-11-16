@@ -124,7 +124,7 @@ let allTours = [];
 async function loadToursFromAPI() {
     // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
     // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `${BASE}recommendations/tours/all`; 
+    const API_URL = `https://miapi.com/recommendations/tours/all`; 
     
     try {
         const response = await fetch(API_URL);
