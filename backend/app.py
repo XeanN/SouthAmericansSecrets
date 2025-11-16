@@ -20,6 +20,9 @@ from routes.auth import auth_bp
 from routes.recommendations import recommendations_bp
 from routes.automation import automation_bp
 from database.db import init_db
+from database.firebase_admin import init_firebase
+firebase_db = init_firebase()
+
 from config import Config
 
 app = Flask(__name__)
