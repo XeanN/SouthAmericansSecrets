@@ -124,7 +124,7 @@ let allTours = [];
 async function loadToursFromAPI() {
     // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
     // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `https://miapi.com/recommendations/tours/all`; 
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours/all`; 
     
     try {
         const response = await fetch(API_URL);
@@ -224,7 +224,7 @@ if (searchModal && searchCloseBtn && searchInput && searchResults && searchToggl
 
 // Nota: Esta base URL asume que tu frontend y backend están en el mismo dominio o que ya tienes 
 // configurado un proxy/CORS si están separados.
-const API_BASE_URL = `${window.location.protocol}//${window.location.host}${BASE}recommendations`; 
+const API_BASE_URL = "https://southamericanssecrets.onrender.com/api/recommendations"; 
 
 async function showRecommendations(user) {
     // Si los tours aún no se han cargado (array vacío), no hacer nada
