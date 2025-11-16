@@ -294,6 +294,34 @@ def get_destinations():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@recommendations_bp.route('/tours/all', methods=['GET'])
+def get_all_tours_simple():
+    # Asegúrate de que esta línea (y todas las de abajo) tengan 4 espacios de indentación.
+    """Obtener todos los tours con información simple para cargar en el buscador del frontend (main.js)""" 
+    try:
+        # Usamos la función existente de la base de datos
+        all_tours_raw = get_all_destinations()
+
+        if not all_tours_raw:
+            # CORRECCIÓN: Usamos un solo diccionario en jsonify
+            return jsonify({'message': 'No se encontraron tours', 'tours': []}), 200
+
+        # Filtramos los datos para enviar solo lo necesario al frontend (JS)
+        simple_tours = []
+        for tour in all_tours_raw:
+            simple_tours.append({
+                'id': tour.get('id'), # CLAVE
+                'name': tour.get('nombre'), # CLAVE
+                'region': tour.get('region', 'General'), # Usamos 'region' para el filtro de recomendación
+                'url': f"/tours/{tour.get('id')}" # URL sugerida
+            })
+
+        return jsonify(simple_tours), 200
+
+    except Exception as e:
+        # CORRECCIÓN: El bloque except también necesita estar indentado una vez
+        return jsonify({'error': f'Error al obtener tours simples: {str(e)}'}), 500
 
 @recommendations_bp.route('/destinations/<int:destination_id>', methods=['GET'])
 def get_destination_detail(destination_id):
