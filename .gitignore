@@ -1,0 +1,8 @@
+# Entorno virtual de Python
+backend/.venv/
+
+# Llave secreta de Firebase
+backend/serviceAccountKey.json
+
+# Archivos de caché de Python
+backend/__pycache__/

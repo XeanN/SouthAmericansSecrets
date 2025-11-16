@@ -21,7 +21,7 @@ const base = window.location.pathname.includes("SouthAmericansSecrets")
 // =========================
 // ✅ VARIABLES GLOBALES
 // =========================
-let currentUser = null;
+window.currentUser = null;
 
 // =========================
 // ✅ FUNCIÓN ACTUALIZAR HEADER
@@ -60,6 +60,8 @@ function updateHeaderUI(user) {
       newBtn.addEventListener("click", async () => {
         await signOut(auth);
         localStorage.removeItem("user");
+        // 🚨 PASO NUEVO: Eliminar el token JWT
+        localStorage.removeItem("access_token");
         window.location.href = base + "/index.html";
       });
     });
@@ -79,91 +81,126 @@ document.addEventListener("headerLoaded", () => {
 });
 
 // =========================
-// ✅ REGISTRO
+// ✅ REGISTRO (CORREGIDO: Obtener token JWT)
 // =========================
 const registerForm = document.querySelector(".register-form");
 
 if (registerForm) {
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = registerForm.querySelector('input[placeholder="Full name"]').value.trim();
-    const email = registerForm.querySelector('input[placeholder="Email"]').value.trim();
-    const password = registerForm.querySelector('input[placeholder="Password"]').value.trim();
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = registerForm.querySelector('input[placeholder="Full name"]').value.trim();
+    const email = registerForm.querySelector('input[placeholder="Email"]').value.trim();
+    const password = registerForm.querySelector('input[placeholder="Password"]').value.trim();
 
-    if (!name || !email || !password) {
-      showMessage("Please complete all fields.", "error");
-      return;
-    }
-    
-    if (password.length < 6) {
-      showMessage("Password must be at least 6 characters.", "error");
-      return;
-    }
-    
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      await updateProfile(user, { displayName: name });
-      
-      // Guardar en Realtime Database
-      // ✅ AHORA (CORRECTO):
-      await update(ref(db, "users/" + user.uid), {
-        name,
-        email,
-        phone: "",
-        createdAt: new Date().toISOString()
-      });
-      
-      localStorage.setItem("user", JSON.stringify({
-        uid: user.uid,
-        name,
-        email
-      }));
-      
-      showMessage("Account created successfully! 🎉", "success");
-      setTimeout(() => {
-        window.location.href = base + "/pages/dashboard.html";
-      }, 1500);
-    } catch (error) {
-      showMessage(getErrorMessage(error.code), "error");
-    }
-  });
+    if (!name || !email || !password) {
+      showMessage("Please complete all fields.", "error");
+      return;
+    }
+    
+    if (password.length < 6) {
+      showMessage("Password must be at least 6 characters.", "error");
+      return;
+    }
+    
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      await updateProfile(user, { displayName: name });
+      
+      // Guardar en Realtime Database
+      await update(ref(db, "users/" + user.uid), {
+        name,
+        email,
+        phone: "",
+        createdAt: new Date().toISOString()
+      });
+      
+      // 🚨 PASO NUEVO: Obtener el token JWT de tu API de Python
+      const tokenResponse = await fetch(`${base}/backend/login`, { // << ASUMIMOS ESTA RUTA
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const tokenData = await tokenResponse.json();
+      
+      // ✅ GUARDAR EL TOKEN JWT
+      localStorage.setItem("access_token", tokenData.access_token);
+      
+      // Guardar info básica de Firebase
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        name,
+        email
+      }));
+      
+      showMessage("Account created successfully! 🎉", "success");
+      setTimeout(() => {
+        window.location.href = base + "/pages/dashboard.html";
+      }, 1500);
+    } catch (error) {
+      showMessage(getErrorMessage(error.code), "error");
+    }
+  });
 }
 
 // =========================
-// ✅ LOGIN
+// ✅ LOGIN (CORREGIDO: Obtener token JWT)
 // =========================
 const loginForm = document.querySelector(".login-form");
 
 if (loginForm) {
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = loginForm.querySelector('input[placeholder="Your email"]').value.trim();
-    const password = loginForm.querySelector('input[placeholder="Password"]').value.trim();
-    
-    if (!email || !password) {
-      showMessage("Please enter your email and password.", "error");
-      return;
-    }
-    
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      
-      localStorage.setItem("user", JSON.stringify({
-        uid: user.uid,
-        name: user.displayName || "User",
-        email: user.email
-      }));
-      
-      showMessage("Welcome back! 👋", "success");
-      setTimeout(() => {
-        window.location.href = base + "/pages/dashboard.html";
-      }, 1000);
-    } catch (error) {
-      showMessage(getErrorMessage(error.code), "error");
-    }
-  });
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = loginForm.querySelector('input[placeholder="Your email"]').value.trim();
+    const password = loginForm.querySelector('input[placeholder="Password"]').value.trim();
+    
+    if (!email || !password) {
+      showMessage("Please enter your email and password.", "error");
+      return;
+    }
+    
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // 🚨 PASO NUEVO Y CRÍTICO: Obtener el token JWT de tu API de Python
+      const tokenResponse = await fetch(`${base}/backend/login`, { // << ASUMIMOS ESTA RUTA
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password })
+      });
+      
+      if (!tokenResponse.ok) {
+        // Si la API de Python falla, mostramos un error pero el usuario está logueado en Firebase
+        showMessage("Login de API fallido. Recomendaciones no disponibles.", "error");
+        return;
+      }
+
+      const tokenData = await tokenResponse.json();
+      
+      // ✅ GUARDAR EL TOKEN JWT
+      localStorage.setItem("access_token", tokenData.access_token);
+      
+      // Guardar info básica de Firebase
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        name: user.displayName || "User",
+        email: user.email
+      }));
+      
+      showMessage("Welcome back! 👋", "success");
+      setTimeout(() => {
+        window.location.href = base + "/pages/dashboard.html";
+      }, 1000);
+    } catch (error) {
+      showMessage(getErrorMessage(error.code), "error");
+    }
+  });
 }
 
 // =========================
@@ -406,7 +443,7 @@ appleBtns.forEach((btn) => {
 // =========================
 onAuthStateChanged(auth, (user) => {
   console.log("Event: onAuthStateChanged. User:", user);
-  currentUser = user;
+  window.currentUser = user;
   updateHeaderUI(user); 
 
   const protectedRoutes = [
@@ -509,6 +546,15 @@ function getErrorMessage(errorCode) {
   
   return errorMessages[errorCode] || 'An error occurred. Please try again.';
 }
+// =========================
+// ✅ EXPORTAR FUNCIONES (CORREGIDO)
+// =========================
+// Hacemos que la referencia a la base de datos y la función 'get' sean accesibles globalmente.
+window.db = db;
+window.ref = ref;
+window.get = get;
+
+
 
 // =========================
 // ✅ EXPORTAR FUNCIONES

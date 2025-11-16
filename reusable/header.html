@@ -3,8 +3,6 @@
         <img src="{{BASE}}assets/img/logoN.png" alt="South Americans Secrets Logo">
     </a>
 
-    
-
     <nav class="nav-desktop">
         <ul class="nav-links">
             <li><a href="{{BASE}}index.html">Home</a></li>
@@ -37,7 +35,7 @@
                         </ul>
                     </div>
                 </div>
-            </li>   
+            </li> 
             <li class="dropdown">
                 <a href="{{BASE}}Shore_Excursions.html">Shore Excursions <i class="fa fa-caret-down"></i></a>
                 <ul class="dropdown-menu">
@@ -58,12 +56,21 @@
             <li><a href="{{BASE}}contact.html">Contact</a></li>
         </ul>
     </nav>
+
+    <button class="nav-icon-btn" id="search-toggle-btn-desktop" aria-label="Abrir búsqueda">
+        <i class="fas fa-search"></i>
+    </button>
+
     <div class="auth-buttons">
         <a href="{{BASE}}pages/login.html" class="btn login">Login</a>
         <a href="{{BASE}}pages/register.html" class="btn register">Register</a>
     </div>
 
     <div class="header-right-icons">
+        <button class="nav-icon-btn" id="search-toggle-btn-mobile" aria-label="Abrir búsqueda">
+            <i class="fas fa-search"></i>
+        </button>
+        
         <button class="nav-toggle" aria-label="Abrir menú">
             <span class="hamburger"></span>
         </button>
@@ -79,4 +86,15 @@
                 </div>
         </div>
     </nav>
+
+    <div class="search-modal" id="search-modal-container">
+        <div class="search-modal-content">
+            <button class="close-modal-btn" id="search-modal-close-btn" aria-label="Cerrar búsqueda">&times;</button>
+            <h3 id="search-modal-title">¿A dónde quieres ir?</h3>
+            <input type="text" id="search-modal-input" placeholder="Ej: Cusco, Lima, Arequipa...">
+            <div class="search-modal-results" id="search-modal-results">
+                </div>
+        </div>
+    </div>
+
 </header>

@@ -2141,3 +2141,152 @@ img {
     transform: none;
     color: var(--color-white);
 } 
+
+    /* ======================================= */
+    /* ✅ 1. ESTILOS DEL PANEL (MODAL) DE BÚSQUEDA */
+    /* ======================================= */
+
+    .search-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998; /* Se asegura de que esté por encima de todo */
+    align-items: flex-start; /* Alinea arriba */
+    justify-content: center;
+    padding-top: 10vh; /* Espacio desde arriba */
+    animation: fadeIn 0.3s ease;
+    }
+
+    .search-modal-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    padding: 2rem;
+    position: relative;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-modal-content h3 {
+    margin: 0 0 1.5rem 0;
+    /* (El color se tomará de tus h3, pero puedes forzarlo si quieres) */
+    /* color: var(--color-primary); */
+    }
+
+    .search-modal-content input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+    }
+
+    .search-modal-content input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    }
+
+    .close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: #aaa;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    }
+    .close-modal-btn:hover {
+    color: #333;
+    }
+
+    .search-modal-results {
+    margin-top: 1.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    }
+
+    .search-modal-results ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    }
+
+    .search-modal-results li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    }
+
+    .search-modal-results li a:hover {
+    background-color: #f4f4f4;
+    }
+
+    /* Animaciones (si no las tienes ya) */
+    @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+    }
+
+
+    /* ======================================= */
+    /* ✅ 2. CSS CORREGIDO PARA AMBAS LUPAS */
+    /* ======================================= */
+
+    /* --- 1. ESTILO BASE (Común para ambas lupas) --- */
+    .nav-icon-btn {
+    background: transparent;
+    border: none;
+    color: #fff; /* <-- ¡Color blanco! */
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 8px;
+    line-height: 1; 
+    vertical-align: middle; /* Ayuda a alinearla mejor */
+    }
+
+    /* --- 2. VISTA MÓVIL (Lo que ves por defecto) --- */
+
+    /* Ocultamos la lupa de ESCRITORIO */
+    #search-toggle-btn-desktop {
+    display: none; 
+    }
+
+    /* Mostramos la lupa de MÓVIL */
+    #search-toggle-btn-mobile {
+    display: inline-block; 
+    }
+
+
+    /* --- 3. VISTA ESCRITORIO (Cuando la pantalla crece) --- */
+    /* (Uso 993px para evitar conflictos con tu regla de 992px) */
+
+    @media (min-width: 993px) { 
+        
+        /* Mostramos la lupa de ESCRITORIO */
+        #search-toggle-btn-desktop {
+            display: inline-block; /* <-- La hacemos aparecer */
+            margin-right: 15px; /* Espacio antes del "Login" o "Hi, user" */
+        }
+
+        /* Ocultamos la lupa de MÓVIL */
+        #search-toggle-btn-mobile {
+            display: none; /* <-- La desaparecemos */
+        }
+    }
