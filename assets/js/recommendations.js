@@ -1,24 +1,13 @@
-// ============================
-// CONFIG
-// ============================
+// recommendations.js
 
-// Cambia esto por tu dominio backend Flask
-const API_URL = "https://TUBACKEND/recommendations/get";
+const API_URL = "https://southamericanssecrets.onrender.com/api/recommendations/get";
 
-// Obtenemos token o userId desde localStorage
 function getCurrentUserToken() {
-    return localStorage.getItem("token") || null;
+    return localStorage.getItem("backend_token") || null;
 }
 
-// ============================
-// OBTENER RECOMENDACIONES
-// ============================
 async function fetchRecommendations() {
     const token = getCurrentUserToken();
-
-    if (!token) {
-        console.warn("⚠ No user token found. Guest mode.");
-    }
 
     try {
         const res = await fetch(API_URL, {
@@ -35,8 +24,6 @@ async function fetchRecommendations() {
         }
 
         const data = await res.json();
-        console.log("🎯 RECOMMENDATIONS:", data);
-
         return data.recommendations || [];
 
     } catch (err) {
@@ -45,16 +32,10 @@ async function fetchRecommendations() {
     }
 }
 
-// ============================
-// PINTAR TARJETAS EN EL FRONT
-// ============================
 function renderRecommendations(tours) {
     const container = document.getElementById("recommended-container");
 
-    if (!container) {
-        console.error("No container for recommendations found.");
-        return;
-    }
+    if (!container) return;
 
     container.innerHTML = "";
 
@@ -67,21 +48,14 @@ function renderRecommendations(tours) {
         container.innerHTML += `
             <div class="recommended-card">
                 <img src="${t.image_url}" alt="${t.nombre}" class="rec-img">
-
                 <h3>${t.nombre}</h3>
                 <p>${t.descripcion}</p>
-
-                <button onclick="openTour(${t.id})" class="rec-btn">
-                    View Tour
-                </button>
+                <button onclick="openTour(${t.id})" class="rec-btn">View Tour</button>
             </div>
         `;
     });
 }
 
-// ============================
-// INICIALIZAR MODULO
-// ============================
 async function initRecommendations() {
     const tours = await fetchRecommendations();
     renderRecommendations(tours);

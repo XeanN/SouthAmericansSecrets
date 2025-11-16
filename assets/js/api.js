@@ -1,11 +1,8 @@
 // api.js
 import { getBackendToken } from "./tokenManager.js";
 
-const API_URL = "http://127.0.0.1:5000/api";
+const API_URL = "https://southamericanssecrets.onrender.com/api";
 
-// ===========================
-// GET con Authorization
-// ===========================
 export async function apiGet(endpoint) {
   const token = getBackendToken();
 
@@ -18,9 +15,6 @@ export async function apiGet(endpoint) {
   return res.json();
 }
 
-// ===========================
-// POST con Authorization
-// ===========================
 export async function apiPost(endpoint, body) {
   const token = getBackendToken();
 
