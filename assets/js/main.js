@@ -114,10 +114,15 @@ document.addEventListener("headerLoaded", () => {
 
 
 // =======================================
-// 🔥 CARGAR TODOS LOS TOURS DEL BACKEND (CORRECTO)
+// ✅ LÓGICA DEL BUSCADOR (CON CONEXIÓN A PYTHON API)
 // =======================================
+
+// Variable que contendrá los tours cargados desde el backend (Inicialmente vacía)
+let allTours = []; 
+
+// Función para cargar los tours desde tu API de Python
 async function loadToursFromAPI() {
-    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/popular`;
 
     try {
         const response = await fetch(API_URL);
@@ -129,8 +134,8 @@ async function loadToursFromAPI() {
 
         const data = await response.json();
 
-        // Cargar todos los tours reales
-        allTours = data.tours || [];
+        // 🔥 Esta es tu data real
+        allTours = data.popular_destinations || [];
 
         console.log("Tours cargados desde Python:", allTours.length);
 
