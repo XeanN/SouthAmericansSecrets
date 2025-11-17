@@ -324,8 +324,8 @@ document.addEventListener("click", (e) => {
         const tourName = e.target.dataset.name.trim().toLowerCase();
 
         // Buscar en tu all-destinations.js
-        const tour = allDestinationsData.find(t => 
-            t.name.trim().toLowerCase() === tourName
+        const tour = allTours.find(t => 
+            (t.name || "").trim().toLowerCase() === tourName
         );
 
         if (!tour) {
