@@ -22,10 +22,10 @@ class RecommendationEngine:
     # 1) CARGA DEL CATÁLOGO (CSV o Firebase)
     # ========================================================
     def load_destinations(self, destinations):
-    """
-    Carga destinos desde tours.json y garantiza columnas modernas
-    compatibles con el motor IA.
-    """
+        """
+        Carga destinos desde tours.json y garantiza columnas modernas
+        compatibles con el motor IA.
+        """
 
     df = pd.DataFrame(destinations)
 
