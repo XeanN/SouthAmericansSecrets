@@ -296,9 +296,10 @@ function displayResults(tourList, title) {
     } else {
         tourList.forEach(tour => {
             const tourName = tour.name || tour.nombre || "Destino";
+            const tourURL  = tour.url || null;
 
             resultsHTML += `
-                <div class="search-result-item" data-name="${tourName}">
+                <div class="search-result-item" data-url="${tourURL}">
                     ${tourName}
                 </div>
             `;
@@ -315,20 +316,14 @@ function displayResults(tourList, title) {
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("search-result-item")) {
 
-        const tourName = e.target.dataset.name.trim().toLowerCase();
+        const url = e.target.dataset.url;
 
-        // Buscar en tu all-destinations.js
-        const tour = allTours.find(t => 
-            (t.name || "").trim().toLowerCase() === tourName
-        );
-
-        if (!tour) {
+        if (!url) {
             alert("No se encontró la URL del tour.");
             return;
         }
 
-        // Construcción final absoluta
-        const finalURL = `${BASE}${tour.url}`;
+        const finalURL = `${BASE}${url}`;
 
         console.log("▶ Abriendo tour:", finalURL);
         window.location.href = finalURL;
