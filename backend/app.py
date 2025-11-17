@@ -6,7 +6,7 @@ from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(BACKEND_DIR))
-os.chdir(BACKEND_DIR)   # ← CORRIGE ERROR UTF-8 EN Render
+os.chdir(BACKEND_DIR)
 
 # ================================
 #  INICIO DEL BACKEND
@@ -21,6 +21,12 @@ from routes.recommendations import recommendations_bp
 from routes.automation import automation_bp
 from database.db import init_db
 from config import Config
+
+# ================================
+#  🔥 FIREBASE ADMIN
+# ================================
+from database.firebase_admin import init_firebase
+firebase_db = init_firebase()
 
 # ================================
 #  FLASK APP
@@ -84,11 +90,10 @@ def server_error(e):
 # ================================
 #  EXPORTACIÓN WSGI PARA GUNICORN
 # ================================
-# Render NECESITA esto: application = app
 application = app
 
 # ================================
-#  MODO LOCAL (NO USADO EN RENDER)
+#  MODO LOCAL
 # ================================
 if __name__ == '__main__':
     os.makedirs('data', exist_ok=True)

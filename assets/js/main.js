@@ -244,7 +244,7 @@ async function showRecommendations(user) {
         // --- 1. Usuario Logueado: Pedir Recomendaciones Personalizadas (IA) ---
         
         // 🚨 IMPORTANTE: Necesitas obtener el token JWT que generó tu Flask/Python.
-        const token = localStorage.getItem('access_token'); 
+        const token = localStorage.getItem('backend_token') || null;
 
         if (!token) {
              // Si falta el token, recurrir a populares (opción NO logueada)

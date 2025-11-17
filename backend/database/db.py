@@ -61,19 +61,20 @@ def init_db():
     );
 
     -- TABLA DE DESTINOS
-    CREATE TABLE destinations (
+        CREATE TABLE destinations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
-        pais TEXT NOT NULL,
-        categoria TEXT NOT NULL,
+        pais TEXT,
+        region TEXT,
+        categoria TEXT,
         descripcion TEXT,
-        actividades TEXT,
         precio_promedio REAL,
-        mejor_epoca TEXT,
-        clima TEXT,
-        duracion_sugerida INTEGER,
-        imagen_url TEXT,
-        rating REAL DEFAULT 4.5
+        rating REAL DEFAULT 4.5,
+        latitud REAL,
+        longitud REAL,
+        url TEXT NOT NULL,
+        imagen TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     -- TABLA DE INTERACCIONES
