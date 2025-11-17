@@ -1,17 +1,16 @@
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from datetime import datetime
 
-# ▼ IA de contenido (nuestro modelo entrenado con TF-IDF + cosine)
+# IA de contenido
 from ml.predict import ContentRecommender
 
-# Cargar modelo IA una sola vez
+# Cargar modelo IA
 content_model = ContentRecommender()
 
 
 class RecommendationEngine:
-    """Motor de recomendación profesional basado en IA + filtrado colaborativo + popularidad."""
+    """Motor de recomendación basado en IA + Filtrado Colaborativo + Popularidad."""
 
     def __init__(self):
         self.scaler = MinMaxScaler()
@@ -19,68 +18,55 @@ class RecommendationEngine:
         self.user_profiles = {}
 
     # ========================================================
-    # 1) CARGA DEL CATÁLOGO (CSV o Firebase)
+    # 1) CARGA DEL CATÁLOGO DESDE JSON / FIREBASE / CSV
     # ========================================================
     def load_destinations(self, destinations):
         """
-        Carga destinos desde tours.json y garantiza columnas modernas
-        compatibles con el motor IA.
+        Carga destinos desde JSON o Firebase.
+        Asegura que todas las columnas necesarias existan.
         """
 
-    df = pd.DataFrame(destinations)
+        df = pd.DataFrame(destinations)
 
-    # --- Asegurar ID tipo int ---
-    if "id" not in df.columns:
-        raise ValueError("El catálogo debe incluir 'id' en tours.json")
+        # id obligatorio
+        if "id" not in df.columns:
+            raise ValueError("La tabla 'destinations' debe incluir columna 'id' AUTOINCREMENT.")
 
-    df["id"] = pd.to_numeric(df["id"], errors="coerce")
-    df = df.dropna(subset=["id"])
-    df["id"] = df["id"].astype(int)
+        df["id"] = pd.to_numeric(df["id"], errors="coerce")
+        df = df.dropna(subset=["id"])
+        df["id"] = df["id"].astype(int)
 
-    # --- Normalizar campos obligatorios del JSON ---
-    required_cols = {
-        "name": "",
-        "slug": "",
-        "category": "",
-        "region": "",
-        "image": "",
-        "url": "",
-        "price": 0.0,
-        "rating": 4.5
-    }
+        required_cols = {
+            "nombre": "",
+            "categoria": "",
+            "actividades": "",
+            "descripcion": "",
+            "pais": "Perú",
+            "clima": "",
+            "precio_promedio": 0.0,
+            "rating": 4.5
+        }
 
-    for col, default in required_cols.items():
-        if col not in df.columns:
-            df[col] = default
+        for col, default in required_cols.items():
+            if col not in df.columns:
+                df[col] = default
 
-    # Convertir rating a float
-    df["rating"] = pd.to_numeric(df["rating"], errors="coerce").fillna(4.5)
+        df["precio_promedio"] = pd.to_numeric(df["precio_promedio"], errors="coerce").fillna(0)
+        df["rating"] = pd.to_numeric(df["rating"], errors="coerce").fillna(4.5)
 
-    # Armar un campo de texto grande para el modelo IA
-    df["text"] = (
-        df["name"].astype(str) + " " +
-        df["category"].astype(str) + " " +
-        df["region"].astype(str)
-    )
+        self.destinations_df = df
 
-    self.destinations_df = df
-
-    return self
-
+        return self
 
     # ========================================================
-    # 2) IA REAL (TF-IDF + Cosine Similarity)
+    # 2) IA REAL (TF-IDF)
     # ========================================================
     def content_based_filtering(self, destination_id, n_recommendations=5):
-        """Usa el modelo IA entrenado para devolver destinos similares."""
         try:
             results = content_model.get_similar(destination_id, n_recommendations)
-
             for r in results:
                 r["algorithm"] = "content_based"
-
             return results
-
         except Exception as e:
             print("⚠ Error en content_based_filtering:", e)
             return []
@@ -94,8 +80,8 @@ class RecommendationEngine:
             return self.popularity_based(n_recommendations)
 
         df = pd.DataFrame(user_interactions)
-
         user_prefs = df[df["user_id"] == user_id].copy()
+
         if len(user_prefs) == 0:
             return self.popularity_based(n_recommendations)
 
@@ -118,15 +104,15 @@ class RecommendationEngine:
         recs = []
 
         for dest_id in unvisited[: n_recommendations * 2]:
-            dest = self.destinations_df[self.destinations_df["id"] == dest_id].iloc[0]
+            row = self.destinations_df[self.destinations_df["id"] == dest_id].iloc[0]
 
-            category_score = favorite_categories.get(dest["categoria"], 0)
+            category_score = favorite_categories.get(row["categoria"], 0)
 
             recs.append({
                 "destination_id": int(dest_id),
-                "nombre": dest["nombre"],
-                "pais": dest["pais"],
-                "categoria": dest["categoria"],
+                "nombre": row["nombre"],
+                "pais": row["pais"],
+                "categoria": row["categoria"],
                 "score": float(category_score),
                 "algorithm": "collaborative"
             })
@@ -136,9 +122,28 @@ class RecommendationEngine:
         return recs[:n_recommendations]
 
     # ========================================================
-    # 4) HÍBRIDO (IA + colaborativo + popularidad)
+    # 4) POPULARIDAD
     # ========================================================
-    def hybrid_recommendation(self, user_id, user_interactions, current_destination_id=None, n_recommendations=10):
+    def popularity_based(self, n_recommendations=5):
+        popular = self.destinations_df.nlargest(n_recommendations, "rating")
+
+        results = []
+        for _, row in popular.iterrows():
+            results.append({
+                "destination_id": int(row["id"]),
+                "nombre": row["nombre"],
+                "pais": row["pais"],
+                "categoria": row["categoria"],
+                "score": float(row["rating"] / 5.0),
+                "algorithm": "popularity"
+            })
+
+        return results
+
+    # ========================================================
+    # 5) HÍBRIDO
+    # ========================================================
+    def hybrid_recommendation(self, user_id, interactions, current_destination_id=None, n_recommendations=10):
 
         results = []
 
@@ -149,8 +154,8 @@ class RecommendationEngine:
                 r["score"] *= 0.4
                 results.append(r)
 
-        # Colaborativo (40%)
-        collab = self.collaborative_filtering(user_id, user_interactions, 4)
+        # Filtrado colaborativo (40%)
+        collab = self.collaborative_filtering(user_id, interactions, 4)
         for r in collab:
             r["score"] *= 0.4
             results.append(r)
@@ -164,9 +169,11 @@ class RecommendationEngine:
         # Quitar duplicados
         seen = set()
         final = []
+
         for r in results:
-            if r["destination_id"] not in seen:
-                seen.add(r["destination_id"])
+            dest_id = r["destination_id"]
+            if dest_id not in seen:
+                seen.add(dest_id)
                 final.append(r)
 
         final.sort(key=lambda x: x["score"], reverse=True)
@@ -174,44 +181,7 @@ class RecommendationEngine:
         return final[:n_recommendations]
 
     # ========================================================
-    # 5) POPULARIDAD
-    # ========================================================
-    def popularity_based(self, n_recommendations=5):
-
-        popular = self.destinations_df.nlargest(n_recommendations, "rating")
-
-        out = []
-        for _, row in popular.iterrows():
-            out.append({
-                "destination_id": int(row["id"]),
-                "nombre": row["nombre"],
-                "pais": row["pais"],
-                "categoria": row["categoria"],
-                "score": float(row["rating"] / 5.0),
-                "algorithm": "popularity"
-            })
-
-        return out
-
-    # ========================================================
-    # 6) RECOMENDACIONES PERSONALIZADAS
-    # ========================================================
-    def get_personalized_recommendations(self, user_id, user_interactions, user_preferences=None, n_recommendations=10):
-
-        if self.destinations_df is None:
-            raise ValueError("Debe cargar destinos primero.")
-
-        if not user_interactions:
-            return self.popularity_based(n_recommendations)
-
-        return self.hybrid_recommendation(
-            user_id,
-            user_interactions,
-            n_recommendations=n_recommendations
-        )
-
-    # ========================================================
-    # 7) FILTRO POR PREFERENCIAS MANUALES
+    # 6) RECOMENDACIONES POR PREFERENCIAS MANUALES
     # ========================================================
     def get_similar_destinations(self, preferences, n_recommendations=5):
 
@@ -231,9 +201,10 @@ class RecommendationEngine:
 
         df = df.nlargest(n_recommendations, "rating")
 
-        out = []
+        results = []
+
         for _, row in df.iterrows():
-            out.append({
+            results.append({
                 "destination_id": int(row["id"]),
                 "nombre": row["nombre"],
                 "pais": row["pais"],
@@ -245,4 +216,4 @@ class RecommendationEngine:
                 "algorithm": "preference_based"
             })
 
-        return out
+        return results
