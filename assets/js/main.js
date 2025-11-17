@@ -122,7 +122,8 @@ let allTours = [];
 
 // Función para cargar los tours desde tu API de Python
 async function loadToursFromAPI() {
-    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/popular`;
+    //const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/popular`;
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
 
     try {
         const response = await fetch(API_URL);
