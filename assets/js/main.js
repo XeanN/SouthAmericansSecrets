@@ -124,7 +124,7 @@ let allTours = [];
 async function loadToursFromAPI() {
     // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
     // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/destinations`;
     
     try {
         const response = await fetch(API_URL);
