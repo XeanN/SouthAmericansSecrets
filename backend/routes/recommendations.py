@@ -12,7 +12,7 @@ import unicodedata
 import re
 
 from models.recommender import RecommendationEngine
-
+from models.tours_loader import load_tours_json
 recommendations_bp = Blueprint("recommendations", __name__)
 
 # -------------------------------------------------------
@@ -63,66 +63,58 @@ def load_csv(path: Path) -> pd.DataFrame:
 # Carga inicial de datos en memoria
 # -------------------------------------------------------
 
-destinations_df = load_csv(DESTINATIONS_CSV)
-tours_df = load_csv(TOURS_CSV)
+# -------------------------------------------------------
+# Carga inicial de datos en memoria (JSON oficial + CSV fallback)
+# -------------------------------------------------------
+
+# 1) Cargar el catálogo oficial desde tours.json
+json_tours = load_tours_json()
+
+if json_tours:
+    print("📌 Usando catálogo oficial desde tours.json")
+    destinations_df = pd.DataFrame(json_tours)
+
+else:
+    print("⚠️ tours.json vacío → usando CSV como respaldo")
+    destinations_df = load_csv(DESTINATIONS_CSV)
+
+# Cargar interacciones siempre
 interactions_df = load_csv(INTERACTIONS_CSV)
 
-# Asegurar columna ID para destinos
+# Asegurar columna ID
 if not destinations_df.empty:
     if "id" not in destinations_df.columns:
         destinations_df = destinations_df.reset_index(drop=True)
         destinations_df["id"] = destinations_df.index + 1
 
-# Asegurar columnas clave
-for col in ["nombre", "pais", "categoria", "descripcion", "actividades", "precio_promedio", "rating"]:
+# Normalizar columnas clave si faltan
+for col in ["name", "nombre", "pais", "category", "categoria", "region",
+            "descripcion", "actividades", "precio_promedio", "rating", "image", "url"]:
     if col not in destinations_df.columns:
         destinations_df[col] = ""
 
-# Instanciar motor de recomendaciones y cargar catálogo
+# Instanciar motor de recomendaciones
 recommender = RecommendationEngine()
+
 if not destinations_df.empty:
     recommender.load_destinations(destinations_df.to_dict(orient="records"))
 else:
-    print("⚠️ destinations_df está vacío, el motor de recomendaciones sólo podrá responder con listas vacías.")
+    print("⚠️ Catálogo vacío: motor no cargado.")
 
 
 def destination_to_tour_json(row: pd.Series) -> dict:
     """
-    Convierte una fila de destinations_df en el formato que el frontend usa:
-      - id
-      - name
-      - region
-      - url
-      - image
+    Convierte una fila al formato estándar que el frontend usa.
+    Prioriza los campos propios de tours.json.
     """
-    dest_id = int(row.get("id", 0))
-    name = str(row.get("nombre", ""))
-    pais = str(row.get("pais", "Perú"))
-
-    # Región simple para fallback (Costa / Sierra / Selva)
-    region = "Costa"
-    if "Nazca" in name or "Arequipa" in name or "Ica" in name:
-        region = "Sierra"  # solo para segmentar un poco en el fallback
-
-    slug = slugify(name)
-
-    # URL actual basada en tu estructura de GitHub Pages
-    # (Puedes ajustar si cambias la estructura de rutas)
-    url = (
-        f"https://xeann.github.io/SouthAmericansSecrets/"
-        f"tour/coast-of-peru/nature/{slug}.html"
-    )
-
-    imagen = row.get("imagen_url", "")
-
     return {
-        "id": dest_id,
-        "name": name,
-        "region": region,
-        "country": pais,
-        "url": url,
-        "image": imagen,
-        "rating": float(row.get("rating", 0)) if pd.notna(row.get("rating")) else 0.0,
+        "id": int(row.get("id", 0)),
+        "name": row.get("name") or row.get("nombre", ""),
+        "country": row.get("country", row.get("pais", "Perú")),
+        "region": row.get("region", row.get("categoria", "Costa")),
+        "url": row.get("url", ""),        # ← URL oficial desde tours.json
+        "image": row.get("image", row.get("imagen_url", "")),
+        "rating": float(row.get("rating", 0)),
     }
 
 
@@ -245,7 +237,7 @@ def status():
     """
     return jsonify({
         "destinations_loaded": int(len(destinations_df)),
-        "tours_loaded": int(len(tours_df)),
+        "tours_loaded": len(destinations_df),
         "interactions_loaded": int(len(interactions_df)),
         "engine_ready": recommender.destinations_df is not None and not recommender.destinations_df.empty
     }), 200

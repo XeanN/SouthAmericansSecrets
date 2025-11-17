@@ -22,42 +22,50 @@ class RecommendationEngine:
     # 1) CARGA DEL CATÁLOGO (CSV o Firebase)
     # ========================================================
     def load_destinations(self, destinations):
-        """
-        Carga destinos desde SQLite y garantiza que todas las columnas
-        necesarias existan sin destruir el 'id'.
-        """
+    """
+    Carga destinos desde tours.json y garantiza columnas modernas
+    compatibles con el motor IA.
+    """
 
-        df = pd.DataFrame(destinations)
+    df = pd.DataFrame(destinations)
 
-        # Asegurar id numérico real
-        if "id" not in df.columns:
-            raise ValueError("La tabla 'destinations' debe incluir columna 'id' AUTOINCREMENT.")
+    # --- Asegurar ID tipo int ---
+    if "id" not in df.columns:
+        raise ValueError("El catálogo debe incluir 'id' en tours.json")
 
-        df["id"] = pd.to_numeric(df["id"], errors="coerce")
-        df = df.dropna(subset=["id"])
-        df["id"] = df["id"].astype(int)
+    df["id"] = pd.to_numeric(df["id"], errors="coerce")
+    df = df.dropna(subset=["id"])
+    df["id"] = df["id"].astype(int)
 
-        required_cols = {
-            "nombre": "",
-            "categoria": "",
-            "actividades": "",
-            "descripcion": "",
-            "pais": "",
-            "clima": "",
-            "precio_promedio": 0.0,
-            "rating": 4.5,
-        }
+    # --- Normalizar campos obligatorios del JSON ---
+    required_cols = {
+        "name": "",
+        "slug": "",
+        "category": "",
+        "region": "",
+        "image": "",
+        "url": "",
+        "price": 0.0,
+        "rating": 4.5
+    }
 
-        for col, default in required_cols.items():
-            if col not in df.columns:
-                df[col] = default
+    for col, default in required_cols.items():
+        if col not in df.columns:
+            df[col] = default
 
-        df["precio_promedio"] = pd.to_numeric(df["precio_promedio"], errors="coerce").fillna(0)
-        df["rating"] = pd.to_numeric(df["rating"], errors="coerce").fillna(4.5)
+    # Convertir rating a float
+    df["rating"] = pd.to_numeric(df["rating"], errors="coerce").fillna(4.5)
 
-        self.destinations_df = df
+    # Armar un campo de texto grande para el modelo IA
+    df["text"] = (
+        df["name"].astype(str) + " " +
+        df["category"].astype(str) + " " +
+        df["region"].astype(str)
+    )
 
-        return self
+    self.destinations_df = df
+
+    return self
 
 
     # ========================================================
