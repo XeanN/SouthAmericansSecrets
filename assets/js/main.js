@@ -122,31 +122,25 @@ let allTours = [];
 
 // Función para cargar los tours desde tu API de Python
 async function loadToursFromAPI() {
-    // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
-    // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
-    
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/popular`;
+
     try {
         const response = await fetch(API_URL);
-        
+
         if (!response.ok) {
             console.error(`Error HTTP: ${response.status}`);
             return;
         }
-        
-        const data = await response.json();
-        
-        allTours = data.destinations || data.tours || [];
-        console.log(`Tours cargados desde Python: ${allTours.length}`);
 
-        // Una vez que los datos están listos, inicializamos las recomendaciones
-        const searchToggleBtns = document.querySelectorAll("#search-toggle-btn-desktop, #search-toggle-btn-mobile");
-        if (searchToggleBtns.length > 0) {
-            showRecommendations(window.currentUser || null);
-        }
+        const data = await response.json();
+
+        // 🔥 Esta es tu data real
+        allTours = data.popular_destinations || [];
+
+        console.log("Tours cargados desde Python:", allTours.length);
 
     } catch (error) {
-        console.error("Error al cargar tours desde la API de Python. Asegúrate que el servidor esté corriendo.", error);
+        console.error("Error cargando tours:", error);
     }
 }
 
