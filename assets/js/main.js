@@ -300,18 +300,45 @@ function displayResults(tourList, title) {
     if (tourList.length === 0) {
         resultsHTML += "<p>No se encontraron resultados que coincidan con los criterios.</p>";
     } else {
-        resultsHTML += "<ul>";
         tourList.forEach(tour => {
-            // Utilizamos 'name' y 'url' (que son las claves filtradas por tu Python)
-            const tourName = tour.name || tour.nombre || 'Destino Desconocido';
-            const tourUrl = tour.url || `${BASE}toursIndex/${tour.id}.html`; // Fallback para URL
+            const tourName = tour.name || tour.nombre || "Destino";
 
-            resultsHTML += `<li><a href="${tourUrl}">${tourName}</a></li>`;
+            resultsHTML += `
+                <div class="search-result-item" data-name="${tourName}">
+                    ${tourName}
+                </div>
+            `;
         });
-        resultsHTML += "</ul>";
     }
     searchResults.innerHTML = resultsHTML;
 }
+});
+
+
+// ================================================
+// 🔍 CLICK EN RESULTADO DEL BUSCADOR
+// ================================================
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("search-result-item")) {
+
+        const tourName = e.target.dataset.name.trim().toLowerCase();
+
+        // Buscar en tu all-destinations.js
+        const tour = allDestinationsData.find(t => 
+            t.name.trim().toLowerCase() === tourName
+        );
+
+        if (!tour) {
+            alert("No se encontró la URL del tour.");
+            return;
+        }
+
+        // Construcción final absoluta
+        const finalURL = `${BASE}${tour.url}`;
+
+        console.log("▶ Abriendo tour:", finalURL);
+        window.location.href = finalURL;
+    }
 });
 
 
@@ -448,3 +475,4 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.body.insertAdjacentHTML('beforeend', floatingSocialsHTML);
 });
+
