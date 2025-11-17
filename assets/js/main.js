@@ -60,24 +60,30 @@ document.addEventListener("DOMContentLoaded", function () {
 // ✅ LÓGICA PARA EL MENÚ MÓVIL (VERSIÓN FINAL CORREGIDA)
 // =======================================================
 document.addEventListener("headerLoaded", () => {
-    const navToggle = document.querySelector(".nav-toggle");
-    const navMobile = document.querySelector(".nav-mobile");
+  const navToggle = document.querySelector(".nav-toggle");
+  const navMobile = document.querySelector(".nav-mobile");
 
-    // Si no encuentra los elementos, no hace nada para evitar errores.
-    if (!navToggle || !navMobile) return;
+  // Si no encuentra los elementos, no hace nada para evitar errores.
+  if (!navToggle || !navMobile) return;
 
-    // --- CLONACIÓN DE ELEMENTOS ---
-    const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
-    const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile"); // <-- ESTA LÍNEA ES NECESARIA
+  // --- CLONACIÓN DE ELEMENTOS ---
+  const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
+  const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile"); // <-- ESTA LÍNEA ES NECESARIA
 
-    // Clonamos los links de navegación (Home, About, Tours, etc.)
-    if (navLinksDesktop && navLinksMobileContainer) {
-        navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
-    }
-    // --- LÓGICA PARA ABRIR Y CERRAR EL MENÚ PRINCIPAL ---
-    navToggle.addEventListener("click", () => {
-    document.body.classList.toggle("nav-open");
-    });
+  // Clonamos los links de navegación (Home, About, Tours, etc.)
+  if (navLinksDesktop && navLinksMobileContainer) {
+    navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
+  }
+  
+  // 🔴 HEMOS QUITADO LA LÓGICA DE CLONAR LOS BOTONES DE AUTH 🔴
+  // El script 'auth.js' ahora se encarga de actualizar AMBOS,
+  // el de escritorio (.auth-buttons) y el de móvil (.auth-buttons-mobile).
+  // Así ya no hay "peleas".
+
+  // --- LÓGICA PARA ABRIR Y CERRAR EL MENÚ PRINCIPAL ---
+  navToggle.addEventListener("click", () => {
+    document.body.classList.toggle("nav-open");
+  });
 
   // --- LÓGICA PARA LOS SUBMENÚS (SOLO CON TOQUE/CLICK) ---
   const dropdownTogglesMobile = navMobile.querySelectorAll(".dropdown > a");
@@ -284,18 +290,18 @@ function displayResults(tourList, title) {
         resultsHTML += "<p>No se encontraron resultados que coincidan con los criterios.</p>";
     } else {
         tourList.forEach(tour => {
-            const name = tour.name || tour.nombre || "Destino";
+            const tourName = tour.name || tour.nombre || "Destino";
 
             resultsHTML += `
-                <div class="search-result-item" data-url="${tour.url}">
-                    ${name}
+                <div class="search-result-item" data-name="${tourName}">
+                    ${tourName}
                 </div>
             `;
         });
     }
-
     searchResults.innerHTML = resultsHTML;
 }
+});
 
 
 // ================================================
@@ -304,21 +310,26 @@ function displayResults(tourList, title) {
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("search-result-item")) {
 
-        const url = e.target.dataset.url;
+        const tourName = e.target.dataset.name.trim().toLowerCase();
 
-        if (!url) {
+        // Buscar en tu all-destinations.js
+        const tour = allTours.find(t => 
+            (t.name || "").trim().toLowerCase() === tourName
+        );
+
+        if (!tour) {
             alert("No se encontró la URL del tour.");
             return;
         }
 
-        // Construir la URL final con BASE (GitHub Pages compatible)
-        const finalURL = `${BASE}${url}`;
+        // Construcción final absoluta
+        const finalURL = `${BASE}${tour.url}`;
 
         console.log("▶ Abriendo tour:", finalURL);
-
         window.location.href = finalURL;
     }
 });
+
 
 // =====================================
 // ✅ SLIDER PRINCIPAL (Tu código original - Sin cambios)
