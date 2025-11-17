@@ -124,7 +124,7 @@ let allTours = [];
 async function loadToursFromAPI() {
     // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
     // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/destinations`;
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
     
     try {
         const response = await fetch(API_URL);
@@ -136,7 +136,7 @@ async function loadToursFromAPI() {
         
         const data = await response.json();
         
-        allTours = data; 
+        allTours = data.destinations || data.tours || [];
         console.log(`Tours cargados desde Python: ${allTours.length}`);
 
         // Una vez que los datos están listos, inicializamos las recomendaciones
@@ -208,10 +208,11 @@ if (searchModal && searchCloseBtn && searchInput && searchResults && searchToggl
         }
 
         // EL FILTRO AHORA USA LOS DATOS DE PYTHON EN 'allTours'
-        let filteredTours = allTours.filter(tour => 
-            tour.name.toLowerCase().includes(query) || 
-            tour.region.toLowerCase().includes(query)
-        );
+        let filteredTours = allTours.filter(tour => {
+            const name = (tour.name || tour.nombre || "").toLowerCase();
+            const region = (tour.region || "").toLowerCase();
+            return name.includes(query) || region.includes(query);
+        });
         
         displayResults(filteredTours, " Resultados de la búsqueda:");
     });

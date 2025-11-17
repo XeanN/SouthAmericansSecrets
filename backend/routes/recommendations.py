@@ -315,3 +315,123 @@ def get_destination_detail(destination_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# ============================================================
+#  LISTAR TOURS (ALIAS DE DESTINATIONS)
+# ============================================================
+
+@recommendations_bp.route("/tours", methods=["GET"])
+def list_tours():
+    """
+    Devuelve la lista de tours (alias de la tabla destinations).
+    Permite usar ?limit=10 para limitar resultados.
+    """
+    try:
+        limit = request.args.get("limit", type=int)
+
+        # Usamos el helper que ya existe y funciona
+        tours = get_all_destinations()  # lista de dicts
+
+        if limit:
+            tours = tours[:limit]
+
+        return jsonify({
+            "tours": tours,
+            "total": len(tours)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  DETALLE DE UN TOUR
+# ============================================================
+
+@recommendations_bp.route("/tours/<int:tour_id>", methods=["GET"])
+def get_tour_detail(tour_id):
+    """
+    Detalles de un tour específico (tomado de destinations).
+    """
+    try:
+        tour = execute_query(
+            "SELECT * FROM destinations WHERE id = ?",
+            (tour_id,),
+            fetch="one"
+        )
+
+        if not tour:
+            return jsonify({"error": "Tour no encontrado"}), 404
+
+        return jsonify(tour), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  TOURS POPULARES (PARA USUARIOS SIN LOGIN)
+# ============================================================
+
+@recommendations_bp.route("/popular", methods=["GET"])
+def get_popular_tours():
+    """
+    Lista de tours populares.
+    Primero intenta ordenando por rating (si existe la columna).
+    Si falla, usa un fallback simple con los primeros N destinos.
+    """
+    try:
+        limit = request.args.get("limit", 10, type=int)
+
+        try:
+            # Intento principal: ordenar por rating
+            sql = """
+                SELECT * FROM destinations
+                ORDER BY rating DESC
+                LIMIT ?
+            """
+            popular = execute_query(sql, (limit,))
+        except Exception:
+            # Fallback: simplemente tomar los primeros N
+            all_dest = get_all_destinations()
+            popular = all_dest[:limit]
+
+        return jsonify({
+            "popular_destinations": popular,
+            "total": len(popular)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  BUSCAR TOURS POR TEXTO
+# ============================================================
+
+@recommendations_bp.route("/tours/search", methods=["GET"])
+def search_tours():
+    """
+    Búsqueda simple por nombre de tour.
+    GET /api/recommendations/tours/search?q=cusco
+    """
+    try:
+        q = request.args.get("q", "").strip().lower()
+
+        if not q:
+            return jsonify({"tours": [], "total": 0}), 200
+
+        like = f"%{q}%"
+
+        sql = """
+            SELECT * FROM destinations
+            WHERE lower(nombre) LIKE ?
+        """
+        tours = execute_query(sql, (like,))
+
+        return jsonify({"tours": tours, "total": len(tours)}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+# ============================================================
+#  FIN DEL ARCHIVO
