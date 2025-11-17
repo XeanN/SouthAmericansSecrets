@@ -434,4 +434,231 @@ def search_tours():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 # ============================================================
-#  FIN DEL ARCHIVO
+# ============================================================
+#  DESTINOS POPULARES (SIN LOGIN)
+# ============================================================
+
+@recommendations_bp.route("/popular", methods=["GET"])
+def get_popular_destinations():
+    try:
+        limit = int(request.args.get("limit", 10))
+
+        # consulta a tu tabla "destinations" ordenada por rating
+        popular = execute_query(
+            "SELECT * FROM destinations ORDER BY rating DESC LIMIT ?",
+            (limit,)
+        )
+
+        return jsonify({
+            "popular_destinations": popular,
+            "total": len(popular)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ============================================================
+# ============================================================
+#  BUSCAR DESTINO POR TEXTO (SEARCH)
+# ============================================================
+
+@recommendations_bp.route("/search", methods=["GET"])
+def search_destinations():
+    try:
+        query = request.args.get("q", "").strip().lower()
+
+        if not query:
+            return jsonify({"results": [], "total": 0}), 200
+
+        # Buscamos coincidencias en varias columnas
+        sql = """
+            SELECT * FROM destinations 
+            WHERE LOWER(nombre) LIKE ? 
+               OR LOWER(region) LIKE ? 
+               OR LOWER(pais) LIKE ? 
+               OR LOWER(categoria) LIKE ?
+               OR LOWER(descripcion) LIKE ?
+            ORDER BY rating DESC
+        """
+
+        like = f"%{query}%"
+        params = (like, like, like, like, like)
+
+        results = execute_query(sql, params)
+
+        return jsonify({
+            "results": results,
+            "total": len(results)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# ============================================================
+#  AUTOCOMPLETE – Estilo Google Search
+# ============================================================
+@recommendations_bp.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    """
+    Devuelve coincidencias rápidas para sugerencias en el buscador.
+    Busca por nombre, región, país.
+    """
+    try:
+        q = request.args.get("q", "").strip().lower()
+
+        if not q:
+            return jsonify({"results": []}), 200
+
+        results = execute_query(
+            """
+            SELECT id, nombre AS name, region, pais
+            FROM destinations
+            WHERE LOWER(nombre) LIKE ? 
+               OR LOWER(region) LIKE ?
+               OR LOWER(pais) LIKE ?
+            ORDER BY rating DESC
+            LIMIT 10
+            """,
+            (f"%{q}%", f"%{q}%", f"%{q}%")
+        )
+
+        return jsonify({"results": results}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  CATEGORIES – Lista única de categorías
+# ============================================================
+@recommendations_bp.route("/categories", methods=["GET"])
+def get_categories():
+    try:
+        categories = execute_query(
+            "SELECT DISTINCT categoria FROM destinations ORDER BY categoria ASC"
+        )
+        return jsonify({
+            "categories": [c["categoria"] for c in categories],
+            "total": len(categories)
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  REGIONS – Lista única de regiones
+# ============================================================
+@recommendations_bp.route("/regions", methods=["GET"])
+def get_regions():
+    try:
+        regions = execute_query(
+            "SELECT DISTINCT region FROM destinations ORDER BY region ASC"
+        )
+        return jsonify({
+            "regions": [r["region"] for r in regions],
+            "total": len(regions)
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  TOP-RATED – Tours con mejor rating
+# ============================================================
+@recommendations_bp.route("/top-rated", methods=["GET"])
+def get_top_rated():
+    try:
+        limit = int(request.args.get("limit", 10))
+        results = execute_query(
+            """
+            SELECT * FROM destinations
+            ORDER BY rating DESC
+            LIMIT ?
+            """,
+            (limit,)
+        )
+        return jsonify({
+            "top_rated": results,
+            "total": len(results)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  NEARBY – Destinos cercanos por lat/lng
+# ============================================================
+@recommendations_bp.route("/nearby", methods=["GET"])
+def get_nearby_destinations():
+    """
+    Devuelve destinos cercanos según latitud/longitud del usuario.
+    """
+    try:
+        lat = float(request.args.get("lat"))
+        lng = float(request.args.get("lng"))
+        radius = float(request.args.get("radius", 50))  # km
+
+        # Fórmula Haversine (distancia entre coordenadas)
+        results = execute_query(
+            """
+            SELECT id, nombre, region, pais, latitud, longitud,
+            (6371 * acos(
+                cos(radians(?)) *
+                cos(radians(latitud)) *
+                cos(radians(longitud) - radians(?)) +
+                sin(radians(?)) *
+                sin(radians(latitud))
+            )) AS distance
+            FROM destinations
+            HAVING distance <= ?
+            ORDER BY distance ASC
+            LIMIT 20
+            """,
+            (lat, lng, lat, radius)
+        )
+
+        return jsonify({
+            "nearby": results,
+            "total": len(results),
+            "radius_km": radius
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+# ============================================================
+#  SEARCH – Búsqueda general por texto
+# ============================================================
+@recommendations_bp.route("/search", methods=["GET"])
+def text_search():
+    """
+    Búsqueda avanzada por texto (nombre, región, país, categoría).
+    """
+    try:
+        q = request.args.get("q", "").strip().lower()
+
+        if not q:
+            return jsonify({"results": []}), 200
+
+        results = execute_query(
+            """
+            SELECT *
+            FROM destinations
+            WHERE LOWER(nombre) LIKE ?
+               OR LOWER(region) LIKE ?
+               OR LOWER(pais) LIKE ?
+               OR LOWER(categoria) LIKE ?
+            ORDER BY rating DESC
+            """,
+            (f"%{q}%", f"%{q}%", f"%{q}%", f"%{q}%")
+        )
+
+        return jsonify({
+            "results": results,
+            "total": len(results)
+        }), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
