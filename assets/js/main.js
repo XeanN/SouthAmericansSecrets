@@ -136,7 +136,8 @@ async function loadToursFromAPI() {
         const data = await response.json();
 
         // 🔥 Esta es tu data real
-        allTours = data.popular_destinations || [];
+        //allTours = data.popular_destinations || [];
+        allTours = data.tours || [];
 
         console.log("Tours cargados desde Python:", allTours.length);
 
