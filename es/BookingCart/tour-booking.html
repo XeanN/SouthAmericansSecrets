@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Tour</title>
+    <link rel="icon" href="../../assets/img/logoN.png" type="image/png">
+    
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/tour-booking.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-placeholder"></div>
+
+    <main class="booking-page">
+        <div class="go-back">
+            <a href="#" class="btn-back"><span>&lt;</span> Volver a los tours</a>
+        </div>
+
+        <div class="hero-image"></div>
+
+        <section class="booking-container">
+            <div class="booking-details">
+
+                <h2 class="section-title">Selecciona Fecha y Hora</h2>
+                
+                <div class="calendar-header">
+                    <button class="calendar-nav" id="prev-month-btn">&lt;</button>
+                    
+                    <div>
+                        <span class="month" id="calendar-month"></span>
+                        <span class="year" id="calendar-year"></span>
+                    </div>
+                    
+                    <button class="calendar-nav" id="next-month-btn">&gt;</button>
+                </div>
+                
+                <div class="calendar">
+                    <div class="day-names">
+                        <span>LU</span>
+                        <span>MA</span>
+                        <span>MI</span>
+                        <span>JU</span>
+                        <span>VI</span>
+                        <span>SÁ</span>
+                        <span>DO</span>
+                    </div>
+                    <div class="days" id="calendar-days"></div>
+                </div>
+                <h3 class="available-times-title">Horarios Disponibles:</h3>
+                <div class="available-times">
+                    <button class="time-btn selected">08:00 AM</button>
+                    <button class="time-btn">10:00 AM</button>
+                    <button class="time-btn">12:00 PM</button>
+                    <button class="time-btn">02:00 PM</button>
+                </div>
+            </div>
+
+            <aside class="reservation-summary-card">
+                <h1 class="tour-title"></h1> 
+                
+                <div class="tour-meta">
+                    <span class="duration"></span>
+                    <span class="rating"></span>
+                </div>
+                
+                <h2 class="section-title">Resumen de la Reserva</h2>
+                
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#9200;</span> Fecha</span>
+                    <span class="summary-value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#9200;</span> Hora</span>
+                    <span class="summary-value"></span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label"><span>&#x1F464;</span> Personas</span>
+                    <div class="persons-selector">
+                        <button class="decrease-person">-</button>
+                        <span class="num-persons"></span>
+                        <button class="increase-person">+</button>
+                    </div>
+                </div>
+                <div class="summary-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-value"></span>
+                </div>
+                
+                <button class="btn-continue">Continuar</button>
+            </aside>
+            
+            <div class="faq-section">
+                <h3 class="faq-title">Preguntas Frecuentes</h3>
+                <div id="faq-container"></div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/toursData.js"></script>
+    <script type="module" src="../../assets/js/tour-booking.js"></script>
+    <script type="module" src="../../assets/js/auth.js"></script>
+</body>
+</html>

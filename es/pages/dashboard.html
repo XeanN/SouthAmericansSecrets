@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario - Secretos Sudamericanos</title>
+    <link rel="icon" href="../../assets/img/logoN.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+    
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    
+    <div id="header-placeholder"></div>
+
+    <section class="dashboard-welcome">
+        <div class="container">
+            <h1 id="welcome-title">Bienvenido</h1>
+        </div>
+    </section>
+
+    <nav class="dashboard-nav">
+        <button class="tab-link active" data-tab="bookings">
+            <i class="fas fa-calendar-alt"></i> Mis Reservas
+        </button>
+        <button class="tab-link" data-tab="profile">
+            <i class="fas fa-user-circle"></i> Mi Perfil
+        </button>
+        </nav>
+
+    <main class="dashboard-content-wrapper">
+        <div class="container">
+        
+            <div id="bookings" class="tab-content active">
+                <h2>Tus Próximas Reservas</h2>
+                
+                <div id="booking-list-container">
+                    <p style="text-align: center; color: #888;">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando tus reservas...
+                    </p>
+                </div>
+            </div>
+
+            <div id="profile" class="tab-content">
+                <h2>Tu Perfil</h2>
+                
+                <form id="profile-form">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);">
+                        <i class="fas fa-user"></i> Información Personal
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="profile-name">
+                            <i class="fas fa-user"></i> Nombre Completo:
+                        </label>
+                        <input type="text" id="profile-name" placeholder="Tu nombre completo" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-email">
+                            <i class="fas fa-envelope"></i> Correo Electrónico:
+                        </label>
+                        <input type="email" id="profile-email" placeholder="tu.correo@ejemplo.com" readonly>
+                        <small style="color: #888; display: block; margin-top: 5px;">
+                            El correo electrónico no se puede cambiar
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-phone">
+                            <i class="fas fa-phone"></i> Teléfono:
+                        </label>
+                        <input type="tel" id="profile-phone" placeholder="+1 234 567 890" readonly>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <button type="button" id="edit-profile-btn" class="btn-details" style="background-color: #007bff;">
+                            <i class="fas fa-edit"></i> Editar Perfil
+                        </button>
+                        <button type="submit" id="save-profile-btn" class="btn-details" style="display: none; background-color: #28a745;">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                        <button type="button" id="cancel-edit-btn" class="btn-details" style="display: none; background-color: #6c757d;">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+
+                <hr style="margin: 3rem 0; border: none; border-top: 2px solid #e0e0e0;">
+
+                <div id="change-password-section">
+
+                    <h3 class="modern-form-title">
+                        <i class="fas fa-shield-alt"></i> Cambiar Contraseña
+                    </h3>
+
+                    <form id="change-password-form">
+
+                        <div class="form-input-group">
+                            <i class="fas fa-key input-icon"></i>
+                            <div class="input-stack">
+                                <label for="current-password">Contraseña Actual:</label>
+                                <input type="password" id="current-password" class="modern-input" placeholder="Ingresa tu contraseña actual" required>
+                            </div>
+                        </div>
+
+                        <div class="form-input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="input-stack">
+                                <label for="new-password">Nueva Contraseña:</label>
+                                <input type="password" id="new-password" class="modern-input" placeholder="Ingresa nueva contraseña (mín. 6 caracteres)" required>
+                            </div>
+                        </div>
+
+                        <div class="form-input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="input-stack">
+                                <label for="confirm-password">Confirma Nueva Contraseña:</label>
+                                <input type="password" id="confirm-password" class="modern-input" placeholder="Confirma nueva contraseña" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-details modern-submit-btn"style="background-color: #007bff;">
+                            <i class="fas fa-shield-alt"></i> Actualizar Contraseña
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <div id="footer-placeholder"></div>
+
+    <script src="../../assets/js/main.js"></script>
+    
+    <script type="module">
+        // Importaciones de Firebase (se mantienen igual)
+        import { auth, db } from "../../assets/js/firebase.js"; 
+        import { 
+            onAuthStateChanged, 
+            updateProfile,
+            updatePassword,
+            EmailAuthProvider,
+            reauthenticateWithCredential,
+            signOut,
+        } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+        import { ref, onValue, update, get, set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+
+        let originalProfileData = {};
+        let currentUserGlobal = null;
+        let phoneInputPlugin = null; // Variable para la librería de teléfono
+
+        // ===========================================
+        // LÓGICA DE PESTAÑAS (TABS)
+        // ===========================================
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.tab-link[data-tab]');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(item => item.classList.remove('active'));
+                    contents.forEach(content => content.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const targetId = tab.getAttribute('data-tab');
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // ===========================================
+        // FUNCIÓN PARA CREAR TARJETAS DE BOOKING (TRADUCIDO)
+        // ===========================================
+        function createBookingCard(booking) {
+            const statusText = booking.status === 'CONFIRMED' ? 'CONFIRMADA' : 'PENDIENTE';
+            
+            return `
+            <div class="booking-card">
+                <img src="${booking.tourImage || '../../assets/img/logoN.png'}" alt="Imagen del Tour" class="booking-card-img">
+                <div class="booking-card-content">
+                    <span class="booking-status ${booking.status === 'CONFIRMED' ? 'confirmed' : 'pending'}">
+                        ${statusText || 'PENDIENTE'}
+                    </span>
+                    <h3>${booking.tourName || 'Nombre del Tour no encontrado'}</h3>
+                    <p class="booking-detail">
+                        <i class="fas fa-calendar-alt"></i> 
+                        <strong>Fecha:</strong> 
+                        <span>${booking.date || 'Sin fecha'}</span>
+                    </p>
+                    <p class="booking-detail">
+                        <i class="fas fa-users"></i> 
+                        <strong>Participantes:</strong> 
+                        <span>${booking.participants || 'N/A'}</span>
+                    </p>
+                    <p class="booking-price">
+                        <strong>Precio:</strong> 
+                        <span>${booking.price || '$0.00'}</span>
+                    </p>
+                    <a href="#" class="btn-details">Ver Detalles</a>
+                </div>
+            </div>
+            `;
+        }
+
+        // ===========================================
+        // FUNCIÓN PARA MOSTRAR MENSAJES (TRADUCIDO)
+        // ===========================================
+        function showMessage(message, type) {
+            // Esta función maneja los mensajes flotantes (éxito/error)
+            
+            // Traducción de mensajes clave de Firebase
+            let translatedMessage = message;
+            if (message.includes("Please enter a valid phone number")) {
+                translatedMessage = "Por favor, ingresa un número de teléfono válido.";
+            } else if (message.includes("Name cannot be empty")) {
+                translatedMessage = "El nombre no puede estar vacío.";
+            } else if (message.includes("Profile updated successfully!")) {
+                translatedMessage = "✅ ¡Perfil actualizado exitosamente!";
+            } else if (message.includes("Error updating profile:")) {
+                translatedMessage = "Error al actualizar el perfil. Por favor, intenta de nuevo.";
+            } else if (message.includes("New passwords do not match.")) {
+                translatedMessage = "Las nuevas contraseñas no coinciden.";
+            } else if (message.includes("New password must be at least 6 characters.")) {
+                translatedMessage = "La nueva contraseña debe tener al menos 6 caracteres.";
+            } else if (message.includes("User not found. Please log in again.")) {
+                translatedMessage = "Usuario no encontrado. Por favor, inicia sesión de nuevo.";
+            } else if (message.includes("Password updated successfully!")) {
+                translatedMessage = "✅ ¡Contraseña actualizada exitosamente!";
+            } else if (message.includes("Your current password is incorrect.")) {
+                translatedMessage = "Tu contraseña actual es incorrecta.";
+            } else if (message.includes("Too many attempts. Please try again later.")) {
+                translatedMessage = "Demasiados intentos. Por favor, intenta más tarde.";
+            }
+            
+            const existingMessage = document.querySelector('.dashboard-message');
+            if (existingMessage) existingMessage.remove();
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `dashboard-message ${type}`;
+            messageDiv.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${translatedMessage}</span>
+            `;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 4000);
+        }
+
+        // ===========================================
+        // LISTENER DE LOGOUT (TRADUCIDO)
+        // ===========================================
+        function initializeLogout() {
+            const logoutBtn = document.getElementById('logout-btn-dashboard');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async () => {
+                    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                        try {
+                            await signOut(auth);
+                            localStorage.removeItem('user');
+                            // Nota: Redireccionamos a la página principal en español o inglés según la ruta BASE
+                            window.location.href = '../index.html'; 
+                        } catch (error) {
+                            console.error('Logout error:', error);
+                        }
+                    }
+                });
+            }
+        }
+
+        // ===========================================
+        // INICIALIZAR TODO CUANDO EL DOM Y EL USUARIO ESTÉN LISTOS
+        // ===========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ DOM Cargado - Esperando usuario de Firebase...');
+            initializeTabs();
+            initializeLogout();
+
+            const unsubscribe = onAuthStateChanged(auth, async (user) => {
+                if (!user) {
+                    localStorage.clear();
+                    // Redirección a la página de login
+                    window.location.href = '../login.html'; 
+                    return;
+                }
+
+                console.log('✅ Usuario de Firebase detectado:', user.email);
+                currentUserGlobal = user;
+                unsubscribe(); 
+                await initializeDashboard(user);
+            });
+        });
+
+        // ===========================================
+        // CONFIGURACIÓN PRINCIPAL DEL DASHBOARD (TRADUCIDO)
+        // ===========================================
+        async function initializeDashboard(user) {
+            const title = document.getElementById("welcome-title"); 
+            const profileName = document.getElementById("profile-name");
+            const profileEmail = document.getElementById("profile-email");
+            const profilePhone = document.getElementById("profile-phone");
+
+            // --- INICIALIZAR LIBRERÍA DE TELÉFONO ---
+            // (La inicialización es externa a esta función, solo usamos el plugin aquí)
+            phoneInputPlugin = window.intlTelInput(profilePhone, {
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+                initialCountry: "auto",
+                geoIpLookup: callback => {
+                    fetch("https://ipapi.co/json")
+                        .then(res => res.json())
+                        .then(data => callback(data.country_code))
+                        .catch(() => callback("pe")); // Usamos 'pe' como fallback para Perú
+                }
+            });
+            // ------------------------------------------
+
+            // TRADUCCIÓN DEL TÍTULO DE BIENVENIDA
+            title.textContent = `Bienvenido, ${user.displayName || user.email.split("@")[0]}! 👋`;
+            profileEmail.value = user.email;
+
+            // 🔄 Cargar datos desde Firebase Realtime Database
+            const userRef = ref(db, `users/${user.uid}`);
+            const snapshot = await get(userRef);
+            let userData = snapshot.exists() ? snapshot.val() : {};
+
+            profileName.value = userData.name || user.displayName || "";
+            
+            // Cargar el número guardado en la librería
+            phoneInputPlugin.setNumber(userData.phone || "");
+
+            // ===========================================
+            // HABILITAR BOTONES DE PERFIL (TRADUCIDO)
+            // ===========================================
+            const editBtn = document.getElementById('edit-profile-btn');
+            const saveBtn = document.getElementById('save-profile-btn');
+            const cancelBtn = document.getElementById('cancel-edit-btn');
+            const profileForm = document.getElementById('profile-form');
+
+            if (!editBtn || !saveBtn || !cancelBtn || !profileForm) {
+                console.error("❌ Error: botones del perfil no encontrados en el DOM");
+                return;
+            }
+
+            // Guardar estado inicial
+            originalProfileData = {
+                name: profileName.value,
+                phone: phoneInputPlugin.getNumber()
+            };
+
+            // 🟢 Editar
+            editBtn.addEventListener('click', () => {
+                console.log('✏️ Editar Perfil clickeado');
+                profileName.readOnly = false;
+                profilePhone.readOnly = false; 
+                profileName.focus();
+
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-flex';
+                cancelBtn.style.display = 'inline-flex';
+            });
+
+            // 🔴 Cancelar
+            cancelBtn.addEventListener('click', () => {
+                profileName.value = originalProfileData.name;
+                phoneInputPlugin.setNumber(originalProfileData.phone);
+
+                profileName.readOnly = true;
+                profilePhone.readOnly = true;
+
+                editBtn.style.display = 'inline-flex';
+                saveBtn.style.display = 'none';
+                cancelBtn.style.display = 'none';
+            });
+
+            // 💾 Guardar
+            profileForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const newName = profileName.value.trim();
+                
+                // --- VALIDAR Y OBTENER TELÉFONO ---
+                if (profilePhone.value.trim() && !phoneInputPlugin.isValidNumber()) {
+                    showMessage("Please enter a valid phone number", "error");
+                    return;
+                }
+                const newPhone = phoneInputPlugin.getNumber();
+                // -----------------------------------
+
+                if (!newName) return showMessage("Name cannot be empty", "error");
+
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...'; // TRADUCIDO
+
+                try {
+                    // Actualizar Firebase Auth
+                    await updateProfile(user, { displayName: newName });
+                    // Actualizar Realtime DB
+                    await update(userRef, {
+                        name: newName,
+                        phone: newPhone, 
+                        updatedAt: new Date().toISOString()
+                    });
+
+                    showMessage("✅ Profile updated successfully!", "success"); // TRADUCIDO en showMessage
+
+                    // Resetear estado de lectura
+                    profileName.readOnly = true;
+                    profilePhone.readOnly = true;
+                    editBtn.style.display = 'inline-flex';
+                    saveBtn.style.display = 'none';
+                    cancelBtn.style.display = 'none';
+
+                    title.textContent = `Bienvenido, ${newName}! 👋`; // TRADUCIDO
+
+                    // Actualizar los datos originales guardados
+                    originalProfileData = { name: newName, phone: newPhone };
+
+                } catch (error) {
+                    console.error("Error updating profile:", error);
+                    showMessage("Error updating profile: " + error.message, "error");
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios'; // TRADUCIDO
+                }
+            });
+            // ===========================================
+            // LÓGICA PARA CAMBIAR CONTRASEÑA (TRADUCIDO)
+            // ===========================================
+            const passwordForm = document.getElementById('change-password-form');
+            
+            if (passwordForm) {
+                const currentPassInput = document.getElementById('current-password');
+                const newPassInput = document.getElementById('new-password');
+                const confirmPassInput = document.getElementById('confirm-password');
+                const passSubmitBtn = passwordForm.querySelector('button[type="submit"]');
+
+                passwordForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    if (!currentUserGlobal) {
+                        showMessage("User not found. Please log in again.", "error");
+                        return;
+                    }
+
+                    const currentPassword = currentPassInput.value;
+                    const newPassword = newPassInput.value;
+                    const confirmPassword = confirmPassInput.value;
+
+                    if (newPassword !== confirmPassword) {
+                        showMessage("New passwords do not match.", "error");
+                        return;
+                    }
+
+                    if (newPassword.length < 6) {
+                        showMessage("New password must be at least 6 characters.", "error");
+                        return;
+                    }
+
+                    const originalBtnHtml = passSubmitBtn.innerHTML;
+                    passSubmitBtn.disabled = true;
+                    passSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...'; // TRADUCIDO
+
+                    try {
+                        const credential = EmailAuthProvider.credential(currentUserGlobal.email, currentPassword);
+                        await reauthenticateWithCredential(currentUserGlobal, credential);
+                        await updatePassword(currentUserGlobal, newPassword);
+
+                        showMessage("✅ Password updated successfully!", "success"); // TRADUCIDO en showMessage
+                        passwordForm.reset(); 
+
+                    } catch (error) {
+                        console.error("Error updating password:", error);
+                        showMessage("Error updating password: " + error.message, "error");
+                    } finally {
+                        passSubmitBtn.disabled = false;
+                        passSubmitBtn.innerHTML = originalBtnHtml; // Mantener texto original (traducido en HTML)
+                    }
+                });
+            }
+            await loadUserBookings(user);
+        }
+
+        // ===========================================
+        // LÓGICA PARA CARGAR RESERVAS (TRADUCIDO)
+        // ===========================================
+        async function loadUserBookings(user) {
+            const bookingsContainer = document.getElementById("booking-list-container");
+            const bookingsRef = ref(db, `reservations/${user.uid}`);
+
+            bookingsContainer.innerHTML = `
+                <p style="text-align: center; color: #888;">
+                    <i class="fas fa-spinner fa-spin"></i> Cargando tus reservas...
+                </p>
+            `;
+
+            try {
+                const snapshot = await get(bookingsRef);
+
+                if (snapshot.exists()) {
+                    const bookingsData = snapshot.val();
+                    // Usamos Object.values para asegurar que sea un array y luego mapeamos
+                    const bookingCards = Object.values(bookingsData)
+                        .map(b => createBookingCard(b)) // Llama a la función TRADUCIDA
+                        .join("");
+                    bookingsContainer.innerHTML = bookingCards;
+                } else {
+                    // Mensaje de que no hay reservas (TRADUCIDO)
+                    bookingsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></i>
+                            <p style="color: #888; font-size: 1.1rem;">
+                                No tienes próximas reservas.
+                            </p>
+                            <a href="../index.html" class="btn" style="margin-top: 1rem;">
+                                Explorar Tours
+                            </a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error("Error loading bookings:", error);
+                bookingsContainer.innerHTML = `
+                    <p style="color: red; text-align: center;">Error al cargar tus reservas. Por favor, intenta de nuevo más tarde.</p>
+                `;
+            }
+        }
+        </script>
+
+<style>
+/* Estilos para los mensajes de dashboard */
+.dashboard-message {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.dashboard-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+.dashboard-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+@keyframes slideIn {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(400px); opacity: 0; }
+}
+@media (max-width: 768px) {
+    .dashboard-message {
+        right: 10px;
+        left: 10px;
+        top: 80px;
+    }
+}
+
+/* Estilos para la librería de teléfono */
+.iti {
+    width: 100%;
+}
+.iti__country-list {
+    z-index: 1001;
+}
+
+/* ===========================================
+ * ESTILOS PARA FORMULARIO "YOUR PROFILE"
+ * ===========================================
+*/
+#profile-form .form-group {
+    margin-bottom: 1.5rem; 
+}
+#profile-form .form-group label {
+    display: block; 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    color: #333;
+    font-size: 0.95rem;
+}
+#profile-form .form-group label i {
+    margin-right: 8px; 
+    color: var(--color-primary, #0056b3);
+}
+#profile-form .form-group input {
+    width: 100%; 
+    padding: 12px 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif; 
+    box-sizing: border-box; 
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+#profile-form .form-group input:focus {
+    border-color: var(--color-primary, #0056b3);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25); 
+    outline: none;
+}
+#profile-form .form-group input[readonly] {
+    background-color: #f1f1f1; 
+    cursor: not-allowed;
+}
+#profile-form .form-group input#profile-phone {
+    padding-left: 92px;
+}
+#profile-form {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* ===========================================
+ * ¡NUEVOS ESTILOS PARA "CHANGE PASSWORD"!
+ * ===========================================
+*/
+#change-password-section {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2.5rem; /* Relleno interno */
+    background: #ffffff; /* Fondo blanco */
+    border-radius: 12px; /* Esquinas redondeadas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.07); /* Sombra suave */
+    border: 1px solid #e9e9e9;
+}
+
+.modern-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.75rem; /* Tamaño de fuente grande */
+    color: var(--color-primary, #0056b3); /* Color oscuro */
+    margin-bottom: 2rem; /* Espacio debajo del título */
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espacio entre ícono y texto */
+}
+
+/* El contenedor de la "caja" de input */
+.form-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1.5rem; /* Espacio entre cajas */
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input-group:focus-within {
+    border-color: var(--color-primary, #0056b3);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+}
+
+/* El ícono dentro de la caja */
+.form-input-group .input-icon {
+    padding: 18px 15px;
+    color: #888;
+    font-size: 1.1rem;
+    border-right: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    display: flex;
+    align-items: center;
+}
+
+/* El contenedor para la etiqueta y el input */
+.input-stack {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente */
+    padding: 8px 15px; /* Relleno interno */
+}
+
+.input-stack label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #333;
+    margin: 0;
+}
+
+/* El input de texto */
+.modern-input,
+.modern-input:focus {
+    border: none !important; /* Quita todos los bordes */
+    outline: none !important; /* Quita el contorno azul */
+    box-shadow: none !important; /* Quita cualquier sombra */
+    padding: 2px 0 0 0 !important; /* Ajuste de padding fino */
+    font-size: 0.95rem;
+    background: transparent;
+    width: 100%;
+}
+.modern-input::placeholder {
+    color: #999;
+}
+
+/* El nuevo botón */
+.modern-submit-btn {
+    width: 100%; /* Ancho completo */
+    text-align: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin-top: 1rem;
+    border-radius: 8px;
+    background-color: var(--color-primary, #007bff);
+}
+</style>
+
+    <script type="module" src="../../assets/js/auth.js"></script>
+</body>
+</html>

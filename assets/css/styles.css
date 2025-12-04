@@ -2290,3 +2290,29 @@ img {
             display: none; /* <-- La desaparecemos */
         }
     }
+
+    /* Agrega esto al final de styles.css */
+.lang-flags {
+    position: relative;       /* Necesario para usar z-index */
+    z-index: 9999 !important; /* Lo fuerza a estar encima de todo */
+    display: flex;
+    align-items: center;
+    gap: 10px;                /* Espacio entre botones */
+}
+
+.lang-flags button {
+    cursor: pointer !important; /* Fuerza que salga la manito */
+    pointer-events: auto;       /* Reactiva los clics si estaban bloqueados */
+    position: relative;
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: white;               /* Asegura que se vea en fondo azul */
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+.lang-flags button:hover {
+    transform: scale(1.1);      /* Pequeño efecto al pasar el mouse */
+    color: #ffcc00;             /* Color dorado al pasar el mouse */
+}
