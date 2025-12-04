@@ -59,74 +59,95 @@ document.addEventListener("DOMContentLoaded", function () {
         document.dispatchEvent(new Event("headerLoaded"));
     }
 
-  const footerPlaceholder = document.getElementById("footer-placeholder");
-  if (footerPlaceholder) {
-    fetch(BASE + "reusable/footer.html")
-      .then((res) => res.text())
-      .then((html) => {
-        html = html.replace(/{{BASE}}/g, BASE);
-        footerPlaceholder.innerHTML = html;
-      })
-      .catch((err) => console.error("Error al cargar footer:", err));
-  }
+      const footerPlaceholder = document.getElementById("footer-placeholder");
+    if (footerPlaceholder) {
+        // Detectamos si estamos en español para elegir el archivo correcto
+        const isSpanish = window.location.pathname.includes("/es/");
+        const footerFile = isSpanish ? "reusable/footer_es.html" : "reusable/footer.html";
+
+        fetch(BASE + footerFile)
+            .then((res) => res.text())
+            .then((html) => {
+                // Reemplazamos {{BASE}} por la ruta real
+                html = html.replace(/{{BASE}}/g, BASE);
+                footerPlaceholder.innerHTML = html;
+            })
+            .catch((err) => console.error("Error al cargar footer:", err));
+    }
 });
 
-// =======================================================
-// ✅ LÓGICA PARA EL MENÚ MÓVIL (VERSIÓN FINAL CORREGIDA)
-// =======================================================
-document.addEventListener("headerLoaded", () => {
-  const navToggle = document.querySelector(".nav-toggle");
-  const navMobile = document.querySelector(".nav-mobile");
+    // =======================================================
+    // ✅ LÓGICA PARA EL MENÚ MÓVIL (CORREGIDO MULTI-BOTÓN)
+    // =======================================================
+    document.addEventListener("headerLoaded", () => {
+    // 1. CAMBIO: Usamos querySelectorAll para encontrar TODOS los botones (el de abrir y el de cerrar)
+    const navToggles = document.querySelectorAll(".nav-toggle");
+    const navMobile = document.querySelector(".nav-mobile");
 
-  // Si no encuentra los elementos, no hace nada para evitar errores.
-  if (!navToggle || !navMobile) return;
+    // Si no hay menú o botones, salimos
+    if (navToggles.length === 0 || !navMobile) return;
 
-  // --- CLONACIÓN DE ELEMENTOS ---
-  const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
-  const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile"); // <-- ESTA LÍNEA ES NECESARIA
+    // --- CLONACIÓN DE ELEMENTOS ---
+    const navLinksDesktop = document.querySelector(".nav-desktop .nav-links");
+    const navLinksMobileContainer = navMobile.querySelector(".nav-links-mobile");
 
-  // Clonamos los links de navegación (Home, About, Tours, etc.)
-  if (navLinksDesktop && navLinksMobileContainer) {
-    navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
-  }
-  
-  // 🔴 HEMOS QUITADO LA LÓGICA DE CLONAR LOS BOTONES DE AUTH 🔴
-  // El script 'auth.js' ahora se encarga de actualizar AMBOS,
-  // el de escritorio (.auth-buttons) y el de móvil (.auth-buttons-mobile).
-  // Así ya no hay "peleas".
+    if (navLinksDesktop && navLinksMobileContainer) {
+        navLinksMobileContainer.innerHTML = navLinksDesktop.innerHTML;
+    }
+    
+    // --- 2. CAMBIO: Asignar el click a CADA botón encontrado ---
+    navToggles.forEach(toggle => {
+        // Clonamos el nodo para eliminar listeners viejos y evitar duplicados (buena práctica)
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+        
+        newToggle.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            e.stopPropagation(); // Evita que el clic traspase
+            document.body.classList.toggle("nav-open");
+        });
+    });
 
-  // --- LÓGICA PARA ABRIR Y CERRAR EL MENÚ PRINCIPAL ---
-  navToggle.addEventListener("click", () => {
-    document.body.classList.toggle("nav-open");
-  });
+    // ... (Tu código anterior de navToggles se queda igual) ...
 
-  // --- LÓGICA PARA LOS SUBMENÚS (SOLO CON TOQUE/CLICK) ---
-  const dropdownTogglesMobile = navMobile.querySelectorAll(".dropdown > a");
+    // =========================================================
+    // ✅ LÓGICA PARA LOS SUBMENÚS (CORREGIDO CON DELEGACIÓN)
+    // =========================================================
+    // Seleccionamos el contenedor de la lista móvil
+    const mobileList = navMobile.querySelector(".nav-links-mobile");
+    
+    if (mobileList) {
+        // Agregamos UN solo escuchador a toda la lista (más eficiente y seguro)
+        mobileList.addEventListener("click", function(e) {
+            
+            // 1. Detectar si el clic fue en un enlace con despliegue (.dropdown > a)
+            // Usamos 'closest' para que funcione aunque toques el icono <i> o el texto
+            const toggleLink = e.target.closest("li.dropdown > a");
+            
+            if (toggleLink) {
+                // ¡IMPORTANTE! Prevenir que el enlace nos lleve a otra página
+                e.preventDefault(); 
+                e.stopPropagation();
+                
+                const parentLi = toggleLink.parentElement;
+                
+                // 2. Efecto Acordeón: Cerrar otros menús abiertos
+                const allOpenItems = mobileList.querySelectorAll(".dropdown.active");
+                allOpenItems.forEach(item => {
+                    if (item !== parentLi) {
+                        item.classList.remove("active");
+                        // Aseguramos cerrar también los subcontenedores si los hay
+                        const sub = item.querySelector(".dropdown-menu, .mega-menu");
+                        if (sub) sub.classList.remove("active");
+                    }
+                });
 
-  dropdownTogglesMobile.forEach(toggle => {
-    toggle.addEventListener("click", function(event) {
-        // Prevenimos que el enlace navegue a otra página
-        event.preventDefault(); 
-        
-        const parentDropdown = this.parentElement;
-        const nextMenu = this.nextElementSibling;
-        
-        // Cerrar cualquier otro submenú que esté abierto
-        parentDropdown.parentElement.querySelectorAll('.dropdown.active').forEach(otherDropdown => {
-            if (otherDropdown !== parentDropdown) {
-                otherDropdown.classList.remove('active');
-                otherDropdown.querySelector('.dropdown-menu, .mega-menu')?.classList.remove('active');
-            }
-        });
-
-        // Abrir/Cerrar el submenú actual
-        parentDropdown.classList.toggle("active");
-        if (nextMenu) {
-            nextMenu.classList.toggle("active");
-        }
-    });
-  });
-
+                // 3. Abrir/Cerrar el actual
+                parentLi.classList.toggle("active");
+            }
+        });
+    }
+}); // Fin del document.addEventListener("headerLoaded")
 
 // =======================================
 // ✅ LÓGICA DEL BUSCADOR (CON CONEXIÓN A PYTHON API)
@@ -259,8 +280,8 @@ async function showRecommendations(user) {
 
         if (!token) {
              // Si falta el token, recurrir a populares (opción NO logueada)
-             console.log("Token JWT no encontrado, pidiendo destinos populares.");
-             return showRecommendations(null); 
+            console.log("Token JWT no encontrado, pidiendo destinos populares.");
+            return showRecommendations(null); 
         }
 
         url = `${API_BASE_URL}/personalized?limit=5`;
@@ -324,7 +345,7 @@ function displayResults(tourList, title) {
     }
     searchResults.innerHTML = resultsHTML;
 }
-});
+
 
 
 // ================================================

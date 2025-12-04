@@ -1,93 +1,137 @@
-<header class="header">
-    <a href="{{BASE}}es/index.html" class="logo">
-        <img src="{{BASE}}assets/img/logoN.png" alt="South Americans Secrets Logo">
-    </a>
+<header class="header-complex">
+    
+    <div class="top-bar">
+        <div class="container-top">
+            
+            <div class="top-contact">
+                <span><i class="fas fa-envelope"></i> info@southamericanssecrets.com</span>
+                <span class="hide-mobile"><i class="fas fa-phone"></i> +51 947 058 508</span>
+            </div>
 
-    <nav class="nav-desktop">
-        <ul class="nav-links">
-            <li><a href="{{BASE}}es/index.html">Inicio</a></li>
-            <li class="dropdown">
-                <a href="{{BASE}}es/tours.html">Tours y Actividades <i class="fa fa-caret-down"></i></a>
-                <div class="dropdown-menu mega-menu">
-                    <div class="mega-menu-column">
-                        <h4 class="mega-menu-heading">Costa del Perú</h4>
-                        <ul>
-                            <li><a href="{{BASE}}es/toursIndex/Lima.html">Lima</a></li>
-                            <li><a href="{{BASE}}es/toursIndex/ParacasyIslasBallestas.html">Paracas e Islas Ballestas</a></li>
-                            <li><a href="{{BASE}}es/toursIndex/ica-huacachina.html">Ica y Huacachina</a></li>
-                            <li><a href="{{BASE}}es/toursIndex/NazcaLines.html">Líneas de Nazca</a></li>
-                            <li><a href="{{BASE}}es/toursIndex/NorthCoast.html">Costa Norte</a></li>
-                        </ul>
-                    </div>
-                    <div class="mega-menu-column">
-                        <h4 class="mega-menu-heading">The Highlands</h4>
-                        <ul>
-                            <li><a href="{{BASE}}toursIndex/indexArequipa.html">Arequipa</a></li>
-                            <li><a href="{{BASE}}toursIndex/indexLake.html">Lake Titicaca</a></li>
-                            <li><a href="{{BASE}}toursIndex/indexCusco.html">Cuzco</a></li>
-                        </ul>
-                    </div>
-                    <div class="mega-menu-column">
-                        <h4 class="mega-menu-heading">Rainforest</h4>
-                        <ul>
-                            <li><a href="{{BASE}}toursIndex/indexTambopata.html">Tambopata Rainforest</a></li>
-                            <li><a href="{{BASE}}toursIndex/indexManuReserva.html">Manu Reserve</a></li>
-                        </ul>
-                    </div>
+            <div class="top-utilities">
+                
+                <div class="lang-flags">
+                    <button onclick="window.switchLanguage('en')" title="Switch to English" class="lang-btn">
+                        US
+                    </button>
+                    <span class="separator">|</span>
+                    <button class="lang-btn active" title="Español">
+                        ES
+                    </button>
                 </div>
-            </li> 
 
-            <li class="dropdown">
-                <a href="{{BASE}}es/Shore_Excursions.html">Excursiones en Costa <i class="fa fa-caret-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{BASE}}es/toursIndex/indexCallao.html">Desde Terminal Callao</a></li>
-                    <li><a href="{{BASE}}es/toursIndex/indexSalaverry.html">Desde Terminal Salaverry</a></li>
-                    <li><a href="{{BASE}}es/toursIndex/indexPisco.html">Desde Terminal Paracas</a></li>
-                </ul>
-            </li>
+                <div class="auth-buttons">
+                    <a href="{{BASE}}es/pages/login.html" class="top-link"><i class="fas fa-user"></i> Ingresar</a>
+                    <a href="{{BASE}}es/pages/register.html" class="top-btn">Registro</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="main-bar">
+        <div class="container-main">
             
-            <li class="dropdown">
-                <a href="{{BASE}}es/Peru_Packages.html">Paquetes Perú <i class="fa fa-caret-down"></i></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{BASE}}es/PeruPackages/MachuPicchuYTheSecretValleyofIncas/tourMachuPicchu&ValleyIncas.html">Machu Picchu y Valle Sagrado</a></li>
-                    <li><a href="{{BASE}}es/toursIndex/indexMysetrioes.html">Misterios del Sur</a></li>
-                </ul>
-            </li>
+            <a href="{{BASE}}es/index.html" class="logo">
+                <img src="{{BASE}}assets/img/logoN.png" alt="South Americans Secrets Logo">
+            </a>
+
+            <nav class="nav-desktop">
+                <ul class="nav-links">
+                    <li><a href="{{BASE}}es/index.html">Inicio</a></li>
+                    
+                    <li class="dropdown">
+                        <a href="{{BASE}}es/tours.html">Tours y Actividades <i class="fa fa-caret-down"></i></a>
+                        <div class="dropdown-menu mega-menu">
+                            <div class="mega-menu-column">
+                                <h4 class="mega-menu-heading">Costa del Perú</h4>
+                                <ul>
+                                    <li><a href="{{BASE}}es/tour/Coast-of-Peru/Lima/tourLimaCityTour.html">Lima</a></li>
+                                    <li><a href="{{BASE}}es/tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourParacasNationalReserve.html">Paracas e Islas Ballestas</a></li>
+                                    <li><a href="{{BASE}}es/tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html">Ica y Huacachina</a></li>
+                                    <li><a href="{{BASE}}es/tour/Coast-of-Peru/Nazca-Lines/tourNazcaLines.html">Líneas de Nazca</a></li>
+                                    <li><a href="{{BASE}}es/tour/Coast-of-Peru/North-Coast/tourChanChan.html">Costa Norte</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4 class="mega-menu-heading">La Sierra</h4>
+                                <ul>
+                                    <li><a href="{{BASE}}es/toursIndex/indexArequipa.html">Arequipa</a></li>
+                                    <li><a href="{{BASE}}es/toursIndex/indexLake.html">Lago Titicaca</a></li>
+                                    <li><a href="{{BASE}}es/toursIndex/indexCusco.html">Cusco</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-menu-column">
+                                <h4 class="mega-menu-heading">Selva</h4>
+                                <ul>
+                                    <li><a href="{{BASE}}es/toursIndex/indexTambopata.html">Reserva Tambopata</a></li>
+                                    <li><a href="{{BASE}}es/toursIndex/indexManuReserva.html">Reserva del Manu</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li> 
+
+                    <li class="dropdown">
+                        <a href="{{BASE}}es/Shore_Excursions.html">Excursiones en Costa <i class="fa fa-caret-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{BASE}}es/toursIndex/indexCallao.html">Desde Terminal Callao</a></li>
+                            <li><a href="{{BASE}}es/toursIndex/indexSalaverry.html">Desde Terminal Salaverry</a></li>
+                            <li><a href="{{BASE}}es/toursIndex/indexPisco.html">Desde Terminal Paracas</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="dropdown">
+                        <a href="{{BASE}}es/Peru_Packages.html">Paquetes Perú <i class="fa fa-caret-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{BASE}}es/PeruPackages/MachuPicchuYTheSecretValleyofIncas/tourMachuPicchu&ValleyIncas.html">Machu Picchu y Valle Sagrado</a></li>
+                            <li><a href="{{BASE}}es/toursIndex/indexMysetrioes.html">Misterios del Sur</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li><a href="{{BASE}}es/blog/post.html">Blog</a></li>
+                    <li><a href="{{BASE}}es/about.html">Nosotros</a></li>
+                    <li><a href="{{BASE}}es/contact.html">Contacto</a></li>
+                </ul>    
+            </nav>
+
+            <div class="header-right-icons">
+                <button class="nav-icon-btn" id="search-toggle-btn-desktop" aria-label="Open search">
+                    <i class="fas fa-search"></i>
+                </button>
+
+                <button class="nav-toggle" aria-label="Abrir menú">
+                    <span class="hamburger"></span>
+                </button>
+                
+            </div>
+
+        </div>
+    </div>
+    
+    <button class="nav-toggle" aria-label="Open menu">
+            <span class="hamburger"></span>
+    </button>
+    
+    <nav class="nav-mobile">
+        <div class="nav-mobile-header"></div>
+        <div class="nav-mobile-content">
             
-            <li><a href="{{BASE}}es/blog/post.html">Blog</a></li>
-            <li><a href="{{BASE}}es/about.html">Nosotros</a></li>
-            <li><a href="{{BASE}}es/contact.html">Contacto</a></li>
-        </ul>
+            <ul class="nav-links-mobile">
+            </ul>
+            <div class="auth-buttons-mobile">
+                <a href="{{BASE}}es/pages/login.html" class="btn login">Ingresar</a>
+                <a href="{{BASE}}es/pages/register.html" class="btn register">Registro</a>
+            </div>  
+        </div>
     </nav>
 
-    <div class="lang-flags">
-    <button onclick="window.switchLanguage('en')" title="Switch to English">
-        US
-    </button>
-    
-    <span style="color:white">|</span>
-
-    <button onclick="window.switchLanguage('es')" title="Cambiar a Español">
-        ES
-    </button>
-</div>
-
-    <button class="nav-icon-btn" id="search-toggle-btn-desktop">
-        <i class="fas fa-search"></i>
-    </button>
-
-    <div class="auth-buttons">
-        <a href="{{BASE}}es/pages/login.html" class="btn login">Ingresar</a>
-        <a href="{{BASE}}es/pages/register.html" class="btn register">Registro</a>
+    <div class="search-modal" id="search-modal-container">
+        <div class="search-modal-content">
+            <button class="close-modal-btn" id="search-modal-close-btn" aria-label="Cerrar búsqueda">&times;</button>
+            <h3 id="search-modal-title">¿A dónde quieres ir?</h3>
+            <input type="text" id="search-modal-input" placeholder="Ej: Cusco, Lima, Arequipa...">
+            <div class="search-modal-results" id="search-modal-results">
+            </div>
+        </div>
     </div>
-
-    <div class="header-right-icons">
-        <button class="nav-icon-btn" id="search-toggle-btn-mobile">
-            <i class="fas fa-search"></i>
-        </button>
-        <button class="nav-toggle">
-            <span class="hamburger"></span>
-        </button>
-    </div>
-    
-    </header>
+</header>
