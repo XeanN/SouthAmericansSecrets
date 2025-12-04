@@ -310,6 +310,7 @@ img {
     5. SECCIÓN - HERO
    ========================================================================== */
 .hero {
+
     position: relative;
     overflow: hidden;
     height: 90vh;
@@ -1553,7 +1554,7 @@ img {
     /* Posicionar la "X" de forma segura */
     body.nav-open .nav-toggle {
         position: fixed;
-        top: 25px;
+        top: 50px;
         right: 5vw; 
     }
 
@@ -2316,3 +2317,377 @@ img {
     transform: scale(1.1);      /* Pequeño efecto al pasar el mouse */
     color: #ffcc00;             /* Color dorado al pasar el mouse */
 }
+
+
+/* =========================================
+    NUEVO HEADER ESTILO "GRAN EMPRESA"
+   ========================================= */
+
+/* 1. Barra Superior (Top Bar) */
+.header {
+    position: absolute; /* O fixed si quieres que persiga al usuario */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif;
+}
+
+.top-bar {
+    background-color: #0a1e36; /* Azul muy oscuro / casi negro */
+    color: #fff;
+    font-size: 0.85rem;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.container-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Contacto en la barra superior */
+.top-contact span {
+    margin-right: 20px;
+    opacity: 0.8;
+}
+.top-contact i {
+    color: #f4a919; /* Dorado para iconos */
+    margin-right: 5px;
+}
+
+/* Utilidades Derecha */
+.top-utilities {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Botones de Idioma */
+.lang-flags {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.lang-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0;
+    opacity: 0.6; /* Hacemos los inactivos un poco transparentes */
+    transition: all 0.3s ease;
+}
+.lang-btn:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+.lang-btn.active {
+    color: #f4a919; /* Color Dorado para resaltar */
+    font-weight: 800; /* Más grueso */
+    opacity: 1; /* Totalmente visible */
+    border-bottom: 2px solid #f4a919; /* Subrayado para énfasis */
+    transform: scale(1.1); /* Un poco más grande */
+}
+
+.separator {
+    color: #555;
+    font-size: 0.8rem;
+}
+
+/* Botones de Auth (Login/Register) en Top Bar */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.top-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.top-link:hover {
+    color: #f4a919;
+}
+.top-btn {
+    background-color: #f4a919; /* Dorado */
+    color: #0a1e36;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: transform 0.2s;
+}
+.top-btn:hover {
+    transform: translateY(-1px);
+    background-color: #fff;
+}
+
+/* 2. Barra Principal (Logo y Navegación) */
+.main-bar {
+    background-color:var(--color-primary); /* Tu azul original con transparencia */
+    backdrop-filter: blur(10px); /* Efecto vidrio moderno */
+    padding: 10px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.container-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Ajuste del Logo */
+.logo img {
+    height: 75px; /* Un poco más grande para destacar */
+    width: auto;
+}
+
+/* Ajuste del Menú para que no se pegue */
+.nav-links {
+    display: flex;
+    gap: 25px; /* Espacio generoso entre links */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #f4a919;
+}
+
+/* Móvil: Ocultar barra superior en celulares si quieres ahorrar espacio */
+@media (max-width: 992px) {
+    .top-contact, .top-utilities .auth-buttons {
+        display: none; /* Ocultamos login desktop en móvil */
+    }
+    .top-bar {
+        text-align: center;
+        justify-content: center;
+    }
+    .container-top {
+        justify-content: flex-end; /* Solo deja las banderas */
+    }
+    /* Aseguramos que el menú móvil tenga los botones */
+    .auth-buttons-mobile {
+        display: flex !important;
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+        border-top: 1px solid #eee;
+    }
+}
+
+/* ====================================================================
+   🔥 PARCHE FINAL: REPARACIÓN DEL BOTÓN "X" (TARGETEABLE)
+   ==================================================================== */
+
+/* 1. Aseguramos que el botón exista y tenga dimensiones correctas en móvil */
+@media (max-width: 992px) {
+    .nav-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px !important;  /* Tamaño mínimo recomendado para touch */
+        height: 44px !important;
+        background: transparent !important;
+        border: none !important;
+        cursor: pointer !important;
+        z-index: 2000; /* Nivel base alto */
+    }
+}
+
+/* 2. CUANDO EL MENÚ ESTÁ ABIERTO (ESTADO CRÍTICO) */
+body.nav-open .nav-toggle {
+    /* Lo fijamos a la ventana del navegador para que nada lo tape */
+    position: fixed !important; 
+    top: 20px !important;
+    right: 20px !important;
+    
+    /* Le damos el nivel de capa MÁXIMO posible */
+    z-index: 2147483647 !important; 
+    
+    /* Reactivamos los eventos del puntero por si algo los bloqueó */
+    pointer-events: auto !important;
+    
+    /* Fondo transparente para que se vea limpio */
+    background-color: transparent !important;
+}
+
+/* 3. DIBUJAR LA "X" BLANCA (Para asegurar que se vea sobre el fondo negro) */
+
+/* Ocultamos la línea central de la hamburguesa */
+body.nav-open .hamburger {
+    background-color: transparent !important;
+    z-index: 2147483647 !important; 
+    pointer-events: auto !important;
+}
+
+/* Línea 1 de la X */
+body.nav-open .hamburger::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 10% !important; /* Ajuste para centrar */
+    width: 80% !important;
+    height: 3px !important;
+    background-color: #ffffff !important; /* BLANCO */
+    transform: rotate(45deg) !important;
+    margin-top: -1.5px !important;
+}
+
+/* Línea 2 de la X */
+body.nav-open .hamburger::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 10% !important; /* Ajuste para centrar */
+    width: 80% !important;
+    height: 3px !important;
+    background-color: #ffffff !important; /* BLANCO */
+    transform: rotate(-45deg) !important;
+    margin-top: -1.5px !important;
+    bottom: auto !important;
+}
+
+/* 4. OCULTAR la barra superior para evitar clics fantasmas */
+body.nav-open .top-bar {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+@media (max-width: 992px) {
+    .nav-links-mobile .dropdown.active .dropdown-menu,
+    .nav-links-mobile .dropdown.active .mega-menu {
+        display: block !important; /* O flex, según tu diseño */
+    }
+}
+
+/* =================================================================
+    🔥 CORRECCIÓN URGENTE ESCRITORIO: MEGA MENÚ VISIBLE (Z-INDEX)
+   ================================================================= */
+
+/* 1. Elevar el Header por encima del Slider/Hero */
+.header-complex {
+    position: relative; /* O fixed/absolute según tu diseño */
+    z-index: 9999 !important; /* Asegura que gane a cualquier imagen */
+    overflow: visible !important; /* ¡CLAVE! Permite que el menú salga de la caja */
+}
+
+/* 2. Asegurar que el contenedor del menú no corte el desplegable */
+.nav-desktop, 
+.container-main {
+    overflow: visible !important;
+    z-index: 9999 !important;
+}
+
+/* ==================================================================
+🔥 ARREGLO FINAL: DIFERENCIA ENTRE MEGA MENÚ Y MENÚ SIMPLE
+   ================================================================== */
+
+@media (min-width: 993px) {
+    .dropdown {
+        position: relative;
+    }
+
+    /* --- ESTILOS COMUNES (Fondo, sombra, posición base) --- */
+    .dropdown-menu, .mega-menu {
+        position: absolute;
+        top: 200%;
+        background-color: #ffffff;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        z-index: 10000;
+        border-top: 3px solid #f4a919;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        display: none; /* Oculto por defecto */
+    }
+
+    /* --- 1. ESTILO ESPECÍFICO PARA MEGA MENÚ (TOURS) --- */
+    /* Este usa Flexbox para poner las columnas una al lado de la otra */
+    .mega-menu {
+        left: 100%;
+        transform: translateX(-50%); /* Centrado respecto al enlace */
+        width: max-content;          /* Ancho se ajusta al contenido de las 3 columnas */
+        flex-direction: row;         /* Columnas horizontales */
+        padding: 20px;
+        gap: 30px;
+    }
+
+    /* Al pasar el mouse en Mega Menú */
+    .dropdown:hover .mega-menu {
+        display: flex !important;    /* Se activa como Flex */
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* --- 2. ESTILO ESPECÍFICO PARA MENÚS SIMPLES (Excursiones / Paquetes) --- */
+    /* Este es una lista vertical normal (<ul>) */
+    ul.dropdown-menu {
+        left: 0;                     /* Alineado a la izquierda del padre */
+        transform: none;             /* Sin transformación */
+        width: 280px;                /* Ancho fijo y controlado */
+        padding: 10px 0;
+        display: block;              /* Comportamiento de bloque normal */
+    }
+
+    /* Al pasar el mouse en Menú Simple */
+    .dropdown:hover ul.dropdown-menu {
+        display: block !important;   /* Se activa como Bloque */
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Estilos de los enlaces */
+    .dropdown-menu li a, 
+    .mega-menu-column li a {
+        color: #333 !important;
+        font-weight: 500;
+        font-size: 0.9rem;
+        display: block;
+        padding: 10px 20px;
+        white-space: normal; /* Permite que el texto baje de línea si es largo */
+        line-height: 1.4;
+    }
+    
+    .dropdown-menu li a:hover, 
+    .mega-menu-column li a:hover {
+        color: #1c3d82 !important;
+        background-color: #f4f4f4;
+    }
+    
+    .mega-menu-heading {
+        color: #1c3d82 !important;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    
+}
+
