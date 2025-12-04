@@ -128,7 +128,7 @@ document.addEventListener("headerLoaded", () => {
   });
 
 
-    // =======================================
+// =======================================
 // ✅ LÓGICA DEL BUSCADOR (CON CONEXIÓN A PYTHON API)
 // =======================================
 
@@ -137,31 +137,27 @@ let allTours = [];
 
 // Función para cargar los tours desde tu API de Python
 async function loadToursFromAPI() {
-    // *** REEMPLAZA ESTA URL CON LA DIRECCIÓN REAL DE TU SERVIDOR PYTHON ***
-    // (Asegúrate que tu servidor de Python esté corriendo)
-    const API_URL = `${BASE}recommendations/tours/all`; 
-    
+    //const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/popular`;
+    const API_URL = `https://southamericanssecrets.onrender.com/api/recommendations/tours`;
+
     try {
         const response = await fetch(API_URL);
-        
+
         if (!response.ok) {
             console.error(`Error HTTP: ${response.status}`);
             return;
         }
-        
-        const data = await response.json();
-        
-        allTours = data; 
-        console.log(`Tours cargados desde Python: ${allTours.length}`);
 
-        // Una vez que los datos están listos, inicializamos las recomendaciones
-        const searchToggleBtns = document.querySelectorAll("#search-toggle-btn-desktop, #search-toggle-btn-mobile");
-        if (searchToggleBtns.length > 0) {
-            showRecommendations(window.currentUser || null);
-        }
+        const data = await response.json();
+
+        // 🔥 Esta es tu data real
+        //allTours = data.popular_destinations || [];
+        allTours = data.tours || [];
+
+        console.log("Tours cargados desde Python:", allTours.length);
 
     } catch (error) {
-        console.error("Error al cargar tours desde la API de Python. Asegúrate que el servidor esté corriendo.", error);
+        console.error("Error cargando tours:", error);
     }
 }
 
@@ -223,10 +219,11 @@ if (searchModal && searchCloseBtn && searchInput && searchResults && searchToggl
         }
 
         // EL FILTRO AHORA USA LOS DATOS DE PYTHON EN 'allTours'
-        let filteredTours = allTours.filter(tour => 
-            tour.name.toLowerCase().includes(query) || 
-            tour.region.toLowerCase().includes(query)
-        );
+        let filteredTours = allTours.filter(tour => {
+            const name = (tour.name || tour.nombre || "").toLowerCase();
+            const region = (tour.region || "").toLowerCase();
+            return name.includes(query) || region.includes(query);
+        });
         
         displayResults(filteredTours, " Resultados de la búsqueda:");
     });
@@ -239,7 +236,7 @@ if (searchModal && searchCloseBtn && searchInput && searchResults && searchToggl
 
 // Nota: Esta base URL asume que tu frontend y backend están en el mismo dominio o que ya tienes 
 // configurado un proxy/CORS si están separados.
-const API_BASE_URL = `${window.location.protocol}//${window.location.host}${BASE}recommendations`; 
+const API_BASE_URL = `https://southamericanssecrets.onrender.com/api/recommendations`;
 
 async function showRecommendations(user) {
     // Si los tours aún no se han cargado (array vacío), no hacer nada
@@ -258,7 +255,7 @@ async function showRecommendations(user) {
         // --- 1. Usuario Logueado: Pedir Recomendaciones Personalizadas (IA) ---
         
         // 🚨 IMPORTANTE: Necesitas obtener el token JWT que generó tu Flask/Python.
-        const token = localStorage.getItem('access_token'); 
+        const token = localStorage.getItem('backend_token') || null;
 
         if (!token) {
              // Si falta el token, recurrir a populares (opción NO logueada)
@@ -314,18 +311,40 @@ function displayResults(tourList, title) {
     if (tourList.length === 0) {
         resultsHTML += "<p>No se encontraron resultados que coincidan con los criterios.</p>";
     } else {
-        resultsHTML += "<ul>";
         tourList.forEach(tour => {
-            // Utilizamos 'name' y 'url' (que son las claves filtradas por tu Python)
-            const tourName = tour.name || tour.nombre || 'Destino Desconocido';
-            const tourUrl = tour.url || `${BASE}toursIndex/${tour.id}.html`; // Fallback para URL
+            const tourName = tour.name || tour.nombre || "Destino";
+            const tourURL  = tour.url || null;
 
-            resultsHTML += `<li><a href="${tourUrl}">${tourName}</a></li>`;
+            resultsHTML += `
+                <div class="search-result-item" data-url="${tourURL}">
+                    ${tourName}
+                </div>
+            `;
         });
-        resultsHTML += "</ul>";
     }
     searchResults.innerHTML = resultsHTML;
 }
+});
+
+
+// ================================================
+// 🔍 CLICK EN RESULTADO DEL BUSCADOR
+// ================================================
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("search-result-item")) {
+
+        const url = e.target.dataset.url;
+
+        if (!url) {
+            alert("No se encontró la URL del tour.");
+            return;
+        }
+
+        const finalURL = `${BASE}${url}`;
+
+        console.log("▶ Abriendo tour:", finalURL);
+        window.location.href = finalURL;
+    }
 });
 
 

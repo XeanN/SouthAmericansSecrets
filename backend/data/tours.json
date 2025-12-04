@@ -1,0 +1,258 @@
+{
+  "tours": [
+    {
+      "id": 1,
+      "slug": "dune-buggy-sandboard-huacachina",
+      "nombre": "Dune Buggy & Sandboard",
+      "categoria": "Aventura",
+      "actividades": "Buggy, Sandboard, Dunas",
+      "descripcion": "Tour de aventura extrema en las dunas de Huacachina con buggy y sandboard.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 25,
+      "rating": 4.7,
+      "url": "tour/Coast-of-Peru/Ica-y-Huacachina/tourDuneBuggySandboardFalta.html",
+      "image": "assets/img/Costa/Ica_Huaca/Buggy_TourySandboard/tourBuggy.jpg"
+    },
+
+    {
+      "id": 2,
+      "slug": "vineyard-museum-oasis",
+      "nombre": "Tour de Viñedo, Museo y Oasis",
+      "categoria": "Cultural",
+      "actividades": "Museo, Oasis, Degustación",
+      "descripcion": "Recorrido guiado por los viñedos, museo regional y oasis de Ica.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 25,
+      "rating": 4.5,
+      "url": "tour/Coast-of-Peru/Ica-y-Huacachina/tourVineyardMuseumOasisTour.html",
+      "image": "assets/img/Costa/Ica_Huaca/Viñedo_MuseoOasis/tourViñedo.jpg"
+    },
+
+    {
+      "id": 3,
+      "slug": "caral-tour",
+      "nombre": "Tour to Caral",
+      "categoria": "Historia",
+      "actividades": "Sitio arqueológico, Cultura antigua",
+      "descripcion": "Visita guiada a la ciudad sagrada de Caral, la civilización más antigua de América.",
+      "pais": "Perú",
+      "clima": "Tropical",
+      "precio_promedio": 195,
+      "rating": 4.8,
+      "url": "tour/Coast-of-Peru/Lima/tourCaral.html",
+      "image": "assets/img/Costa/tours_Lima/Caral/tourCaral.jpg"
+    },
+
+    {
+      "id": 4,
+      "slug": "nazca-lines-from-lima",
+      "nombre": "Nazca Lines Overflight from Paracas",
+      "categoria": "Arqueológico",
+      "actividades": "Sobrevuelo, Geoglifos",
+      "descripcion": "Sobrevuelo completo de las Líneas de Nazca saliendo desde Paracas.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 430,
+      "rating": 4.6,
+      "url": "tour/Coast-of-Peru/Lima/tourFlightsOverNazcaLinesFromLima1-dayVipPrivate.html",
+      "image": "assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/sobrevueloLineasNazca.jpg"
+    },
+
+    {
+      "id": 5,
+      "slug": "lima-city-tour",
+      "nombre": "Lima City Tour",
+      "categoria": "Cultural",
+      "actividades": "City tour, Museos, Miradores",
+      "descripcion": "Recorrido por los puntos históricos y culturales más importantes de Lima.",
+      "pais": "Perú",
+      "clima": "Húmedo",
+      "precio_promedio": 55,
+      "rating": 4.9,
+      "url": "tour/Coast-of-Peru/Lima/tourLLimaCityTour.html",
+      "image": "assets/img/Costa/tours_Lima/Tour_de_Lima/lima.jpg"
+    },
+
+    {
+      "id": 6,
+      "slug": "cantalloc-aqueducts",
+      "nombre": "Cantalloc Aqueducts Tour",
+      "categoria": "Arqueológico",
+      "actividades": "Acueductos, Cultura Nazca",
+      "descripcion": "Explora los increíbles acueductos pre-Inca de Cantalloc en Nazca.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 20,
+      "rating": 4.5,
+      "url": "tour/Coast-of-Peru/Nazca-Lines/tourCantallocAqueducts.html",
+      "image": "assets/img/Costa/LineasNazca/Acueductos_de_Cantalloc/tourCantalloc.jpg"
+    },
+
+    {
+      "id": 7,
+      "slug": "nazca-lines-classic",
+      "nombre": "Classic Nazca Lines Overflight",
+      "categoria": "Arqueológico",
+      "actividades": "Sobrevuelo, Cultura Nazca",
+      "descripcion": "Sobrevuelo clásico de los principales geoglifos de Nazca.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 120,
+      "rating": 4.8,
+      "url": "tour/Coast-of-Peru/Nazca-Lines/tourNazcaLines.html",
+      "image": "assets/img/Costa/LineasNazca/Lineas_de_Nazca/tourLineas_Nazca.jpg"
+    },
+
+    {
+      "id": 8,
+      "slug": "chan-chan",
+      "nombre": "Chan Chan Tour",
+      "categoria": "Arqueológico",
+      "actividades": "Ruinas, Cultura Chimú",
+      "descripcion": "Visita guiada a la ciudadela de barro más grande de América.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 50,
+      "rating": 4.7,
+      "url": "tour/Coast-of-Peru/North-Coast/tourChanChan.html",
+      "image": "assets/img/Costa/Costa_Norte/ChanChan/tour_Chanchan.jpg"
+    },
+
+    {
+      "id": 9,
+      "slug": "paracas-reserve-bike",
+      "nombre": "Paracas Reserve Bike Tour",
+      "categoria": "Aventura",
+      "actividades": "Bicicleta, Reserva, Miradores",
+      "descripcion": "Recorre en bicicleta la hermosa Reserva Nacional de Paracas.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 18,
+      "rating": 4.7,
+      "url": "tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourBikingParacas.html",
+      "image": "assets/img/Costa/tours_Paracas/LaReservaParacasBici/tourenBicicleta.jpg"
+    },
+
+    {
+      "id": 10,
+      "slug": "paracas-national-reserve",
+      "nombre": "Paracas National Reserve Tour",
+      "categoria": "Naturaleza",
+      "actividades": "Miradores, Playas, Aves",
+      "descripcion": "Descubre la increíble Reserva Nacional de Paracas y su fauna.",
+      "pais": "Perú",
+      "clima": "Soleado",
+      "precio_promedio": 29,
+      "rating": 4.8,
+      "url": "tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourParacasNationalReserve.html",
+      "image": "assets/img/Costa/tours_Paracas/La_Reserva_Nacional_Paracas/tourReservaParacas.jpg"
+    },
+
+    {
+      "id": 11,
+      "slug": "arequipa-city-tour",
+      "nombre": "Arequipa City Tour",
+      "categoria": "Cultural",
+      "actividades": "Catedral, Miradores, Convento",
+      "descripcion": "Explora el centro histórico de Arequipa y sus monumentos coloniales.",
+      "pais": "Perú",
+      "clima": "Templado",
+      "precio_promedio": 60,
+      "rating": 4.6,
+      "url": "tour/The-Highlands/Arequipa/tourArequipaCity.html",
+      "image": "assets/img/SIerra/Arequipa/tour_Arequipa/tourArequipa.jpg"
+    },
+
+    {
+      "id": 12,
+      "slug": "cusco-city-tour",
+      "nombre": "Cusco City Tour",
+      "categoria": "Cultural",
+      "actividades": "City tour, Templos, Miradores",
+      "descripcion": "Descubre la capital del Tahuantinsuyo con un tour guiado completo.",
+      "pais": "Perú",
+      "clima": "Frío",
+      "precio_promedio": 60,
+      "rating": 4.7,
+      "url": "tour/The-Highlands/Cuzco/tourCuzcoCity.html",
+      "image": "assets/img/SIerra/Cuzco/Tour-de-Cuzco/TourCityCuzco.jpg"
+    },
+
+    {
+      "id": 13,
+      "slug": "lake-titicaca",
+      "nombre": "Lake Titicaca Boat Tour",
+      "categoria": "Naturaleza",
+      "actividades": "Islas flotantes, Navegación",
+      "descripcion": "Tour en bote por el majestuoso Lago Titicaca y sus islas.",
+      "pais": "Perú",
+      "clima": "Frío",
+      "precio_promedio": 60,
+      "rating": 4.6,
+      "url": "tour/The-Highlands/Lake-Titicaca/tourLakeTiticacaBoat.html",
+      "image": "assets/img/SIerra/Lago_Titi/Lago-Titicaca-en-Lancha/LagoTitikaka.jpg"
+    },
+
+    {
+      "id": 14,
+      "slug": "manu-reserve",
+      "nombre": "Manu Reserve Tour",
+      "categoria": "Selva",
+      "actividades": "Exploración, Aves, Naturaleza",
+      "descripcion": "Tour inmersivo en la Reserva del Manu, una de las zonas con mayor biodiversidad del planeta.",
+      "pais": "Perú",
+      "clima": "Tropical",
+      "precio_promedio": 100,
+      "rating": 4.5,
+      "url": "tour/Rainforest/Manu-Reserve/tourManuReserve.html",
+      "image": "assets/img/Selva_Tropical/Parque_Manu/ReservaManu.jpg"
+    },
+
+    {
+      "id": 15,
+      "slug": "tambopata-reserve",
+      "nombre": "Tambopata Reserve Tour",
+      "categoria": "Selva",
+      "actividades": "Paisajes, Aves, Exploración",
+      "descripcion": "Descubre la increíble Reserva de Tambopata, hábitat de cientos de especies.",
+      "pais": "Perú",
+      "clima": "Tropical",
+      "precio_promedio": 260,
+      "rating": 4.7,
+      "url": "tour/Rainforest/Tambopata-Rainforest/tourTambopataReserve.html",
+      "image": "assets/img/Selva_Tropical/Tambopata/Tambopata/Tambopata.jpg"
+    },
+
+    {
+      "id": 16,
+      "slug": "shore-excursions-larco-museum",
+      "nombre": "Shore Excursions to Larco Museum",
+      "categoria": "Cruceros",
+      "actividades": "Museo, Cultura, Gastronomía",
+      "descripcion": "Tour premium desde el Puerto del Callao hacia el Museo Larco.",
+      "pais": "Perú",
+      "clima": "Húmedo",
+      "precio_promedio": 75,
+      "rating": 4.8,
+      "url": "ShoreExcursions/FromCallaoCruiseTerminal/tourShoreExcursionsLarcoMuseum.html",
+      "image": "assets/img/Excursiones/Terminal_Callao/Excursiones_tierra_MuseoLarco/museoLarco.jpg"
+    },
+
+    {
+      "id": 17,
+      "slug": "machu-picchu-sacred-valley",
+      "nombre": "Machu Picchu & The Sacred Valley of Incas",
+      "categoria": "Paquetes",
+      "actividades": "Arqueología, Cultura, Aventura",
+      "descripcion": "Paquete completo a Machu Picchu + Valle Sagrado de los Incas.",
+      "pais": "Perú",
+      "clima": "Frío",
+      "precio_promedio": 1600,
+      "rating": 4.5,
+      "url": "PeruPackages/MachuPicchuYTheSecretValleyofIncas/tourMachuPicchu&ValleyIncas.html",
+      "image": "assets/img/Paquetes_Peru/Machu_Picchu_Valle/MACHUPICCHU_VALLE_SECRETO_LOS_INCAS_7_días/MachuPicchuValle.jpg"
+    }
+  ]
+}
