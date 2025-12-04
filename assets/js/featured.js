@@ -5,10 +5,17 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    // 1. DETECCIÓN DE IDIOMA
+    const isSpanish = window.location.pathname.includes("/es/");
+    
+    // 2. CORRECCIÓN DE RUTA DE IMAGEN DINÁMICA
+    // Si estamos en /es/index.html, las imágenes necesitan subir un nivel (../)
+    const pathPrefix = isSpanish ? "../" : "";
+
     // --------------------------------------------------------------------------
-    // 1. DATOS DE LOS DESTINOS DESTACADOS (Nuestra "Base de Datos")
+    // 3. DATOS EN INGLÉS (Base)
     // --------------------------------------------------------------------------
-    const featuredData = [
+    const featuredDataEn = [
         {
             image: 'assets/img/SIerra/Cuzco/Machu-Picchu-en-Un-Día/106.jpg',
             title: 'Machu Picchu',
@@ -32,8 +39,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
+    // 4. DATOS EN ESPAÑOL (Traducidos)
+    // NOTA: Recuerda que los enlaces/rutas de las imágenes se mantienen aquí
+    // pero la lógica de la ruta (pathPrefix) se aplica en el HTML final.
+    const featuredDataEs = [
+        {
+            image: 'assets/img/SIerra/Cuzco/Machu-Picchu-en-Un-Día/106.jpg',
+            title: 'Machu Picchu',
+            meta: '06 de Noviembre, 2017 · Cameron Metreaud',
+            description: 'Machu Picchu, también conocida como Pata Llacta, la ciudad perdida de los Incas, es una de las antiguas megaestructuras de la Tierra con un gran valor histórico. Recientemente ha sido reconocida como una de las siete maravillas del mundo moderno. Este impresionante sitio arqueológico ha crecido constantemente en popularidad y actualmente recibe más de 2500 turistas diarios. El guía veterano Lucio explica que “debido a la creciente demanda, las áreas accesibles a los visitantes se reducen y se restringen cada año más.” Hoy, los visitantes todavía pueden ingresar y tocar la mayoría de las estructuras antiguas de Machu Picchu, permitiendo una experiencia muy íntima y personal. En los próximos años, los tours se restringirán a senderos cercados y filas de una sola persona.',
+            quote: '“Antes, la única forma de ver las Líneas de Nazca era viajar a Nazca, normalmente en autobús. Pero ahora volamos desde Pisco y la gente lo prefiere.”'
+        },
+        {
+            image: 'assets/img/Costa/Ica_Huaca/Viñedo_MuseoOasis/16.jpg',
+            title: 'Oasis de Huacachina',
+            meta: '12 de Enero, 2020 · Alex Rodriguez',
+            description: 'Un verdadero oasis en el desierto, Huacachina es una impresionante laguna rodeada de dunas de arena gigantes. Es un centro para deportes de aventura como sandboard y paseos en buggy, ofreciendo una experiencia única en el paisaje peruano.',
+            quote: '“El atardecer sobre las dunas es algo que nunca olvidarás. Los colores son simplemente impresionantes.”'
+        },
+        {
+            image: 'assets/img/Costa/tours_Paracas/La_Reserva_Nacional_Paracas/70.jpg',
+            title: 'Reserva Nacional de Paracas',
+            meta: '22 de Marzo, 2023 · María García',
+            description: 'Esta área protegida es un santuario para la vida marina, incluyendo lobos marinos, delfines e innumerables especies de aves. Los acantilados dramáticos y las playas de arena roja crean un paisaje diferente a cualquier otro en Perú.',
+            quote: '“Ver la vida salvaje en su hábitat natural fue una experiencia profunda. Una visita obligada para los amantes de la naturaleza.”'
+        }
+    ];
+
+    // 5. SELECCIÓN DE LA FUENTE DE DATOS
+    const featuredData = isSpanish ? featuredDataEs : featuredDataEn;
+
     // --------------------------------------------------------------------------
-    // 2. SELECCIÓN DE ELEMENTOS DEL DOM (Conectando los "cables" al HTML)
+    // 6. SELECCIÓN DE ELEMENTOS DEL DOM (Conectando los "cables" al HTML)
     // --------------------------------------------------------------------------
     const carousel = document.querySelector('.carousel');
     const dotsContainer = document.querySelector('.carousel-dots');
@@ -50,8 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentIndex = 0;
 
-   // --------------------------------------------------------------------------
-    // 3. FUNCIÓN PRINCIPAL (El "Director de Orquesta")
+    // --------------------------------------------------------------------------
+    // 7. FUNCIÓN PRINCIPAL (El "Director de Orquesta")
     // --------------------------------------------------------------------------
     function updateFeaturedSection(index) {
         // --- a) Actualizar la información de texto ---
@@ -84,13 +121,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --------------------------------------------------------------------------
-    // 4. INICIALIZACIÓN (Montando el "escenario" una sola vez)
+    // 8. INICIALIZACIÓN (Montando el "escenario" una sola vez)
     // --------------------------------------------------------------------------
     featuredData.forEach((data, i) => {
         // Crear cada slide del carrusel
         const item = document.createElement('div');
         item.classList.add('carousel-item');
-        item.innerHTML = `<img src="${data.image}" alt="${data.title}">`;
+        // APLICAMOS LA CORRECCIÓN DE RUTA A LA IMAGEN AQUÍ
+        item.innerHTML = `<img src="${pathPrefix}${data.image}" alt="${data.title}">`;
         carousel.appendChild(item);
         
         // Crear cada punto de navegación
@@ -101,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --------------------------------------------------------------------------
-    // 5. EVENT LISTENERS (Los "botones de control" del usuario)
+    // 9. EVENT LISTENERS (Los "botones de control" del usuario)
     // --------------------------------------------------------------------------
     prevBtn.addEventListener('click', () => {
         const newIndex = (currentIndex - 1 + featuredData.length) % featuredData.length;
@@ -114,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --------------------------------------------------------------------------
-    // 6. LLAMADA INICIAL (¡Que empiece la función!)
+    // 10. LLAMADA INICIAL (¡Que empiece la función!)
     // --------------------------------------------------------------------------
     updateFeaturedSection(0);
 });

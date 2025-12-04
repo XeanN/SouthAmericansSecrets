@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Reserva Confirmada!</title>
+    <link rel="icon" href="../../assets/img/logoN.png" type="image/png">
+
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/confirmation.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <main>
+        <div class="hero-confirmation-image" style="background-image: url('../../assets/img/machu_picchu_p.jpg');"></div> 
+
+        <div class="confirmation-page">
+            <div class="confirmation-content">
+            </div>
+
+            <h1 class="main-title">¡Gracias por tu compra!</h1>
+            <p class="subtitle">Tu reserva está confirmada. Recibirás un correo electrónico de confirmación en breve con todos los detalles.</p>
+
+            <div class="booking-details-card">
+                <div class="text-details">
+                    <div class="detail-item">
+                        <span class="label">Reserva:</span>
+                        <span class="value" id="booking-id">#PENDIENTE</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Tour:</span>
+                        <span class="value" id="tour-title"></span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Fecha / Hora:</span>
+                        <span class="value" id="tour-date-time"></span>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="" alt="Imagen del Tour" id="tour-image-confirmation">
+                </div>
+            </div>
+            
+            <p class="contact-info">
+                Si tienes alguna pregunta o necesitas asistencia, por favor contacta a nuestro equipo de soporte en 
+                <a href="mailto:support@southamericansecrets.com">support@southamericansecrets.com</a> o llámanos al (xxx) 555-4545
+            </p>
+        </div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script src="../../assets/js/confirmation.js"></script>
+    <script type="module" src="../../assets/js/auth.js"></script>
+</body>
+</html>

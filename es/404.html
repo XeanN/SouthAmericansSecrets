@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page not found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+
+    <script>
+        // Detecta si estamos en GitHub Pages
+        const repoName = "/SouthAmericansSecrets";
+
+        // Si la URL contiene el repositorio, redirigir a la ruta base
+        if (window.location.pathname.startsWith(repoName)) {
+            // Intenta cargar la misma ruta pero relativa al repo
+            const newPath = window.location.pathname.replace(repoName, "");
+            // Si existe archivo, dejar que cargue
+            if (newPath === "/" || newPath === "") {
+                window.location.href = repoName + "/";
+            } else {
+                // Si es otra página, intentar sin la parte 404
+                window.location.href = repoName + "/";
+            }   
+        } else {
+            // Localhost u otro entorno
+            window.location.href = "/";
+        }
+    </script>
+</head>
+<body>
+    <h1>Loading...</h1>
+    <p>If you are not redirected automatically, <a href="/SouthAmericansSecrets/">click here</a>.</p>
+</body>
+</html>

@@ -30,19 +30,34 @@ const BASE = getBasePath();
 // ✅ CARGAR HEADER Y FOOTER
 // =====================================
 document.addEventListener("DOMContentLoaded", function () {
-  const headerPlaceholder = document.getElementById("header-placeholder");
-  if (headerPlaceholder) {
-    fetch(BASE + "reusable/header.html")
-      .then((res) => res.text())
-      .then((html) => {
-        html = html.replace(/{{BASE}}/g, BASE);
-        headerPlaceholder.innerHTML = html;
-        document.dispatchEvent(new Event("headerLoaded"));
-      })
-      .catch((err) => console.error("Error al cargar header:", err));
-  } else {
-    document.dispatchEvent(new Event("headerLoaded"));
-  }
+    const headerPlaceholder = document.getElementById("header-placeholder");
+    
+    // 1. Detectar si estamos en la carpeta de español
+    const isSpanish = window.location.pathname.includes("/es/");
+    
+    // 2. Elegir el archivo correcto
+    // Si estamos en español, cargamos el header traducido. Si no, el normal.
+    const headerFile = isSpanish ? "reusable/header_es.html" : "reusable/header.html";
+
+    if (headerPlaceholder) {
+        // Usamos BASE para construir la ruta correcta (ej: ../reusable/header_es.html)
+        fetch(BASE + headerFile)
+        .then((res) => {
+            if (!res.ok) throw new Error("No se pudo cargar el header");
+            return res.text();
+        })
+        .then((html) => {
+            // Reemplazamos {{BASE}} para que funcionen las imágenes y links
+            html = html.replace(/{{BASE}}/g, BASE);
+            headerPlaceholder.innerHTML = html;
+            
+            // Avisamos que el header ya cargó para que corra el menú móvil
+            document.dispatchEvent(new Event("headerLoaded"));
+        })
+        .catch((err) => console.error("Error al cargar header:", err));
+    } else {
+        document.dispatchEvent(new Event("headerLoaded"));
+    }
 
   const footerPlaceholder = document.getElementById("footer-placeholder");
   if (footerPlaceholder) {
@@ -467,3 +482,54 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.insertAdjacentHTML('beforeend', floatingSocialsHTML);
 });
 
+// =====================================
+// ✅ LÓGICA DE CAMBIO DE IDIOMA (BANDERAS - CORREGIDA para profundidad)
+// =====================================
+window.switchLanguage = function(targetLang) {
+    let path = window.location.pathname;
+    const isCurrentlySpanish = path.includes("/es/");
+    
+    // 1. Manejar la ruta de la carpeta del proyecto (si estás en GitHub Pages)
+    const repo = "/SouthAmericansSecrets"; // Tu repo, según getBasePath()
+    if (path.startsWith(repo)) {
+        path = path.replace(repo, "");
+    }
+
+    // 2. Determinar el nombre del archivo (ej: 'index.html', 'post.html')
+    let parts = path.split("/").filter(Boolean); // Divide la ruta en partes (ej: ["es", "blog", "post.html"])
+    let fileName = parts.pop() || "index.html"; // Última parte es el archivo
+    
+    // 3. Lógica de Redirección
+    if (targetLang === 'es') {
+        // --- QUEREMOS ESPAÑOL (ENTRAR EN /es/) ---
+        if (!isCurrentlySpanish) {
+            // Ir a /es/ + ruta completa (ej: /es/blog/post.html)
+            // IMPORTANTE: Aseguramos que la navegación sea correcta desde la raíz.
+            let basePath = parts.join("/") || ""; 
+            if (basePath) basePath += "/"; // Añadir barra si no es raíz
+            
+            // Si el archivo estaba en la raíz, va a es/archivo.html. Si no, va a es/carpeta/archivo.html
+            window.location.href = BASE + 'es/' + basePath + fileName;
+        }
+    } else {
+        // --- QUEREMOS INGLÉS (SALIR DE /es/) ---
+        if (isCurrentlySpanish) {
+            // El número de veces que debemos subir (../) es igual al número de carpetas que hay
+            // después de "/es/" hasta llegar al archivo.
+            
+            // Ejemplo: /es/blog/post.html -> parts = ["es", "blog"]
+            // Si eliminamos 'es' de la ruta:
+            const remainingPathParts = parts.filter(p => p !== 'es');
+            
+            // Necesitamos subir el número de carpetas restantes, más la carpeta 'es' que ya eliminamos.
+            const levelsToAscend = remainingPathParts.length + 1; 
+
+            let pathUp = "../".repeat(levelsToAscend);
+            
+            // Volvemos a armar la ruta en inglés: /ruta/original/archivo.html
+            const originalPath = remainingPathParts.join("/") + "/" + fileName;
+            
+            window.location.href = pathUp + originalPath;
+        }
+    }
+};
