@@ -2611,12 +2611,16 @@ body.nav-open .top-bar {
 @media (min-width: 993px) {
     .dropdown {
         position: relative;
+        height: 100%; /* Asegura que el li ocupe toda la altura de la barra */
+        display: flex;
+        align-items: center;
+        
     }
 
     /* --- ESTILOS COMUNES (Fondo, sombra, posición base) --- */
     .dropdown-menu, .mega-menu {
         position: absolute;
-        top: 200%;
+        top: 100%;
         background-color: #ffffff;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         z-index: 10000;

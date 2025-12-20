@@ -1,50 +1,52 @@
 import { auth } from "../js/firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+import { toursData } from "./toursData.js";
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- 0. DETECTAR IDIOMA ACTUAL ---
+    const isSpanish = window.location.pathname.includes("/es/");
+    
     // =======================================================
-    // PREGUNTAS FRECUENTES GLOBALES
+    // PREGUNTAS FRECUENTES (TRADUCIBLES)
     // =======================================================
-    // Aquí defines las preguntas que serán iguales para TODOS los tours.
-    const GLOBAL_FAQS = [
-        {
-            question: "What is the cancellation policy?",
-            answer: "You can cancel up to 24 hours in advance for a full refund on most of our tours and activities."
-        },
-        {
-            question: "Do I need to bring my passport?",
-            answer: "Yes, a current valid passport or a government-issued ID is required on the day of travel."
-        },
-        {
-            question: "What payment methods do you accept?",
-            answer: "We accept all major credit cards (Visa, Mastercard, American Express) and PayPal."
-        },
-        {
-            question: "Is hotel pickup included?",
-            answer: "Hotel pickup is included from central districts like Miraflores, San Isidro, and Barranco. Please check the tour details for specific information."
-        }
-    ];
+    const FAQS_DATA = {
+        en: [
+            { question: "What is the cancellation policy?", answer: "You can cancel up to 24 hours in advance for a full refund on most of our tours and activities." },
+            { question: "Do I need to bring my passport?", answer: "Yes, a current valid passport or a government-issued ID is required on the day of travel." },
+            { question: "What payment methods do you accept?", answer: "We accept all major credit cards (Visa, Mastercard, American Express) and PayPal." },
+            { question: "Is hotel pickup included?", answer: "Hotel pickup is included from central districts like Miraflores, San Isidro, and Barranco." }
+        ],
+        es: [
+            { question: "¿Cuál es la política de cancelación?", answer: "Puedes cancelar hasta 24 horas antes para obtener un reembolso completo en la mayoría de nuestros tours." },
+            { question: "¿Necesito llevar mi pasaporte?", answer: "Sí, se requiere un pasaporte válido o una identificación oficial el día del viaje." },
+            { question: "¿Qué métodos de pago aceptan?", answer: "Aceptamos todas las tarjetas de crédito principales (Visa, Mastercard, Amex) y PayPal." },
+            { question: "¿Incluye recogida en el hotel?", answer: "La recogida está incluida en distritos céntricos como Miraflores, San Isidro y Barranco." }
+        ]
+    };
+
+    const GLOBAL_FAQS = isSpanish ? FAQS_DATA.es : FAQS_DATA.en;
 
     // --- 1. LEER EL TOUR ID DE LA URL ---
     const params = new URLSearchParams(window.location.search);
     const tourId = params.get('tour'); 
+    
     if (typeof toursData === 'undefined') {
         console.error('❌ toursData no está cargado');
-        document.querySelector('.booking-page').innerHTML = `
-            <h1 style="color: red; text-align: center;">Error: Tours data not loaded</h1>
-            <p style="text-align: center;">Please refresh the page.</p>
-        `;
+        const errorMsg = isSpanish ? "Error: Datos de tours no cargados" : "Error: Tours data not loaded";
+        document.querySelector('.booking-page').innerHTML = `<h1 style="color: red; text-align: center;">${errorMsg}</h1>`;
         return;
     }
 
     // --- 2. BUSCAR LOS DATOS DEL TOUR ---
     const currentTour = toursData[tourId];
 
-    // --- MANEJO DE ERROR ---
     if (!currentTour) {
+        const errorMsg = isSpanish ? "Error: Tour no encontrado" : "Error: Tour not found";
+        const backMsg = isSpanish ? "Por favor regresa a la lista de tours y selecciona uno válido." : "Please return to the tours list and select a valid one.";
         document.querySelector('.booking-page').innerHTML = `
-            <h1 style="color: red; text-align: center;">Error: Tour not found</h1>
-            <p style="text-align: center;">Please return to the tours list and select a valid one.</p>
+            <h1 style="color: red; text-align: center;">${errorMsg}</h1>
+            <p style="text-align: center;">${backMsg}</p>
         `;
         return;
     }
@@ -63,8 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const tourDurationElement = document.querySelector('.duration');
     const tourRatingElement = document.querySelector('.rating');
     const heroImageElement = document.querySelector('.hero-image');
-    const summaryDate = document.querySelector('.summary-item .summary-value');
-    const summaryTime = document.querySelectorAll('.summary-item .summary-value')[1];
+    const summaryDate = document.querySelector('.summary-item .summary-value'); 
+    const summaryTime = document.querySelectorAll('.summary-item .summary-value')[1]; 
     const summaryPersons = document.querySelector('.num-persons');
     const summaryTotal = document.querySelector('.total-value');
     const timeButtons = document.querySelectorAll('.time-btn');
@@ -82,7 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthNamesEs = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const monthNames = isSpanish ? monthNamesEs : monthNamesEn;
 
     function renderCalendar(month, year) {
         calendarDaysEl.innerHTML = '';
@@ -124,11 +129,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 6. FUNCIONES PRINCIPALES ---
     function populatePage() {
-        pageTitle.textContent = `${currentTour.title} - Booking`;
-        tourTitleElement.textContent = currentTour.title;
-        tourDurationElement.innerHTML = `<span>&#9200;</span> ${currentTour.duration}`;
-        tourRatingElement.innerHTML = `<span>&#9733;</span> ${currentTour.rating}`;
-        heroImageElement.style.backgroundImage = `url('${currentTour.image}')`;
+        const bookingText = isSpanish ? "Reserva" : "Booking";
+        
+        // Traducir textos
+        const displayTitle = (isSpanish && currentTour.title_es) ? currentTour.title_es : currentTour.title;
+        const displayDuration = (isSpanish && currentTour.duration_es) ? currentTour.duration_es : currentTour.duration;
+        const displayRating = (isSpanish && currentTour.rating_es) ? currentTour.rating_es : currentTour.rating;
+
+        // Insertar en HTML
+        pageTitle.textContent = `${displayTitle} - ${bookingText}`;
+        tourTitleElement.textContent = displayTitle; 
+        
+        tourDurationElement.innerHTML = `<span>&#9200;</span> ${displayDuration}`;
+        tourRatingElement.innerHTML = `<span>&#9733;</span> ${displayRating}`;
+        
+        // 🔥 CORRECCIÓN DE IMAGEN PARA ESPAÑOL
+        let imagePath = currentTour.image;
+        if (isSpanish && imagePath.startsWith('../')) {
+            imagePath = "../" + imagePath; // Se convierte en ../../assets/...
+        }
+        heroImageElement.style.backgroundImage = `url('${imagePath}')`;
+        
+        if(isSpanish) continueButton.textContent = "Continuar";
+        
+        const summaryTitle = document.querySelector('.reservation-summary-card .tour-title');
+        if (summaryTitle) summaryTitle.textContent = displayTitle;
     }
 
     function populateFaqs() {
@@ -147,7 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSummary() {
-        summaryDate.textContent = bookingState.date ? bookingState.date : 'Select a date';
+        const defaultDateText = isSpanish ? 'Selecciona fecha' : 'Select a date';
+        summaryDate.textContent = bookingState.date ? bookingState.date : defaultDateText;
         summaryTime.textContent = bookingState.time.replace(' ', '').toLowerCase();
         summaryPersons.textContent = bookingState.persons;
         const total = bookingState.persons * bookingState.pricePerPerson;
@@ -157,10 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 7. EVENT LISTENERS ---
     nextMonthBtn.addEventListener('click', () => {
         currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
+        if (currentMonth > 11) { currentMonth = 0; currentYear++; }
         renderCalendar(currentMonth, currentYear);
     });
 
@@ -168,10 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const today = new Date();
         if (currentYear > today.getFullYear() || (currentYear === today.getFullYear() && currentMonth > today.getMonth())) {
             currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
             renderCalendar(currentMonth, currentYear);
         }
     });
@@ -208,42 +228,50 @@ document.addEventListener('DOMContentLoaded', () => {
         faqItem.classList.toggle('active');
     });
 
+    // --- LOGICA DE CONTINUAR ---
     continueButton.addEventListener('click', (event) => {
         event.preventDefault();
+        
+        const alertDate = isSpanish ? 'Por favor selecciona una fecha.' : 'Please select a date before continuing.';
         if (!bookingState.date) {
-            alert('Please select a date before continuing.');
+            alert(alertDate);
             return;
         }
 
-        // ✅ Verificar si está logeado
         onAuthStateChanged(auth, (user) => {
             if (!user) {
-                alert("You need to login to continue with the booking.");
-                window.location.href = "../pages/login.html"; // Redirige al login
+                const alertLogin = isSpanish ? "Necesitas iniciar sesión para reservar." : "You need to login to continue with the booking.";
+                alert(alertLogin);
+                
+                // Redirección corregida al Login
+                if(isSpanish) {
+                    window.location.href = "../pages/login.html";
+                } else {
+                    window.location.href = "../pages/login.html";
+                }
                 return;
             }
 
-            // ✅ Si está logeado, continuar con checkout
-            // Calcula el total antes de guardar
             const total = bookingState.persons * bookingState.pricePerPerson;
 
-            // Crea el objeto con todos los detalles de la reserva
+            // Título para guardar (usamos el traducido o el original)
+            const finalTitle = (isSpanish && currentTour.title_es) ? currentTour.title_es : currentTour.title;
+
             const bookingDetails = {
                 id: tourId,
-                title: currentTour.title,
-                image: currentTour.image,
+                title: currentTour.title, // Guardamos ID original por consistencia
+                title_es: currentTour.title_es, // Guardamos también la traducción por si acaso
+                image: currentTour.image, // Guardamos ruta original
                 date: bookingState.date,
                 time: bookingState.time,
                 persons: bookingState.persons,
                 total: total.toFixed(2),
-                userId: user.uid
+                userId: user.uid,
+                lang: isSpanish ? 'es' : 'en'
             };
 
-            // Guarda este único item en sessionStorage
             sessionStorage.setItem('checkoutItem', JSON.stringify(bookingDetails));
-
-            // Redirige a la nueva página de checkout
-            window.location.href = 'checkout.html'; // <-- ¡Cambio importante!
+            window.location.href = 'checkout.html'; 
         });
     });
 
