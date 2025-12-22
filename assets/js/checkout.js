@@ -1,389 +1,242 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Recuperar los datos del sessionStorage
-    const bookingDataJSON = sessionStorage.getItem('checkoutItem');
+// 1. IMPORTAR FIREBASE
+// Asegúrate de que firebase.js exporte 'db' y 'auth' correctamente
+import { db, auth } from './firebase.js'; 
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // 2. Si no hay datos, crear datos de prueba
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- VARIABLES GLOBALES ---
+    let currentUser = null;
+    const isSpanish = window.location.pathname.includes("/es/");
+
+    // Escuchar el estado del usuario
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            currentUser = user;
+            console.log("Usuario detectado:", user.email);
+        } else {
+            console.log("Usuario no logueado");
+        }
+    });
+
+    // 2. RECUPERAR DATOS DEL SESSION STORAGE
+    const bookingDataJSON = sessionStorage.getItem('checkoutItem');
     let bookingData;
+
     if (!bookingDataJSON) {
+        // Datos de prueba (Fallback)
         bookingData = {
-            id: 'tour-001',
-            title: 'Nazca Lines from Paracas',
-            image: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=800',
-            date: 'November 22, 2025',
-            time: '08:00 AM',
-            persons: 2,
-            total: 560.00
+            id: 'tour-test',
+            title: 'Tour de Prueba',
+            title_es: 'Tour de Prueba (ES)',
+            date: '2025-01-01',
+            time: '10:00 AM',
+            persons: 1,
+            total: 10.00,
+            image: '../assets/img/placeholder.jpg'
         };
-        console.log('Using test booking data');
     } else {
         bookingData = JSON.parse(bookingDataJSON);
     }
 
-    // 4. Seleccionar los elementos del HTML
+    // 3. MOSTRAR DATOS EN EL HTML
     const tourNameEl = document.getElementById('tour-name');
     const tourDateTimeEl = document.getElementById('tour-date-time');
     const totalPriceEl = document.getElementById('total-price');
     const tourImageEl = document.getElementById('tour-image');
 
-    // 5. Rellenar la página con los datos
-    tourNameEl.textContent = bookingData.title;
-    tourDateTimeEl.textContent = `Date: ${bookingData.date} / Time: ${bookingData.time}`;
-    totalPriceEl.textContent = `$${bookingData.total}`;
-    tourImageEl.src = bookingData.image;
-    tourImageEl.alt = bookingData.title;
+    // Usar título en español si corresponde
+    const displayTitle = (isSpanish && bookingData.title_es) ? bookingData.title_es : bookingData.title;
+    
+    if(tourNameEl) tourNameEl.textContent = displayTitle;
+    if(tourDateTimeEl) tourDateTimeEl.textContent = `Date: ${bookingData.date} / Time: ${bookingData.time}`;
+    if(totalPriceEl) totalPriceEl.textContent = `$${bookingData.total}`;
+    
+    // 🔥 CORRECCIÓN DE IMAGEN PARA ESPAÑOL
+    if (tourImageEl) {
+        let imagePath = bookingData.image;
+        
+        // Si estamos en la carpeta 'es' (profundidad extra), ajustamos la ruta visualmente
+        if (isSpanish && imagePath.startsWith('../')) {
+            imagePath = "../" + imagePath;
+        }
 
-    // Toggle animación seleccionar método
-    document.querySelectorAll(".payment-option").forEach(option => {
-        const label = option.querySelector('label');
-        const radio = option.querySelector('input[type="radio"]');
-        
-        label.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            document.querySelectorAll(".payment-option").forEach(o => {
-                o.classList.remove("active");
-                const r = o.querySelector('input[type="radio"]');
-                if (r) r.checked = false;
-            });
-            
-            option.classList.add("active");
-            radio.checked = true;
-            
-            console.log('Payment method selected:', option.dataset.method);
-            
-            if (option.dataset.method === 'card' && !mpInitialized) {
-                setTimeout(() => {
-                    console.log('Initializing Mercado Pago...');
-                    initializeMercadoPago();
-                }, 200);
-            }
-        });
-        
-        radio.addEventListener('change', () => {
-            if (radio.checked) {
-                document.querySelectorAll(".payment-option").forEach(o => {
-                    o.classList.remove("active");
-                });
-                option.classList.add("active");
-                
-                if (option.dataset.method === 'card' && !mpInitialized) {
-                    setTimeout(() => {
-                        console.log('Initializing Mercado Pago...');
-                        initializeMercadoPago();
-                    }, 200);
-                }
-            }
-        });
-    });
+        tourImageEl.src = imagePath;
+        tourImageEl.alt = displayTitle;
+    }
 
     // ============================================
-    // PAYPAL INTEGRATION - PRODUCTION READY
+    // 🔥 FUNCIÓN PARA GUARDAR EN FIREBASE
+    // ============================================
+    async function saveBookingToFirebase(paymentDetails, paymentMethod) {
+        try {
+            // Referencia a la colección "bookings"
+            const bookingsRef = collection(db, "bookings");
+
+            // Datos a guardar
+            const newBooking = {
+                userId: currentUser ? currentUser.uid : "guest",
+                userEmail: currentUser ? currentUser.email : "guest@example.com",
+                tourId: bookingData.id,
+                tourName: bookingData.title, // Guardamos nombre en inglés por estandarización (o displayTitle si prefieres)
+                date: bookingData.date,
+                time: bookingData.time,
+                persons: bookingData.persons,
+                totalPrice: parseFloat(bookingData.total),
+                currency: "USD",
+                paymentMethod: paymentMethod, // 'paypal' o 'mercadopago'
+                paymentId: paymentDetails.id || "N/A",
+                status: "paid",
+                createdAt: serverTimestamp(),
+                lang: isSpanish ? 'es' : 'en' // Guardamos el idioma de compra
+            };
+
+            console.log("Guardando reserva en Firebase...", newBooking);
+            
+            const docRef = await addDoc(bookingsRef, newBooking);
+            console.log("✅ Reserva guardada con ID: ", docRef.id);
+            
+            // Una vez guardado, redirigir
+            saveAndRedirectToConfirmation(docRef.id);
+
+        } catch (e) {
+            console.error("❌ Error al guardar en Firebase: ", e);
+            // Aun si falla el guardado, redirigimos porque el pago ya se hizo
+            saveAndRedirectToConfirmation("ERROR-SAVING-" + Date.now()); 
+        }
+    }
+
+    // ============================================
+    // PAYPAL INTEGRATION
     // ============================================
     let paypalInitialized = false;
 
-    function initializePayPal() {
+    window.initializePayPal = function() {
         if (paypalInitialized) return;
-        paypalInitialized = true;
-
-        const container = document.getElementById('paypal-button-container');
         
-        if (!container) {
-            console.error('PayPal container not found!');
-            return;
-        }
-
-        // Limpiar el contenedor por si acaso
-        container.innerHTML = '';
+        const container = document.getElementById('paypal-button-container');
+        if (!container) return;
 
         if (typeof paypal === 'undefined') {
-            console.error('PayPal SDK not loaded!');
-            container.innerHTML = `
-                <div style="padding: 1.5rem; background: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
-                    <strong>Error:</strong> PayPal SDK not loaded.
-                </div>
-            `;
+            console.error('PayPal SDK not loaded');
+            // container.innerHTML = "Error loading PayPal"; // Opcional
             return;
         }
 
-        try {
-            paypal.Buttons({
-                // Configuración del estilo del botón
-                style: {
-                    layout: 'vertical',
-                    color: 'gold',
-                    shape: 'rect',
-                    label: 'paypal'
-                },
-
-                // Crear la orden
-                createOrder: function(data, actions) {
-                    console.log('Creating PayPal order...');
-                    
-                    return actions.order.create({
-                        purchase_units: [{
-                            description: bookingData.title,
-                            amount: {
-                                currency_code: 'USD',
-                                value: bookingData.total.toFixed(2)
-                            },
-                            custom_id: bookingData.id // Tu ID de reserva
-                        }]
-                    });
-                },
-
-                // Cuando el pago es aprobado
-                onApprove: function(data, actions) {
-                    console.log('Payment approved:', data);
-                    
-                    // Capturar el pago
-                    return actions.order.capture().then(function(orderData) {
-                        console.log('Payment captured:', orderData);
-                        
-                        // Verificar el estado
-                        const transaction = orderData.purchase_units[0].payments.captures[0];
-                        
-                        if (transaction.status === 'COMPLETED') {
-                            console.log('✅ Payment successful!');
-                            
-                            // IMPORTANTE: Aquí deberías enviar la confirmación a tu backend
-                            // para guardar la transacción en tu base de datos
-                            
-                            // TODO: Descomentar cuando tengas backend
-                            /*
-                            fetch('/api/save-paypal-payment', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    orderId: data.orderID,
-                                    bookingData: bookingData,
-                                    paypalData: orderData
-                                })
-                            });
-                            */
-                            
-                            // Mostrar confirmación
-                            alert(`Payment successful!\n\nTransaction ID: ${transaction.id}`);
-                            
-                            // Redirigir a confirmación
-                            saveAndRedirectToConfirmation();
-                        } else {
-                            alert('Payment status: ' + transaction.status);
-                        }
-                    });
-                },
-
-                // Si hay un error
-                onError: function(err) {
-                    console.error('PayPal error:', err);
-                    alert('There was an error processing your payment. Please try again.');
-                },
-
-                // Si el usuario cancela
-                onCancel: function(data) {
-                    console.log('Payment cancelled:', data);
-                    alert('Payment cancelled. You can try again when ready.');
-                }
-            }).render('#paypal-button-container');
+        paypal.Buttons({
+            style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
             
-            console.log('✅ PayPal buttons rendered');
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        description: bookingData.title,
+                        amount: { currency_code: 'USD', value: bookingData.total },
+                        custom_id: bookingData.id
+                    }]
+                });
+            },
 
-        } catch (error) {
-            console.error('Error initializing PayPal:', error);
-            container.innerHTML = `
-                <div style="padding: 1.5rem; background: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
-                    <strong>Error:</strong> ${error.message}
-                </div>
-            `;
-        }
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    console.log('Pago PayPal exitoso:', details);
+                    // Guardar en Firebase
+                    saveBookingToFirebase(details, 'paypal'); 
+                });
+            },
+
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                alert('Hubo un error procesando el pago con PayPal.');
+            }
+        }).render('#paypal-button-container');
+        
+        paypalInitialized = true;
     }
 
-    // Modificar el listener de la opción PayPal
+    // ============================================
+    // MERCADO PAGO INTEGRATION
+    // ============================================
+    let mpInitialized = false;
+
+    window.initializeMercadoPago = function() {
+        if (mpInitialized) return;
+        
+        const container = document.getElementById('paymentBrick_container');
+        if (!container) return;
+
+        if (typeof MercadoPago === 'undefined') return;
+
+        const mp = new MercadoPago('APP_USR-c9cebee3-1bdc-49ef-a2ba-8e333ba574dd', { locale: 'es-PE' });
+        const bricksBuilder = mp.bricks();
+
+        bricksBuilder.create('payment', 'paymentBrick_container', {
+            initialization: {
+                amount: parseFloat(bookingData.total),
+            },
+            customization: {
+                paymentMethods: { maxInstallments: 1 }
+            },
+            callbacks: {
+                onReady: () => mpInitialized = true,
+                onSubmit: ({ selectedPaymentMethod, formData }) => {
+                    return new Promise((resolve, reject) => {
+                        console.log("Procesando Mercado Pago...", formData);
+                        
+                        // Simulamos éxito (Falta Backend Real)
+                        setTimeout(() => {
+                            const simulatedDetails = { id: "MP-" + Date.now() }; 
+                            saveBookingToFirebase(simulatedDetails, 'mercadopago');
+                            resolve();
+                        }, 2000);
+                    });
+                },
+                onError: (error) => console.error(error),
+            },
+        });
+    }
+
+    // ============================================
+    // INTERFAZ DE SELECCIÓN (RADIO BUTTONS)
+    // ============================================
     document.querySelectorAll(".payment-option").forEach(option => {
         const label = option.querySelector('label');
         const radio = option.querySelector('input[type="radio"]');
         
-        label.addEventListener('click', (e) => {
-            e.preventDefault();
-            
+        const activateOption = () => {
             document.querySelectorAll(".payment-option").forEach(o => {
                 o.classList.remove("active");
                 const r = o.querySelector('input[type="radio"]');
                 if (r) r.checked = false;
             });
-            
             option.classList.add("active");
-            radio.checked = true;
+            if (radio) radio.checked = true;
             
-            console.log('Payment method selected:', option.dataset.method);
-            
-            // Inicializar PayPal si se selecciona
-            if (option.dataset.method === 'paypal' && !paypalInitialized) {
-                setTimeout(() => {
-                    console.log('Initializing PayPal...');
-                    initializePayPal();
-                }, 200);
-            }
-            
-            // Inicializar Mercado Pago si se selecciona
-            if (option.dataset.method === 'card' && !mpInitialized) {
-                setTimeout(() => {
-                    console.log('Initializing Mercado Pago...');
-                    initializeMercadoPago();
-                }, 200);
-            }
-        });
+            const method = option.dataset.method;
+            if (method === 'paypal') setTimeout(() => window.initializePayPal(), 100);
+            else if (method === 'card') setTimeout(() => window.initializeMercadoPago(), 100);
+        };
+
+        label.addEventListener('click', (e) => { e.preventDefault(); activateOption(); });
+        if (radio) radio.addEventListener('change', () => { if (radio.checked) activateOption(); });
     });
 
-// Eliminar el código antiguo del botón PayPal (ya no lo necesitas)
-
     // ============================================
-    // GOOGLE PAY INTEGRATION - DEMO
+    // REDIRECCIÓN FINAL
     // ============================================
-    const googlePayBtn = document.querySelector('.google-btn');
-    if (googlePayBtn) {
-        googlePayBtn.addEventListener('click', () => {
-            alert('Demo Mode: Google Pay integration requires:\n\n1. Google Pay Business account\n2. Merchant ID\n3. Payment processor setup\n\nIn production, the payment sheet would open here.');
-        });
-    }
+    function saveAndRedirectToConfirmation(bookingId) {
+        const finalTitle = (isSpanish && bookingData.title_es) ? bookingData.title_es : bookingData.title;
 
-    // ============================================
-    // MERCADO PAGO INTEGRATION - PRODUCTION
-    // ============================================
-    let mpInitialized = false;
-    let paymentBrickController = null;
-
-    function initializeMercadoPago() {
-        mpInitialized = true;
-        const container = document.getElementById('paymentBrick_container');
-        
-        console.log('Container found:', container);
-        
-        if (!container) {
-            console.error('paymentBrick_container not found!');
-            return;
-        }
-
-        if (typeof MercadoPago === 'undefined') {
-            console.error('Mercado Pago SDK not loaded!');
-            container.innerHTML = `
-                <div style="padding: 1.5rem; background: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
-                    <strong>Error:</strong> Mercado Pago SDK not loaded.
-                    <br><br>
-                    <small>Please check the SDK script in your HTML.</small>
-                </div>
-            `;
-            return;
-        }
-
-        try {
-            // ⭐ AQUÍ ESTÁ TU PUBLIC KEY
-            const mp = new MercadoPago('APP_USR-c9cebee3-1bdc-49ef-a2ba-8e333ba574dd', {
-                locale: 'es-PE'
-            });
-
-            const bricksBuilder = mp.bricks();
-
-            console.log('Creating Payment Brick...');
-
-            bricksBuilder.create('payment', 'paymentBrick_container', {
-                initialization: {
-                    amount: parseFloat(bookingData.total),
-                },
-                customization: {
-                    visual: {
-                        style: {
-                            theme: 'default'
-                        }
-                    },
-                    paymentMethods: {
-                        maxInstallments: 12,
-                    }
-                },
-                callbacks: {
-                    onReady: () => {
-                        console.log('✅ Payment Brick ready!');
-                    },
-                    onSubmit: async (formData) => {
-                        console.log('Payment submitted:', formData);
-                        
-                        // IMPORTANTE: Aquí debes enviar los datos a tu backend
-                        try {
-                            // Mostrar mensaje mientras procesa
-                            const submitButton = document.querySelector('[data-cy="submit-button-card"]');
-                            if (submitButton) {
-                                submitButton.disabled = true;
-                                submitButton.textContent = 'Processing...';
-                            }
-
-                            // TODO: Reemplazar con tu endpoint real
-                            // const response = await fetch('/api/process-mercadopago', {
-                            //     method: 'POST',
-                            //     headers: { 'Content-Type': 'application/json' },
-                            //     body: JSON.stringify({
-                            //         formData: formData,
-                            //         bookingData: bookingData
-                            //     })
-                            // });
-                            // const result = await response.json();
-
-                            // Por ahora, simulamos el pago
-                            await new Promise(resolve => setTimeout(resolve, 2000));
-                            
-                            // Simulación exitosa
-                            console.log('✅ Payment successful (simulated)');
-                            alert('Payment processing...\n\nIn production, this would send the payment to your backend for processing.');
-                            
-                            // Descomentar cuando tengas el backend:
-                            // if (result.status === 'approved') {
-                            //     saveAndRedirectToConfirmation();
-                            // } else {
-                            //     alert(`Payment ${result.status}. Please try again.`);
-                            // }
-                            
-                            return { success: true };
-                        } catch (error) {
-                            console.error('Payment error:', error);
-                            alert('Error processing payment. Please try again.');
-                            return { success: false };
-                        }
-                    },
-                    onError: (error) => {
-                        console.error('Payment Brick error:', error);
-                    }
-                }
-            }).then((controller) => {
-                paymentBrickController = controller;
-                console.log('Payment Brick controller created');
-            });
-
-        } catch (error) {
-            console.error('Error initializing Mercado Pago:', error);
-            container.innerHTML = `
-                <div style="padding: 1.5rem; background: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
-                    <strong>Error:</strong> ${error.message}
-                    <br><br>
-                    <small>Please check your Mercado Pago configuration.</small>
-                </div>
-            `;
-        }
-    }
-
-    // ============================================
-    // FUNCIÓN COMÚN PARA REDIRECCIONAR
-    // ============================================
-    function saveAndRedirectToConfirmation() {
+        // Preparamos los datos para la página de "Gracias"
         const finalBookingDetails = {
-            id: bookingData.id,
-            title: bookingData.title,
-            image: bookingData.image,
-            date: bookingData.date,
-            time: bookingData.time,
-            persons: bookingData.persons,
-            total: bookingData.total
+            ...bookingData,
+            title: finalTitle, // Título ya traducido
+            bookingId: bookingId, // ID real de Firebase
+            status: 'confirmed'
         };
 
         sessionStorage.setItem('finalBookingDetails', JSON.stringify(finalBookingDetails));
-        sessionStorage.removeItem('checkoutItem');
+        sessionStorage.removeItem('checkoutItem'); // Limpiamos el carrito
         
         window.location.href = 'confirmation.html';
     }

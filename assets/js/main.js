@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-  COMPONENTES DINÁMICOS - Versión Universal
+COMPONENTES DINÁMICOS - Versión Universal
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -504,53 +504,48 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // =====================================
-// ✅ LÓGICA DE CAMBIO DE IDIOMA (BANDERAS - CORREGIDA para profundidad)
+// ✅ LÓGICA DE CAMBIO DE IDIOMA (CORREGIDA)
 // =====================================
 window.switchLanguage = function(targetLang) {
     let path = window.location.pathname;
     const isCurrentlySpanish = path.includes("/es/");
     
+    // 🔥 IMPORTANTE: Capturamos los parámetros de la URL (ej: ?tour=dune-buggy...)
+    // Esto es lo que faltaba y causaba el error "Tour no encontrado"
+    const queryParams = window.location.search; 
+
     // 1. Manejar la ruta de la carpeta del proyecto (si estás en GitHub Pages)
-    const repo = "/SouthAmericansSecrets"; // Tu repo, según getBasePath()
+    const repo = "/SouthAmericansSecrets"; 
     if (path.startsWith(repo)) {
         path = path.replace(repo, "");
     }
 
     // 2. Determinar el nombre del archivo (ej: 'index.html', 'post.html')
-    let parts = path.split("/").filter(Boolean); // Divide la ruta en partes (ej: ["es", "blog", "post.html"])
-    let fileName = parts.pop() || "index.html"; // Última parte es el archivo
+    let parts = path.split("/").filter(Boolean); 
+    let fileName = parts.pop() || "index.html"; 
     
     // 3. Lógica de Redirección
     if (targetLang === 'es') {
         // --- QUEREMOS ESPAÑOL (ENTRAR EN /es/) ---
         if (!isCurrentlySpanish) {
-            // Ir a /es/ + ruta completa (ej: /es/blog/post.html)
-            // IMPORTANTE: Aseguramos que la navegación sea correcta desde la raíz.
             let basePath = parts.join("/") || ""; 
-            if (basePath) basePath += "/"; // Añadir barra si no es raíz
+            if (basePath) basePath += "/"; 
             
-            // Si el archivo estaba en la raíz, va a es/archivo.html. Si no, va a es/carpeta/archivo.html
-            window.location.href = BASE + 'es/' + basePath + fileName;
+            // Al final agregamos + queryParams para no perder el ID del tour
+            window.location.href = BASE + 'es/' + basePath + fileName + queryParams;
         }
     } else {
         // --- QUEREMOS INGLÉS (SALIR DE /es/) ---
         if (isCurrentlySpanish) {
-            // El número de veces que debemos subir (../) es igual al número de carpetas que hay
-            // después de "/es/" hasta llegar al archivo.
-            
-            // Ejemplo: /es/blog/post.html -> parts = ["es", "blog"]
-            // Si eliminamos 'es' de la ruta:
             const remainingPathParts = parts.filter(p => p !== 'es');
             
-            // Necesitamos subir el número de carpetas restantes, más la carpeta 'es' que ya eliminamos.
             const levelsToAscend = remainingPathParts.length + 1; 
-
             let pathUp = "../".repeat(levelsToAscend);
             
-            // Volvemos a armar la ruta en inglés: /ruta/original/archivo.html
             const originalPath = remainingPathParts.join("/") + "/" + fileName;
             
-            window.location.href = pathUp + originalPath;
+            // Al final agregamos + queryParams para no perder el ID del tour
+            window.location.href = pathUp + originalPath + queryParams;
         }
     }
 };
