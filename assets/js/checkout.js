@@ -153,6 +153,71 @@ document.addEventListener('DOMContentLoaded', () => {
         
         paypalInitialized = true;
     }
+    // ============================================
+    // GOOGLE PAY INTEGRATION (VIA PAYPAL)
+    // ============================================
+    let googlePayInitialized = false;
+
+    window.initializeGooglePay = function() {
+        if (googlePayInitialized) return;
+        
+        const container = document.getElementById('googlepay-button-container');
+        if (!container) return;
+
+        // Verificamos si el SDK de PayPal cargó correctamente
+        if (typeof paypal === 'undefined') {
+            console.error('PayPal SDK no cargó');
+            return;
+        }
+
+        try {
+            // Creamos el botón específico para Google Pay
+            const gpButton = paypal.Buttons({
+                fundingSource: paypal.FUNDING.GOOGLEPAY, // <--- ESTO ES LO IMPORTANTE
+                style: {
+                    layout: 'horizontal',
+                    label:  'pay',
+                    height: 45
+                },
+                
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: bookingData.title,
+                            amount: { currency_code: 'USD', value: bookingData.total },
+                            custom_id: bookingData.id
+                        }]
+                    });
+                },
+
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        console.log('Pago Google Pay exitoso:', details);
+                        
+                        // 🔥 GUARDAR EN FIREBASE (Igual que con PayPal)
+                        saveBookingToFirebase(details, 'googlepay'); 
+                    });
+                },
+
+                onError: function(err) {
+                    console.error('Google Pay error:', err);
+                    alert('Error al procesar con Google Pay.');
+                }
+            });
+
+            // Solo mostramos el botón si el usuario puede pagar con Google Pay
+            if (gpButton.isEligible()) {
+                gpButton.render('#googlepay-button-container');
+                googlePayInitialized = true;
+            } else {
+                console.log("Google Pay no disponible en este navegador.");
+                container.innerHTML = '<p style="color:red; font-size: 0.9rem">Google Pay no está disponible en este dispositivo.</p>';
+            }
+
+        } catch (error) {
+            console.error("Error inicializando Google Pay:", error);
+        }
+    }
 
     // ============================================
     // MERCADO PAGO INTEGRATION
@@ -213,8 +278,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (radio) radio.checked = true;
             
             const method = option.dataset.method;
-            if (method === 'paypal') setTimeout(() => window.initializePayPal(), 100);
-            else if (method === 'card') setTimeout(() => window.initializeMercadoPago(), 100);
+            
+            if (method === 'paypal') {
+                setTimeout(() => window.initializePayPal(), 100);
+            } 
+            else if (method === 'googlepay') { // <--- NUEVO
+                setTimeout(() => window.initializeGooglePay(), 100);
+            }
+            else if (method === 'card') {
+                setTimeout(() => window.initializeMercadoPago(), 100);
+            }
         };
 
         label.addEventListener('click', (e) => { e.preventDefault(); activateOption(); });
