@@ -580,5 +580,17 @@ export const toursData = {
         rating: "4.8 (8 reviews)",
         rating_es: "4.8 (8 reseñas)",
         image: "../assets/img/Paquetes_Peru/Misterios_Costa/Servicio_Mejorado_VIP/124.jpg"
+    },
+    //prueba
+    "donaciondedonaciones": {
+        title: "Donacion de donaciones",
+        title_es: "Donacion de donaciones",
+        price: 0,
+        minPersons: 0,
+        duration: "Donacion",
+        duration_es: "Donacion ",
+        rating: "4.8 (8 reviews)",
+        rating_es: "4.8 (8 reseñas)",
+        image: ""
     }
 };
