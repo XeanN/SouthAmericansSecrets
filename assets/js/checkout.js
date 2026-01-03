@@ -1,5 +1,4 @@
 // 1. IMPORTAR FIREBASE
-// Asegúrate de que firebase.js exporte 'db' y 'auth' correctamente
 import { db, auth } from './firebase.js'; 
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -46,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPriceEl = document.getElementById('total-price');
     const tourImageEl = document.getElementById('tour-image');
 
-    // Usar título en español si corresponde
     const displayTitle = (isSpanish && bookingData.title_es) ? bookingData.title_es : bookingData.title;
     
     if(tourNameEl) tourNameEl.textContent = displayTitle;
@@ -56,12 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔥 CORRECCIÓN DE IMAGEN PARA ESPAÑOL
     if (tourImageEl) {
         let imagePath = bookingData.image;
-        
-        // Si estamos en la carpeta 'es' (profundidad extra), ajustamos la ruta visualmente
         if (isSpanish && imagePath.startsWith('../')) {
             imagePath = "../" + imagePath;
         }
-
         tourImageEl.src = imagePath;
         tourImageEl.alt = displayTitle;
     }
@@ -71,25 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================================
     async function saveBookingToFirebase(paymentDetails, paymentMethod) {
         try {
-            // Referencia a la colección "bookings"
             const bookingsRef = collection(db, "bookings");
 
-            // Datos a guardar
             const newBooking = {
                 userId: currentUser ? currentUser.uid : "guest",
                 userEmail: currentUser ? currentUser.email : "guest@example.com",
                 tourId: bookingData.id,
-                tourName: bookingData.title, // Guardamos nombre en inglés por estandarización (o displayTitle si prefieres)
+                tourName: bookingData.title,
                 date: bookingData.date,
                 time: bookingData.time,
                 persons: bookingData.persons,
                 totalPrice: parseFloat(bookingData.total),
                 currency: "USD",
-                paymentMethod: paymentMethod, // 'paypal' o 'mercadopago'
+                paymentMethod: paymentMethod, 
                 paymentId: paymentDetails.id || "N/A",
                 status: "paid",
                 createdAt: serverTimestamp(),
-                lang: isSpanish ? 'es' : 'en' // Guardamos el idioma de compra
+                lang: isSpanish ? 'es' : 'en'
             };
 
             console.log("Guardando reserva en Firebase...", newBooking);
@@ -97,12 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const docRef = await addDoc(bookingsRef, newBooking);
             console.log("✅ Reserva guardada con ID: ", docRef.id);
             
-            // Una vez guardado, redirigir
             saveAndRedirectToConfirmation(docRef.id);
 
         } catch (e) {
             console.error("❌ Error al guardar en Firebase: ", e);
-            // Aun si falla el guardado, redirigimos porque el pago ya se hizo
             saveAndRedirectToConfirmation("ERROR-SAVING-" + Date.now()); 
         }
     }
@@ -114,19 +105,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.initializePayPal = function() {
         if (paypalInitialized) return;
-        
         const container = document.getElementById('paypal-button-container');
         if (!container) return;
 
         if (typeof paypal === 'undefined') {
             console.error('PayPal SDK not loaded');
-            // container.innerHTML = "Error loading PayPal"; // Opcional
             return;
         }
 
         paypal.Buttons({
             style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
-            
             createOrder: function(data, actions) {
                 return actions.order.create({
                     purchase_units: [{
@@ -136,50 +124,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     }]
                 });
             },
-
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-                    console.log('Pago PayPal exitoso:', details);
-                    // Guardar en Firebase
                     saveBookingToFirebase(details, 'paypal'); 
                 });
             },
-
             onError: function(err) {
                 console.error('PayPal error:', err);
-                alert('Hubo un error procesando el pago con PayPal.');
+                alert('Hubo un error con PayPal.');
             }
         }).render('#paypal-button-container');
         
         paypalInitialized = true;
     }
+
     // ============================================
-    // GOOGLE PAY INTEGRATION (VIA PAYPAL)
+    // GOOGLE PAY (VIA PAYPAL)
     // ============================================
     let googlePayInitialized = false;
 
     window.initializeGooglePay = function() {
         if (googlePayInitialized) return;
-        
         const container = document.getElementById('googlepay-button-container');
         if (!container) return;
 
-        // Verificamos si el SDK de PayPal cargó correctamente
-        if (typeof paypal === 'undefined') {
-            console.error('PayPal SDK no cargó');
-            return;
-        }
+        if (typeof paypal === 'undefined') { console.error('PayPal SDK no cargó'); return; }
 
         try {
-            // Creamos el botón específico para Google Pay
             const gpButton = paypal.Buttons({
-                fundingSource: paypal.FUNDING.GOOGLEPAY, // <--- ESTO ES LO IMPORTANTE
-                style: {
-                    layout: 'horizontal',
-                    label:  'pay',
-                    height: 45
-                },
-                
+                fundingSource: paypal.FUNDING.GOOGLEPAY,
+                style: { layout: 'horizontal', label: 'pay', height: 45 },
                 createOrder: function(data, actions) {
                     return actions.order.create({
                         purchase_units: [{
@@ -189,76 +163,89 @@ document.addEventListener('DOMContentLoaded', () => {
                         }]
                     });
                 },
-
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
-                        console.log('Pago Google Pay exitoso:', details);
-                        
-                        // 🔥 GUARDAR EN FIREBASE (Igual que con PayPal)
                         saveBookingToFirebase(details, 'googlepay'); 
                     });
                 },
-
                 onError: function(err) {
                     console.error('Google Pay error:', err);
-                    alert('Error al procesar con Google Pay.');
+                    alert('Error Google Pay.');
                 }
             });
 
-            // Solo mostramos el botón si el usuario puede pagar con Google Pay
             if (gpButton.isEligible()) {
                 gpButton.render('#googlepay-button-container');
                 googlePayInitialized = true;
             } else {
-                console.log("Google Pay no disponible en este navegador.");
-                container.innerHTML = '<p style="color:red; font-size: 0.9rem">Google Pay no está disponible en este dispositivo.</p>';
+                container.innerHTML = '<p style="color:red; font-size: 0.9rem">Google Pay no disponible.</p>';
             }
-
-        } catch (error) {
-            console.error("Error inicializando Google Pay:", error);
-        }
+        } catch (error) { console.error("Error GPay:", error); }
     }
 
     // ============================================
-    // MERCADO PAGO INTEGRATION
+    // 🧡 CULQI INTEGRATION (Nuevo)
     // ============================================
-    let mpInitialized = false;
+    
+    // Esta función se llama cuando Culqi responde (éxito o error)
+    // Culqi busca esta función en el objeto 'window' automáticamente
+    window.culqi = function() {
+        if (Culqi.token) { 
+            // ¡Éxito! Token Creado
+            const token = Culqi.token.id;
+            const email = Culqi.token.email;
+            console.log('Culqi Token creado: ' + token);
+            
+            // Cierra el modal de Culqi
+            Culqi.close();
 
-    window.initializeMercadoPago = function() {
-        if (mpInitialized) return;
-        
-        const container = document.getElementById('paymentBrick_container');
-        if (!container) return;
+            // 🔥 GUARDAMOS EN FIREBASE
+            // Nota: En un sistema real, aquí enviarías el token a tu backend para hacer el cargo.
+            // Como estamos solo "conectando", simulamos que el pago pasó y guardamos la reserva.
+            const paymentDetails = {
+                id: "CULQI-" + token, // Creamos un ID falso basado en el token
+                email: email,
+                status: "COMPLETED"
+            };
+            
+            saveBookingToFirebase(paymentDetails, 'culqi');
 
-        if (typeof MercadoPago === 'undefined') return;
+        } else {
+            // Error
+            console.log(Culqi.error);
+            alert(Culqi.error.user_message);
+        }
+    };
 
-        const mp = new MercadoPago('APP_USR-c9cebee3-1bdc-49ef-a2ba-8e333ba574dd', { locale: 'es-PE' });
-        const bricksBuilder = mp.bricks();
+    window.initializeCulqi = function() {
+        const btnCulqi = document.getElementById('btn_pagar_culqi');
+        if (!btnCulqi) return;
 
-        bricksBuilder.create('payment', 'paymentBrick_container', {
-            initialization: {
-                amount: parseFloat(bookingData.total),
-            },
-            customization: {
-                paymentMethods: { maxInstallments: 1 }
-            },
-            callbacks: {
-                onReady: () => mpInitialized = true,
-                onSubmit: ({ selectedPaymentMethod, formData }) => {
-                    return new Promise((resolve, reject) => {
-                        console.log("Procesando Mercado Pago...", formData);
-                        
-                        // Simulamos éxito (Falta Backend Real)
-                        setTimeout(() => {
-                            const simulatedDetails = { id: "MP-" + Date.now() }; 
-                            saveBookingToFirebase(simulatedDetails, 'mercadopago');
-                            resolve();
-                        }, 2000);
-                    });
-                },
-                onError: (error) => console.error(error),
-            },
+        // Mostrar el botón
+        btnCulqi.style.display = 'block';
+
+        if (typeof Culqi === 'undefined') {
+            console.error("Culqi JS no cargó");
+            return;
+        }
+
+        // 1. Configura tu LLAVE PÚBLICA (Reemplaza 'pk_test_...' con la tuya)
+        Culqi.publicKey = 'pk_test_nCJhgAPBfjSMOz5d'; 
+
+        // 2. Configuraciones visuales
+        Culqi.settings({
+            title: 'South Americans Secrets',
+            currency: 'USD',  // Culqi soporta USD y PEN
+            description: bookingData.title,
+            // ¡IMPORTANTE! Culqi usa enteros (centavos). $10.00 = 1000
+            amount: Math.round(parseFloat(bookingData.total) * 100) 
         });
+        
+        // Asignar el click al botón
+        btnCulqi.onclick = function(e) {
+            e.preventDefault();
+            Culqi.open(); // Abre la ventanita de pago
+        };
     }
 
     // ============================================
@@ -282,11 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (method === 'paypal') {
                 setTimeout(() => window.initializePayPal(), 100);
             } 
-            else if (method === 'googlepay') { // <--- NUEVO
+            else if (method === 'googlepay') { 
                 setTimeout(() => window.initializeGooglePay(), 100);
             }
-            else if (method === 'card') {
-                setTimeout(() => window.initializeMercadoPago(), 100);
+            else if (method === 'culqi') { // <--- CAMBIO A CULQI
+                setTimeout(() => window.initializeCulqi(), 100);
             }
         };
 
@@ -300,16 +287,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function saveAndRedirectToConfirmation(bookingId) {
         const finalTitle = (isSpanish && bookingData.title_es) ? bookingData.title_es : bookingData.title;
 
-        // Preparamos los datos para la página de "Gracias"
         const finalBookingDetails = {
             ...bookingData,
-            title: finalTitle, // Título ya traducido
-            bookingId: bookingId, // ID real de Firebase
+            title: finalTitle,
+            bookingId: bookingId,
             status: 'confirmed'
         };
 
         sessionStorage.setItem('finalBookingDetails', JSON.stringify(finalBookingDetails));
-        sessionStorage.removeItem('checkoutItem'); // Limpiamos el carrito
+        sessionStorage.removeItem('checkoutItem');
         
         window.location.href = 'confirmation.html';
     }

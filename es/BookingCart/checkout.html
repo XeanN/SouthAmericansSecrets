@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../../assets/css/checkout.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="https://checkout.culqi.com/js/v4"></script>
 </head>
 
 <body>
@@ -52,17 +52,20 @@
                     </div>
                 </div>
 
-                <div class="payment-option" data-method="card">
-                    <label>
-                        <input type="radio" name="payment-method">
-                        <span>Tarjeta de débito o crédito (Mercado Pago)</span>
-                        <img src="https://http2.mlstatic.com/storage/logos-api-admin/0daa1670-5c81-11ec-ae75-df2bef173be2-xl@2x.png" class="payment-logo" alt="Mercado Pago">
-                    </label>
+                <div class="payment-option" data-method="culqi">
+                <label>
+                    <input type="radio" name="payment-method">
+                    <span>Tarjeta de débito o crédito (Culqi)</span>
+                    <img src="https://cdn.worldvectorlogo.com/logos/culqi.svg" class="payment-logo" alt="Culqi" style="background: #fff; padding: 5px; border-radius: 4px; height: 30px; width: auto;">
+                </label>
 
-                    <div class="payment-content">
-                        <div id="paymentBrick_container"></div>
-                    </div>
+                <div class="payment-content">
+                    <p>Paga de forma segura con tarjeta de crédito o débito vía Culqi.</p>
+                    <button id="btn_pagar_culqi" class="pay-btn" style="background-color: #ff5e00; width: 100%; display: none;">
+                        Pagar con Tarjeta
+                    </button>
                 </div>
+            </div>
             </section>
 
         </div>
