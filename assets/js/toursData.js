@@ -607,8 +607,8 @@ export const toursData = {
     "donaciondedonaciones": {
         title: "Donacion de donaciones",
         title_es: "Donacion de donaciones",
-        price: 0,
-        minPersons: 0,
+        price: 1,
+        minPersons: 1,
         duration: "Donacion",
         duration_es: "Donacion ",
         rating: "4.8 (8 reviews)",
