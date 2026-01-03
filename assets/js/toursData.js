@@ -48,7 +48,7 @@ export const toursData = {
         duration_es: "12 Horas",
         rating: "4.6 (8 reviews)",
         rating_es: "4.6 (8 reseñas)",
-        image: "../assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/34.jpg"
+        image: "../assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/35.jpg"
     },
     "lima-city-tour": {
         title: "Lima City Tour",
