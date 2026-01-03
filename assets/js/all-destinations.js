@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image: 'assets/img/Costa/tours_Lima/Caral/tourCaral.jpg'
         },
         {
-            name: 'Nazca Lines Overflight from Paracas',
+            name: 'Flights over Nazca Lines From Lima (1-day VIP Private)',
             category: 'Lima',
             url: 'tour/Coast-of-Peru/Lima/tourFlightsOverNazcaLinesFromLima1-dayVipPrivate.html',
             image: 'assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/sobrevueloLineasNazca.jpg'
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/LineasNazca/ReservaPampasGaleras/tourPampaGaleras.jpg'
         },
         {
-            name: 'Flights over Nazca Lines From Pisco (1-day VIP Private)',
+            name: 'Flights over Nazca Lines From Lima (1-day VIP Private)',
             category: 'Líneas de Nazca',
             url: 'tour/Coast-of-Peru/Nazca-Lines/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
             image: 'assets/img/Costa/LineasNazca/Sobrevuele_desde_Pisco_1-díaServicio-Privado/tourlineasNascaParacas.jpg'
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/tours_Lima/Caral/tourCaral.jpg'
         },
         {
-            name: 'Sobrevuelo Líneas de Nazca desde Paracas',
+            name: 'Vuelos sobre las Líneas de Nazca desde Lima (VIP Privado de 1 día)s',
             category: 'Lima',
             url: 'es/tour/Coast-of-Peru/Lima/tourFlightsOverNazcaLinesFromLima1-dayVipPrivate.html',
             image: 'assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/sobrevueloLineasNazca.jpg'
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/LineasNazca/ReservaPampasGaleras/tourPampaGaleras.jpg'
         },
         {
-            name: 'Sobrevuelo Líneas de Nazca desde Pisco',
+            name: 'Vuelos sobre las Líneas de Nazca desde Lima (VIP Privado de 1 día)',
             category: 'Líneas de Nazca',
             url: 'es/tour/Coast-of-Peru/Nazca-Lines/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
             image: 'assets/img/Costa/LineasNazca/Sobrevuele_desde_Pisco_1-díaServicio-Privado/tourlineasNascaParacas.jpg'

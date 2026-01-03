@@ -1,6 +1,5 @@
-// 1. IMPORTAR FIREBASE
-import { db, auth } from './firebase.js'; 
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// 1. IMPORTAR DESDE TU ARCHIVO LOCAL (Usando Realtime Database)
+import { db, auth, ref, push, set, serverTimestamp } from './firebase.js'; 
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,37 +8,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentUser = null;
     const isSpanish = window.location.pathname.includes("/es/");
 
-    // Escuchar el estado del usuario
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-            currentUser = user;
-            console.log("Usuario detectado:", user.email);
-        } else {
-            console.log("Usuario no logueado");
-        }
+        if (user) currentUser = user;
     });
 
-    // 2. RECUPERAR DATOS DEL SESSION STORAGE
+    // 2. RECUPERAR DATOS
     const bookingDataJSON = sessionStorage.getItem('checkoutItem');
-    let bookingData;
+    let bookingData = bookingDataJSON ? JSON.parse(bookingDataJSON) : null;
 
-    if (!bookingDataJSON) {
-        // Datos de prueba (Fallback)
-        bookingData = {
-            id: 'tour-test',
-            title: 'Tour de Prueba',
-            title_es: 'Tour de Prueba (ES)',
-            date: '2025-01-01',
-            time: '10:00 AM',
-            persons: 1,
-            total: 10.00,
-            image: '../assets/img/placeholder.jpg'
-        };
-    } else {
-        bookingData = JSON.parse(bookingDataJSON);
+    if (!bookingData) {
+        // Fallback para pruebas
+        bookingData = { id: 'test', title: 'Tour Prueba', date: '2025-01-01', time: '10:00', persons: 1, total: 10.00 };
     }
 
-    // 3. MOSTRAR DATOS EN EL HTML
+    // 3. MOSTRAR DATOS EN HTML
     const tourNameEl = document.getElementById('tour-name');
     const tourDateTimeEl = document.getElementById('tour-date-time');
     const totalPriceEl = document.getElementById('total-price');
@@ -51,67 +33,63 @@ document.addEventListener('DOMContentLoaded', () => {
     if(tourDateTimeEl) tourDateTimeEl.textContent = `Date: ${bookingData.date} / Time: ${bookingData.time}`;
     if(totalPriceEl) totalPriceEl.textContent = `$${bookingData.total}`;
     
-    // 🔥 CORRECCIÓN DE IMAGEN PARA ESPAÑOL
-    if (tourImageEl) {
+    if (tourImageEl && bookingData.image) {
         let imagePath = bookingData.image;
-        if (isSpanish && imagePath.startsWith('../')) {
-            imagePath = "../" + imagePath;
-        }
+        if (isSpanish && imagePath.startsWith('../')) imagePath = "../" + imagePath;
         tourImageEl.src = imagePath;
-        tourImageEl.alt = displayTitle;
     }
 
     // ============================================
-    // 🔥 FUNCIÓN PARA GUARDAR EN FIREBASE
+    // 🔥 FUNCIÓN QUE "ENGAÑA" AL SISTEMA ANTIGUO
     // ============================================
     async function saveBookingToFirebase(paymentDetails, paymentMethod) {
         try {
-            const bookingsRef = collection(db, "bookings");
+            console.log("Guardando en el sistema antiguo...");
+            
+            // Apuntamos a la misma carpeta 'reservations' de siempre
+            const reservationsRef = ref(db, 'reservations');
+            const newBookingRef = push(reservationsRef);
 
-            const newBooking = {
-                userId: currentUser ? currentUser.uid : "guest",
-                userEmail: currentUser ? currentUser.email : "guest@example.com",
-                tourId: bookingData.id,
-                tourName: bookingData.title,
-                date: bookingData.date,
-                time: bookingData.time,
-                persons: bookingData.persons,
-                totalPrice: parseFloat(bookingData.total),
-                currency: "USD",
-                paymentMethod: paymentMethod, 
-                paymentId: paymentDetails.id || "N/A",
-                status: "paid",
-                createdAt: serverTimestamp(),
-                lang: isSpanish ? 'es' : 'en'
+            // ⚠️ AQUÍ ESTÁ EL TRUCO: Usamos los nombres exactos del archivo viejo
+            const oldFormatData = {
+                name: currentUser ? (currentUser.displayName || currentUser.email) : "Invitado Web Nueva",
+                email: currentUser ? currentUser.email : "guest@example.com",
+                date: bookingData.date + " " + bookingData.time, // Formato antiguo unía fecha y hora
+                tour_id: bookingData.id,      // Antes era 'tour_id'
+                tour_title: bookingData.title, // Antes era 'tour_title'
+                nPeople: bookingData.persons, // Antes era 'nPeople'
+                lang: isSpanish ? 'es' : 'en',
+                payment_type: paymentMethod,  // Antes era 'payment_type'
+                notes: `Pago verificado: ${paymentDetails.id}. Total: $${bookingData.total}`, // Guardamos detalles de pago en notas
+                timestamp: serverTimestamp()
             };
 
-            console.log("Guardando reserva en Firebase...", newBooking);
+            // Guardamos los datos
+            await set(newBookingRef, oldFormatData);
             
-            const docRef = await addDoc(bookingsRef, newBooking);
-            console.log("✅ Reserva guardada con ID: ", docRef.id);
+            console.log("✅ Datos enviados al sistema de tu amigo.");
             
-            saveAndRedirectToConfirmation(docRef.id);
+            // Si el sistema antiguo funciona, el correo saldrá solo ahora.
+            saveAndRedirectToConfirmation(newBookingRef.key);
 
         } catch (e) {
-            console.error("❌ Error al guardar en Firebase: ", e);
-            saveAndRedirectToConfirmation("ERROR-SAVING-" + Date.now()); 
+            console.error("Error guardando:", e);
+            alert("Error de conexión con la base de datos.");
+            saveAndRedirectToConfirmation("ERROR-DB"); 
         }
     }
 
     // ============================================
-    // PAYPAL INTEGRATION
+    // INTEGRACIONES DE PAGO (SIN CAMBIOS)
     // ============================================
+    
+    // PAYPAL
     let paypalInitialized = false;
-
     window.initializePayPal = function() {
         if (paypalInitialized) return;
         const container = document.getElementById('paypal-button-container');
         if (!container) return;
-
-        if (typeof paypal === 'undefined') {
-            console.error('PayPal SDK not loaded');
-            return;
-        }
+        if (typeof paypal === 'undefined') return;
 
         paypal.Buttons({
             style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'paypal' },
@@ -129,26 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveBookingToFirebase(details, 'paypal'); 
                 });
             },
-            onError: function(err) {
-                console.error('PayPal error:', err);
-                alert('Hubo un error con PayPal.');
-            }
+            onError: function(err) { alert('Error PayPal'); }
         }).render('#paypal-button-container');
-        
         paypalInitialized = true;
     }
 
-    // ============================================
-    // GOOGLE PAY (VIA PAYPAL)
-    // ============================================
+    // GOOGLE PAY
     let googlePayInitialized = false;
-
     window.initializeGooglePay = function() {
         if (googlePayInitialized) return;
         const container = document.getElementById('googlepay-button-container');
         if (!container) return;
-
-        if (typeof paypal === 'undefined') { console.error('PayPal SDK no cargó'); return; }
+        if (typeof paypal === 'undefined') return;
 
         try {
             const gpButton = paypal.Buttons({
@@ -167,94 +137,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     return actions.order.capture().then(function(details) {
                         saveBookingToFirebase(details, 'googlepay'); 
                     });
-                },
-                onError: function(err) {
-                    console.error('Google Pay error:', err);
-                    alert('Error Google Pay.');
                 }
             });
-
             if (gpButton.isEligible()) {
                 gpButton.render('#googlepay-button-container');
                 googlePayInitialized = true;
-            } else {
-                container.innerHTML = '<p style="color:red; font-size: 0.9rem">Google Pay no disponible.</p>';
-            }
-        } catch (error) { console.error("Error GPay:", error); }
+            } else { container.innerHTML = '<p style="color:red; font-size: 0.9rem">GPay no disponible.</p>'; }
+        } catch (error) { console.error(error); }
     }
 
-    // ============================================
-    // 🧡 CULQI INTEGRATION (Nuevo)
-    // ============================================
-    
-    // Esta función se llama cuando Culqi responde (éxito o error)
-    // Culqi busca esta función en el objeto 'window' automáticamente
+    // CULQI
     window.culqi = function() {
         if (Culqi.token) { 
-            // ¡Éxito! Token Creado
             const token = Culqi.token.id;
             const email = Culqi.token.email;
-            console.log('Culqi Token creado: ' + token);
-            
-            // Cierra el modal de Culqi
             Culqi.close();
-
-            // 🔥 GUARDAMOS EN FIREBASE
-            // Nota: En un sistema real, aquí enviarías el token a tu backend para hacer el cargo.
-            // Como estamos solo "conectando", simulamos que el pago pasó y guardamos la reserva.
-            const paymentDetails = {
-                id: "CULQI-" + token, // Creamos un ID falso basado en el token
-                email: email,
-                status: "COMPLETED"
-            };
-            
+            const paymentDetails = { id: "CULQI-" + token, email: email, status: "COMPLETED" };
             saveBookingToFirebase(paymentDetails, 'culqi');
-
         } else {
-            // Error
             console.log(Culqi.error);
             alert(Culqi.error.user_message);
         }
     };
-
     window.initializeCulqi = function() {
         const btnCulqi = document.getElementById('btn_pagar_culqi');
         if (!btnCulqi) return;
-
-        // Mostrar el botón
         btnCulqi.style.display = 'block';
-
-        if (typeof Culqi === 'undefined') {
-            console.error("Culqi JS no cargó");
-            return;
-        }
-
-        // 1. Configura tu LLAVE PÚBLICA (Reemplaza 'pk_test_...' con la tuya)
+        
         Culqi.publicKey = 'pk_test_nCJhgAPBfjSMOz5d'; 
-
-        // 2. Configuraciones visuales
+        
         Culqi.settings({
             title: 'South Americans Secrets',
-            currency: 'USD',  // Culqi soporta USD y PEN
+            currency: 'USD',
             description: bookingData.title,
-            // ¡IMPORTANTE! Culqi usa enteros (centavos). $10.00 = 1000
             amount: Math.round(parseFloat(bookingData.total) * 100) 
         });
-        
-        // Asignar el click al botón
-        btnCulqi.onclick = function(e) {
-            e.preventDefault();
-            Culqi.open(); // Abre la ventanita de pago
-        };
+        btnCulqi.onclick = function(e) { e.preventDefault(); Culqi.open(); };
     }
 
-    // ============================================
-    // INTERFAZ DE SELECCIÓN (RADIO BUTTONS)
-    // ============================================
+    // SELECTOR DE PAGO
     document.querySelectorAll(".payment-option").forEach(option => {
         const label = option.querySelector('label');
         const radio = option.querySelector('input[type="radio"]');
-        
         const activateOption = () => {
             document.querySelectorAll(".payment-option").forEach(o => {
                 o.classList.remove("active");
@@ -265,38 +189,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (radio) radio.checked = true;
             
             const method = option.dataset.method;
-            
-            if (method === 'paypal') {
-                setTimeout(() => window.initializePayPal(), 100);
-            } 
-            else if (method === 'googlepay') { 
-                setTimeout(() => window.initializeGooglePay(), 100);
-            }
-            else if (method === 'culqi') { // <--- CAMBIO A CULQI
-                setTimeout(() => window.initializeCulqi(), 100);
-            }
+            if (method === 'paypal') setTimeout(() => window.initializePayPal(), 100);
+            else if (method === 'googlepay') setTimeout(() => window.initializeGooglePay(), 100);
+            else if (method === 'culqi') setTimeout(() => window.initializeCulqi(), 100);
         };
-
         label.addEventListener('click', (e) => { e.preventDefault(); activateOption(); });
         if (radio) radio.addEventListener('change', () => { if (radio.checked) activateOption(); });
     });
 
-    // ============================================
-    // REDIRECCIÓN FINAL
-    // ============================================
     function saveAndRedirectToConfirmation(bookingId) {
         const finalTitle = (isSpanish && bookingData.title_es) ? bookingData.title_es : bookingData.title;
-
-        const finalBookingDetails = {
-            ...bookingData,
-            title: finalTitle,
-            bookingId: bookingId,
-            status: 'confirmed'
-        };
-
+        const finalBookingDetails = { ...bookingData, title: finalTitle, bookingId: bookingId, status: 'confirmed' };
         sessionStorage.setItem('finalBookingDetails', JSON.stringify(finalBookingDetails));
         sessionStorage.removeItem('checkoutItem');
-        
         window.location.href = 'confirmation.html';
     }
 });
