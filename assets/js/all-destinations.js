@@ -341,13 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
             category: 'MysetrioesOfTheSouthCoast',
             url: 'PeruPackages/MysetrioesOfTheSouthCoast/tourUpgradeToVip.html',
             image: 'assets/img/Paquetes_Peru/Misterios_Costa/Servicio_Mejorado_VIP/VipMisterios.jpg'
-        },
-        //prueba de pruebas//
-        {
-            name: 'UPrueba',
-            category: '',
-            url: 'tour/donacionDedonaciones.html',
-            image: ''
         }
     ];
 
