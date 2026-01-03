@@ -78,13 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/LineasNazca/Cemetario_Chaucilla/tourChaucilla.jpg'
         },
         {
-            name: 'Classic Nazca Lines Overflight',
+            name: 'Nazca Lines',
             category: 'Líneas de Nazca',
             url: 'tour/Coast-of-Peru/Nazca-Lines/tourNazcaLines.html',
             image: 'assets/img/Costa/LineasNazca/Lineas_de_Nazca/tourLineas_Nazca.jpg'
         },
         {
-            name: 'Nazca Lines Overflight from Paracas',
+            name: 'Nazca Lines  from Paracas',
             category: 'Líneas de Nazca',
             url: 'tour/Coast-of-Peru/Nazca-Lines/tourNazcaLinesFromParacasPre2no.html',
             image: 'assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/tourlineasNascaParacas.jpg'
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/LineasNazca/ReservaPampasGaleras/tourPampaGaleras.jpg'
         },
         {
-            name: 'Nazca Lines Overflight from Pisco',
+            name: 'Flights over Nazca Lines From Pisco (1-day VIP Private)',
             category: 'Líneas de Nazca',
             url: 'tour/Coast-of-Peru/Nazca-Lines/tourFlightsOverNazca LinesFromLima(1-dayVipPrivate).html',
             image: 'assets/img/Costa/LineasNazca/Sobrevuele_desde_Pisco_1-díaServicio-Privado/tourlineasNascaParacas.jpg'
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // === Paracas y Islas Ballestas ===
         {
-        name: 'Paracas Reserve Bike Tour',
+        name: 'Biking Paracas',
         category: 'Paracas y Islas Ballestas',
         url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourBikingParacas.html',
         image: 'assets/img/Costa/tours_Paracas/LaReservaParacasBici/tourenBicicleta.jpg'
@@ -172,6 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/tours_Paracas/IslasBallestasFirstClass/tourIslasBallestasFirst.jpg'
         },
         {
+            name: 'Kayak Paracas Bay',
+            category: 'Paracas y Islas Ballestas',
+            url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourKayakParacasBay.html',
+            image: 'assets/img/Costa/tours_Paracas/Kayak en Bahia de Paracas/Kayak.png'
+        },
+        {
+            name: 'Nazca Lines from Paracas',
+            category: 'Paracas y Islas Ballestas',
+            url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourNazcaLinesFromParacas.html',
+            image: 'assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/47.jpg'
+        },
+        {
             name: 'Paracas National Reserve Tour',
             category: 'Paracas y Islas Ballestas',
             url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourParacasNationalReserve.html',
@@ -191,11 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
 
         // === Manu Reserve ===
-        {
-            category: 'Manu Reserve Tour',
-            url: 'tour/Rainforest/Manu-Reserve/tourManuReserve.html',
-            image: 'assets/img/Selva_Tropical/Parque_Manu/ReservaManu.jpg'
-        },
+
 
         // === Tambopata Rainforest ===
         {
@@ -295,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // === Shore Excursions (Pisco/Paracas) ===
         {
-            name: 'Nazca Lines Flight',
+            name: ' Nazca Lines Flight',
             category: 'Cruceros desde Pisco/Paracas',
             url: 'ShoreExcursions/FromTPPPiscoParacasCruiseTerminal/tourNazcaLinesFlight.html',
             image: 'assets/img/Excursiones/Terminal_Paracas/Vuelo_las_Líneas_Nazca/ExcursionesLineasN.jpg'
@@ -507,6 +515,18 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/tours_Paracas/IslasBallestasFirstClass/tourIslasBallestasFirst.jpg'
         },
         {
+            name: 'Kayak en la Bahía de Paracas',
+            category: 'Paracas y Islas Ballestas',
+            url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourKayakParacasBay.html',
+            image: 'assets/img/Costa/tours_Paracas/Kayak en Bahia de Paracas/Kayak.png'
+        },
+        {
+            name: 'Líneas de Nazca desde Paracas',
+            category: 'Paracas y Islas Ballestas',
+            url: 'tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourNazcaLinesFromParacas.html',
+            image: 'assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/47.jpg'
+        },
+        {
             name: 'Tour Reserva Nacional de Paracas',
             category: 'Paracas y Islas Ballestas',
             url: 'es/tour/Coast-of-Peru/Paracas-y-Islas-Ballestas/tourParacasNationalReserve.html',
@@ -525,12 +545,7 @@ document.addEventListener('DOMContentLoaded', () => {
             image: 'assets/img/Costa/tours_Paracas/CharterYate/AlquilerYate.jpg'
         },
 
-        // === Manu Reserve ===
-        {
-            category: 'Manu Reserve Tour',
-            url: 'es/tour/Rainforest/Manu-Reserve/tourManuReserve.html',
-            image: 'assets/img/Selva_Tropical/Parque_Manu/ReservaManu.jpg'
-        },
+
 
         // === Tambopata Rainforest ===
         {

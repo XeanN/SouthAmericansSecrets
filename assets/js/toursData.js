@@ -129,6 +129,17 @@ export const toursData = {
         rating_es: "4.7 (6 reseñas)",
         image: "../assets/img/Costa/LineasNazca/Cemetario_Chaucilla/43.jpg"
     },
+    "nazca-lines-from-lima-vip": {
+        title: "Flights Over Nazca Lines From Paracas (1-day VIP Private)",
+        title_es: "Sobrevuelo Líneas de Nazca desde Paracas (Privado VIP 1 día)",
+        price: 430,
+        minPersons: 2,
+        duration: "12 Hours",
+        duration_es: "12 Horas",
+        rating: "4.6 (8 reviews)",
+        rating_es: "4.6 (8 reseñas)",
+        image: "../assets/img/Costa/tours_Lima/Sobrevuele_las_líneas_de_Nazca_desde_Pisco_1-díaServicio-Privado/34.jpg"
+    },
     "nazca-lines-flight": {
         title: "Nazca Lines",
         title_es: "Líneas de Nazca",
@@ -149,7 +160,7 @@ export const toursData = {
         duration_es: "1 Hora 45 Min",
         rating: "4.6 (7 reviews)",
         rating_es: "4.6 (7 reseñas)",
-        image: "../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/46.jpg"
+        image: "../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/48.jpg"
     },
     "pampas-galeras-reserve": {
         title: "Pampas Galeras Reserve",
@@ -296,7 +307,18 @@ export const toursData = {
         duration_es: "2 Horas",
         rating: "4.5 (6 reviews)",
         rating_es: "4.5 (6 reseñas)",
-        image: "../assets/img/Costa/tours_Paracas/LaReservaParacasBici/69.jpg"
+        image: "../assets/img/Costa/tours_Paracas/Kayak en Bahia de Paracas/Kayak-1.jpg"
+    },
+    "nazca-lines-from-paracas": {
+        title: "Nazca Lines from Paracas",
+        title_es: "Líneas de Nazca desde Paracas",
+        price: 280,
+        minPersons: 2,
+        duration: "1 Hour 45 Mins",
+        duration_es: "1 Hora 45 Min",
+        rating: "4.6 (7 reviews)",
+        rating_es: "4.6 (7 reseñas)",
+        image: "../assets/img/Costa/LineasNazca/Líneas_de_Nazca_desde_Paracas/48.jpg"
     },
     "paracas-national-reserve": {
         title: "Paracas National Reserve",
@@ -323,7 +345,7 @@ export const toursData = {
     "yacht-charter-paracas": {
         title: "Yacht Charter",
         title_es: "Alquiler de Yate",
-        price: 180,
+        price: 360,
         minPersons: 2,
         duration: "2 Hours (min)",
         duration_es: "2 Horas (mín)",
